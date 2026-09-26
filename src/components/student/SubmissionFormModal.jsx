@@ -3,7 +3,6 @@ import {
     CalendarDays,
     Check,
     CloudUpload,
-    ExternalLink,
     FileText,
     Link2,
     TriangleAlert,
@@ -81,10 +80,10 @@ export default function SubmissionFormModal({ assignment, onClose }) {
 
     const validateSubmission = () => {
         if (form.type === "file" && !form.file) {
-            return "Choose a file before continuing.";
+            return "Choose a file before confirming your submission.";
         }
         if (form.type === "text" && !form.text.trim()) {
-            return "Enter your submission text before continuing.";
+            return "Enter your submission text before confirming your submission.";
         }
         if (form.type === "link") {
             try {
@@ -314,10 +313,9 @@ export default function SubmissionFormModal({ assignment, onClose }) {
                             <Button
                                 variant="primary"
                                 type="submit"
-                                className="inline-flex min-h-10 items-center justify-center gap-2"
+                                className="inline-flex min-h-10 items-center justify-center"
                             >
-                                Continue
-                                <ExternalLink size={15} aria-hidden="true" />
+                                Yes, I have submitted
                             </Button>
                         </div>
                     </form>

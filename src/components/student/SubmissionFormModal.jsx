@@ -120,6 +120,7 @@ export default function SubmissionFormModal({ assignment, onClose }) {
         submitAssignment(assignment.id, {
             submissionType: form.type,
             fileName: form.file?.name || "",
+            fileType: form.file?.type || "",
             text: form.type === "text" ? form.text.trim() : "",
             link: form.type === "link" ? form.link.trim() : "",
         });
@@ -282,7 +283,7 @@ export default function SubmissionFormModal({ assignment, onClose }) {
                                         aria-hidden="true"
                                     />
                                     <input
-                                        className="field-input w-full pl-10"
+                                        className="field-input w-full !pl-10"
                                         name="link"
                                         value={form.link}
                                         onChange={handleFormChange}
@@ -315,7 +316,7 @@ export default function SubmissionFormModal({ assignment, onClose }) {
                                 type="submit"
                                 className="inline-flex min-h-10 items-center justify-center"
                             >
-                                Yes, I have submitted
+                                Submit Assignment
                             </Button>
                         </div>
                     </form>

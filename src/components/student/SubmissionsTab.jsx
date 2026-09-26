@@ -135,11 +135,11 @@ export default function SubmissionsTab({
                                         </td>
                                         <td className="px-3 py-4">
                                             <span
-                                                className={`badge ${isSubmitted ? "badge-green" : "badge-red"}`}
+                                                className={`badge ${isSubmitted ? "badge-green" : "badge-amber"}`}
                                             >
                                                 {isSubmitted
                                                     ? "Submitted"
-                                                    : "Not Submitted"}
+                                                    : "Pending"}
                                             </span>
                                         </td>
                                         <td className="px-3 py-4">
@@ -155,7 +155,11 @@ export default function SubmissionsTab({
                                                     View
                                                 </Button>
                                                 <Button
-                                                    variant="primary"
+                                                    variant={
+                                                        isSubmitted
+                                                            ? "outline"
+                                                            : "primary"
+                                                    }
                                                     className="inline-flex h-9 min-w-20 items-center justify-center rounded-md px-3 text-xs"
                                                     data-assignment-id={
                                                         assignment.id
@@ -163,9 +167,10 @@ export default function SubmissionsTab({
                                                     onClick={
                                                         handleSubmitAssignment
                                                     }
-                                                    disabled={isSubmitted}
                                                 >
-                                                    Submit
+                                                    {isSubmitted
+                                                        ? "Replace"
+                                                        : "Submit"}
                                                 </Button>
                                             </div>
                                         </td>
@@ -214,11 +219,11 @@ export default function SubmissionsTab({
                                             {formatDueDate(assignment.dueDate)}
                                         </p>
                                         <span
-                                            className={`badge ${isSubmitted ? "badge-green" : "badge-red"}`}
+                                            className={`badge ${isSubmitted ? "badge-green" : "badge-amber"}`}
                                         >
                                             {isSubmitted
                                                 ? "Submitted"
-                                                : "Not Submitted"}
+                                                : "Pending"}
                                         </span>
                                     </div>
                                     <div className="flex gap-2">
@@ -231,13 +236,16 @@ export default function SubmissionsTab({
                                             View
                                         </Button>
                                         <Button
-                                            variant="primary"
+                                            variant={
+                                                isSubmitted
+                                                    ? "outline"
+                                                    : "primary"
+                                            }
                                             className="inline-flex h-9 items-center justify-center rounded-md px-3 text-xs"
                                             data-assignment-id={assignment.id}
                                             onClick={handleSubmitAssignment}
-                                            disabled={isSubmitted}
                                         >
-                                            Submit
+                                            {isSubmitted ? "Replace" : "Submit"}
                                         </Button>
                                     </div>
                                 </div>

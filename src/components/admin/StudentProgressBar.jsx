@@ -27,7 +27,7 @@ export default function StudentProgressBar({ student, submission }) {
                 <div className="flex items-center justify-between gap-2">
                     <span className="spb-name">{student.name}</span>
                     <span
-                        className={`inline-flex items-center text-[9px] ${statusColor}`}
+                        className={`inline-flex items-center whitespace-nowrap text-[9px] ${statusColor}`}
                     >
                         {submitted ? (
                             <>

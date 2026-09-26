@@ -56,19 +56,18 @@ export default function LoginPage() {
   const handlePasswordVisibility = () => setShowPassword((visible) => !visible);
 
   return (
-      <div className="login-root bg-[#eaf3ff] h-screen max-md:h-auto max-md:min-h-screen p-4 max-sm:p-3 grid place-items-center">
+      <div className="login-root bg-[#f3f6f1] h-screen max-md:h-auto max-md:min-h-screen p-4 max-sm:p-3 grid place-items-center">
       {/* Background blobs */}
       <div className="blob blob-1" />
       <div className="blob blob-2" />
       <div className="blob blob-3" />
 
       <main className="login-card login-layout text-left relative overflow-hidden w-full max-w-[1370px] p-0 grid grid-cols-1 md:grid-cols-2 h-full min-h-0 max-md:h-auto max-md:max-h-none max-md:overflow-visible max-md:max-w-[520px] max-sm:rounded-[20px]">
-        <section className="login-brand-panel relative min-w-0 pt-[30px] px-[52px] pb-5 max-md:min-h-0 max-md:px-[30px] max-md:pt-7 max-md:pb-5 max-sm:px-5 max-sm:pt-6 max-sm:pb-4 flex flex-col justify-between" aria-label="EduBoard by Joineazy">
+        <section className="login-brand-panel relative min-w-0 pt-[30px] px-[52px] pb-5 max-md:min-h-0 max-md:px-[30px] max-md:pt-7 max-md:pb-5 max-sm:px-5 max-sm:pt-6 max-sm:pb-4 flex flex-col justify-between" aria-label="EduBoard">
             <div className="m-0 text-left relative z-10">
             <div className="mb-[34px] max-sm:mb-5 flex flex-wrap items-center gap-[9px] max-sm:gap-1">
+              <img className="h-[38px] w-[38px] object-contain max-sm:h-8 max-sm:w-8" src="/eduboard-mark.svg" alt="" />
               <span className="login-product-name">EduBoard</span>
-              <span className="login-product-by">by</span>
-              <img className="w-[150px] h-[38px] max-sm:w-[124px] max-sm:h-[32px] rounded-none bg-transparent object-cover object-center [mix-blend-mode:multiply]" src="/joineazy-logo.png" alt="Joineazy" />
             </div>
             <h1 className="login-title login-brand-title text-[42px] max-md:text-4xl max-sm:text-[30px]">Learn. Build. Grow.</h1>
             <p className="login-subtitle">Assignments, progress and feedback — all in one place.</p>
@@ -97,12 +96,12 @@ export default function LoginPage() {
               <span className="illustration-lines flex flex-1 flex-col gap-2"><i /><i /><i className="last:w-[72%]" /></span>
               <span className="text-[#53d6a1]"><CheckCircle2 size={17} /></span>
             </div>
-            <div className="login-illustration-card text-[#a390ff] absolute right-0 bottom-[7px] h-[58px] w-[96px] max-md:right-1 max-md:bottom-[-2px] max-md:h-12 max-md:w-[82px] flex items-center justify-evenly">
+            <div className="login-illustration-card text-[#a0783e] absolute right-0 bottom-[7px] h-[58px] w-[96px] max-md:right-1 max-md:bottom-[-2px] max-md:h-12 max-md:w-[82px] flex items-center justify-evenly">
               <ChartNoAxesColumnIncreasing size={23} />
               <span className="illustration-bars h-[33px] flex items-end gap-1"><i className="h-3" /><i className="h-5" /><i className="h-4" /><i className="h-[29px]" /></span>
             </div>
             <div className="login-illustration-dot login-illustration-dot-one absolute right-[29%] top-[10%] h-[7px] w-[7px]" />
-            <div className="login-illustration-dot bg-[#a390ff] absolute left-[17%] bottom-[9%] h-[7px] w-[7px]" />
+            <div className="login-illustration-dot bg-[#b28a55] absolute left-[17%] bottom-[9%] h-[7px] w-[7px]" />
           </div>
         </section>
 
@@ -174,7 +173,7 @@ export default function LoginPage() {
               <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-[10px]">
                 <div className="demo-account-card [overflow-wrap:anywhere] p-[10px_12px] flex flex-col items-start gap-1">
                   <span className="demo-account-icon demo-account-icon-student grid place-items-center"><GraduationCap size={19} /></span>
-                  <strong className="text-[13px] text-[#14203e]">Student</strong>
+                  <strong className="text-[13px] text-[#304d35]">Student</strong>
                   <span>Arjun</span>
                   <span>Email: arjun@student.edu</span>
                   <span>Password: student123</span>
@@ -184,7 +183,7 @@ export default function LoginPage() {
                 </div>
                 <div className="demo-account-card [overflow-wrap:anywhere] p-[10px_12px] flex flex-col items-start gap-1">
                   <span className="demo-account-icon demo-account-icon-admin grid place-items-center"><UserRound size={19} /></span>
-                  <strong className="text-[13px] text-[#14203e]">Admin</strong>
+                  <strong className="text-[13px] text-[#304d35]">Admin</strong>
                   <span>ramesh@prof.edu</span>
                   <span>admin123</span>
                 </div>

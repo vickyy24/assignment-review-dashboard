@@ -48,9 +48,17 @@ export default function Navbar() {
                         title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
                     >
                         {theme === "dark" ? (
-                            <Sun size={15} aria-hidden="true" />
+                            <Sun
+                                className="text-[var(--warning-color)]"
+                                size={15}
+                                aria-hidden="true"
+                            />
                         ) : (
-                            <Moon size={15} aria-hidden="true" />
+                            <Moon
+                                className="text-[var(--brand-primary-color)]"
+                                size={15}
+                                aria-hidden="true"
+                            />
                         )}
                         <span>{theme === "dark" ? "Light" : "Dark"} mode</span>
                     </button>
@@ -93,9 +101,17 @@ export default function Navbar() {
                         onClick={toggleTheme}
                     >
                         {theme === "dark" ? (
-                            <Sun size={15} aria-hidden="true" />
+                            <Sun
+                                className="text-[var(--warning-color)]"
+                                size={15}
+                                aria-hidden="true"
+                            />
                         ) : (
-                            <Moon size={15} aria-hidden="true" />
+                            <Moon
+                                className="text-[var(--brand-primary-color)]"
+                                size={15}
+                                aria-hidden="true"
+                            />
                         )}
                         <span>
                             Switch to {theme === "dark" ? "light" : "dark"} mode

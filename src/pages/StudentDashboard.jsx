@@ -57,8 +57,14 @@ function getAssignmentStatus(assignment) {
 }
 
 export default function StudentDashboard() {
-    const { currentUser, visibleAssignments, logout, theme, toggleTheme } =
-        useApp();
+    const {
+        currentUser,
+        visibleAssignments,
+        logout,
+        theme,
+        toggleTheme,
+        removeSubmission,
+    } = useApp();
     const [search, setSearch] = useState("");
     const [subjectFilter, setSubjectFilter] = useState("All Subjects");
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -217,9 +223,21 @@ export default function StudentDashboard() {
         setSelectedAssignment(null);
     };
 
-    const handleStartSubmission = () => {
-        setActiveSubmissionAssignment(selectedAssignment);
-        setSelectedAssignment(null);
+    const handleRemoveSubmission = (assignmentId) => {
+        removeSubmission(assignmentId);
+        setSelectedAssignment((assignment) => {
+            if (!assignment || assignment.id !== assignmentId) {
+                return assignment;
+            }
+
+            return {
+                ...assignment,
+                mySubmission: {
+                    submitted: false,
+                    submittedAt: null,
+                },
+            };
+        });
     };
 
     const handleSidebarToggle = () => {
@@ -784,7 +802,7 @@ export default function StudentDashboard() {
                     assignment={selectedAssignment}
                     status={getAssignmentStatus(selectedAssignment)}
                     onClose={handleCloseAssignmentDetails}
-                    onStartSubmission={handleStartSubmission}
+                    onRemoveSubmission={handleRemoveSubmission}
                 />
             )}
 

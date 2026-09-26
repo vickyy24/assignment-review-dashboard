@@ -1,18 +1,15 @@
 import React from "react";
-import { CalendarDays, Check, CircleAlert, Link2 } from "lucide-react";
-import Button from "../ui/Button";
+import { CalendarDays, Check, Link2 } from "lucide-react";
 
 /**
  * Individual assignment card shown to the student.
  */
-export default function AssignmentCard({ assignment, onSubmit }) {
+export default function AssignmentCard({ assignment }) {
     const { title, description, dueDate, driveLink, subject, mySubmission } =
         assignment;
     const submitted = mySubmission?.submitted;
 
     const due = new Date(dueDate);
-    const isOverdue = !submitted && due < new Date();
-
     const dueBadge = submitted
         ? { label: "Submitted", cls: "badge-green" }
         : { label: "Pending", cls: "badge-amber" };
@@ -69,24 +66,7 @@ export default function AssignmentCard({ assignment, onSubmit }) {
                                   })
                                 : ""}
                         </div>
-                    ) : (
-                        <Button
-                            variant="submit"
-                            className="inline-flex items-center justify-center gap-2"
-                            onClick={onSubmit}
-                            data-assignment-id={assignment.id}
-                            disabled={isOverdue}
-                        >
-                            {isOverdue ? (
-                                <>
-                                    <CircleAlert size={14} aria-hidden="true" />{" "}
-                                    Submission closed
-                                </>
-                            ) : (
-                                "Submit Assignment"
-                            )}
-                        </Button>
-                    )}
+                    ) : null}
                 </div>
             </div>
         </article>

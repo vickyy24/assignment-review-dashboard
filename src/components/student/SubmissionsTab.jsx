@@ -10,11 +10,14 @@ export default function SubmissionsTab({
     sidebarOpen,
 }) {
     const [subjectFilter, setSubjectFilter] = useState("All Subjects");
+    const submittedAssignments = assignments.filter((assignment) => {
+        return assignment.mySubmission?.submitted;
+    });
     const subjects = [
         "All Subjects",
-        ...new Set(assignments.map((assignment) => assignment.subject)),
+        ...new Set(submittedAssignments.map((assignment) => assignment.subject)),
     ];
-    const filteredAssignments = assignments.filter((assignment) => {
+    const filteredAssignments = submittedAssignments.filter((assignment) => {
         return (
             subjectFilter === "All Subjects" ||
             assignment.subject === subjectFilter
@@ -40,7 +43,7 @@ export default function SubmissionsTab({
             <header>
                 <h1 className="welcome-title text-3xl">Submissions</h1>
                 <p className="welcome-sub">
-                    Submit your assignments before the due date.
+                    Review assignments you have submitted.
                 </p>
             </header>
 
@@ -144,34 +147,31 @@ export default function SubmissionsTab({
                                         </td>
                                         <td className="px-3 py-4">
                                             <div className="flex items-center gap-2">
-                                                <Button
-                                                    variant="outline"
-                                                    className="inline-flex h-9 min-w-16 items-center justify-center rounded-md px-3 text-xs"
-                                                    data-assignment-id={
-                                                        assignment.id
-                                                    }
-                                                    onClick={handleViewDetails}
-                                                >
-                                                    View
-                                                </Button>
-                                                <Button
-                                                    variant={
-                                                        isSubmitted
-                                                            ? "outline"
-                                                            : "primary"
-                                                    }
-                                                    className="inline-flex h-9 min-w-20 items-center justify-center rounded-md px-3 text-xs"
-                                                    data-assignment-id={
-                                                        assignment.id
-                                                    }
-                                                    onClick={
-                                                        handleSubmitAssignment
-                                                    }
-                                                >
-                                                    {isSubmitted
-                                                        ? "Replace"
-                                                        : "Submit"}
-                                                </Button>
+                                                {isSubmitted ? (
+                                                    <Button
+                                                        variant="outline"
+                                                        className="inline-flex h-9 min-w-16 items-center justify-center rounded-md px-3 text-xs"
+                                                        data-assignment-id={
+                                                            assignment.id
+                                                        }
+                                                        onClick={handleViewDetails}
+                                                    >
+                                                        View
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        variant="primary"
+                                                        className="inline-flex h-9 min-w-20 items-center justify-center rounded-md px-3 text-xs"
+                                                        data-assignment-id={
+                                                            assignment.id
+                                                        }
+                                                        onClick={
+                                                            handleSubmitAssignment
+                                                        }
+                                                    >
+                                                        Submit Assignment
+                                                    </Button>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>
@@ -227,26 +227,25 @@ export default function SubmissionsTab({
                                         </span>
                                     </div>
                                     <div className="flex gap-2">
-                                        <Button
-                                            variant="outline"
-                                            className="inline-flex h-9 items-center justify-center rounded-md px-3 text-xs"
-                                            data-assignment-id={assignment.id}
-                                            onClick={handleViewDetails}
-                                        >
-                                            View
-                                        </Button>
-                                        <Button
-                                            variant={
-                                                isSubmitted
-                                                    ? "outline"
-                                                    : "primary"
-                                            }
-                                            className="inline-flex h-9 items-center justify-center rounded-md px-3 text-xs"
-                                            data-assignment-id={assignment.id}
-                                            onClick={handleSubmitAssignment}
-                                        >
-                                            {isSubmitted ? "Replace" : "Submit"}
-                                        </Button>
+                                        {isSubmitted ? (
+                                            <Button
+                                                variant="outline"
+                                                className="inline-flex h-9 items-center justify-center rounded-md px-3 text-xs"
+                                                data-assignment-id={assignment.id}
+                                                onClick={handleViewDetails}
+                                            >
+                                                View
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                variant="primary"
+                                                className="inline-flex h-9 items-center justify-center rounded-md px-3 text-xs"
+                                                data-assignment-id={assignment.id}
+                                                onClick={handleSubmitAssignment}
+                                            >
+                                                Submit Assignment
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                             </article>

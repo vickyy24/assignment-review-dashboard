@@ -144,7 +144,7 @@ export default function SubmissionFormModal({ assignment, onClose }) {
             aria-labelledby="submission-dialog-title"
         >
             <section
-                className="modal-box relative max-h-[92vh] w-full max-w-[520px] overflow-y-auto p-5 text-left sm:p-6"
+                className="modal-box modal-scroll relative max-h-[92vh] w-full max-w-[520px] overflow-y-auto p-5 text-left sm:p-6"
                 onClick={handleDialogClick}
             >
                 <Button
@@ -329,7 +329,6 @@ export default function SubmissionFormModal({ assignment, onClose }) {
                             assignment as submitted.
                         </p>
                         <div className="mb-5 rounded-lg border border-[var(--border-color)] p-3">
-                            <p className="stat-label mb-1">Submission method</p>
                             <p className="m-0 font-semibold">
                                 {form.type === "file"
                                     ? form.file.name

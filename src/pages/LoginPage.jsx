@@ -317,7 +317,7 @@ export default function LoginPage() {
                                     <strong className="text-[13px] text-[#41304d]">
                                         Student
                                     </strong>
-                                    <span>Arjun</span>
+                                    <span>Vikas Sontakke</span>
                                     <span>Email: arjun@student.edu</span>
                                     <span>Password: student123</span>
                                     <span>Priya</span>

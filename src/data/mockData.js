@@ -4,7 +4,7 @@
 export const USERS = [
     {
         id: "student-1",
-        name: "Arjun Mehta",
+        name: "Vikas Sontakke",
         email: "arjun@student.edu",
         role: "student",
         avatar: "AM",
@@ -71,6 +71,9 @@ export const USERS = [
 // ──────────────────────────────────────────────
 //  Mock Assignments
 // ──────────────────────────────────────────────
+export const DEMO_DRIVE_LINK =
+    "https://drive.google.com/file/d/1u0cZQV8qai9ABOPu47sk6NAk2veJzHSC/view?usp=sharing";
+
 export const INITIAL_ASSIGNMENTS = [
     {
         id: "asgn-1",
@@ -78,30 +81,28 @@ export const INITIAL_ASSIGNMENTS = [
         description:
             "Implement a balanced binary search tree with insert, delete, and search operations. Include time-complexity analysis in your report.",
         dueDate: "2026-10-05",
-        driveLink: "https://drive.google.com/drive/folders/sample1",
         createdBy: "admin-1",
         createdAt: "2026-09-20",
         subject: "Data Structures",
         maxMarks: 100,
         materials: [
             {
-                type: "text",
-                title: "Written instructions",
-                content:
-                    "Implement insert, search, and delete operations. Include your complexity analysis and test cases.",
+                type: "link",
+                title: "Drive link",
+                url: DEMO_DRIVE_LINK,
             },
         ],
         submissions: {
             "student-1": {
                 submitted: true,
                 submittedAt: "2026-09-24T10:30:00Z",
+                submissionType: "link",
+                link: DEMO_DRIVE_LINK,
             },
             "student-2": { submitted: false, submittedAt: null },
-            "student-3": {
-                submitted: true,
-                submittedAt: "2026-09-23T15:00:00Z",
-            },
+            "student-3": { submitted: false, submittedAt: null },
             "student-4": { submitted: false, submittedAt: null },
+            "student-5": { submitted: false, submittedAt: null },
         },
     },
     {
@@ -110,34 +111,17 @@ export const INITIAL_ASSIGNMENTS = [
         description:
             "Write a Python/C simulation of FCFS, SJF, and Round-Robin scheduling algorithms. Compare average waiting times.",
         dueDate: "2026-10-10",
-        driveLink: "https://drive.google.com/drive/folders/sample2",
         createdBy: "admin-1",
         createdAt: "2026-09-21",
         subject: "Operating Systems",
         maxMarks: 50,
-        materials: [
-            {
-                type: "pdf",
-                title: "Scheduling reference.pdf",
-                url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-            },
-            {
-                type: "file",
-                title: "Process results.csv",
-                url: "https://drive.google.com/drive/folders/sample2",
-            },
-        ],
+        materials: [],
         submissions: {
             "student-1": { submitted: false, submittedAt: null },
-            "student-2": {
-                submitted: true,
-                submittedAt: "2026-09-25T08:00:00Z",
-            },
+            "student-2": { submitted: false, submittedAt: null },
             "student-3": { submitted: false, submittedAt: null },
-            "student-4": {
-                submitted: true,
-                submittedAt: "2026-09-25T09:45:00Z",
-            },
+            "student-4": { submitted: false, submittedAt: null },
+            "student-5": { submitted: false, submittedAt: null },
         },
     },
     {
@@ -146,32 +130,28 @@ export const INITIAL_ASSIGNMENTS = [
         description:
             "Design an ER diagram for a hospital management system and normalize it to 3NF. Submit as PDF + SQL scripts.",
         dueDate: "2026-09-30",
-        driveLink: "https://drive.google.com/drive/folders/sample3",
         createdBy: "admin-2",
         createdAt: "2026-09-18",
         subject: "Database Management",
         maxMarks: 75,
         materials: [
             {
-                type: "file",
-                title: "ER diagram source.sql",
-                url: "https://drive.google.com/drive/folders/sample3",
+                type: "link",
+                title: "Drive link",
+                url: DEMO_DRIVE_LINK,
             },
         ],
         submissions: {
             "student-1": {
                 submitted: true,
                 submittedAt: "2026-09-22T12:00:00Z",
+                submissionType: "link",
+                link: DEMO_DRIVE_LINK,
             },
-            "student-2": {
-                submitted: true,
-                submittedAt: "2026-09-23T11:00:00Z",
-            },
-            "student-3": {
-                submitted: true,
-                submittedAt: "2026-09-24T16:30:00Z",
-            },
+            "student-2": { submitted: false, submittedAt: null },
+            "student-3": { submitted: false, submittedAt: null },
             "student-4": { submitted: false, submittedAt: null },
+            "student-5": { submitted: false, submittedAt: null },
         },
     },
     {
@@ -180,30 +160,24 @@ export const INITIAL_ASSIGNMENTS = [
         description:
             "Perform a Wireshark capture of HTTP and streaming traffic. Analyze the differences in TCP and UDP behavior with screenshots.",
         dueDate: "2026-10-15",
-        driveLink: "https://drive.google.com/drive/folders/sample4",
         createdBy: "admin-2",
         createdAt: "2026-09-22",
         subject: "Computer Networks",
         maxMarks: 60,
-        materials: [
-            {
-                type: "file",
-                title: "Network capture.pcapng",
-                url: "https://drive.google.com/drive/folders/sample4",
-            },
-        ],
+        materials: [],
         submissions: {
             "student-1": { submitted: false, submittedAt: null },
             "student-2": { submitted: false, submittedAt: null },
             "student-3": { submitted: false, submittedAt: null },
             "student-4": { submitted: false, submittedAt: null },
+            "student-5": { submitted: false, submittedAt: null },
         },
     },
     {
         id: "asgn-5",
-        title: "Web Development Mini Project",
+        title: "Web Technologies Lab Assignment",
         description:
-            "Build a responsive web page and submit a short project summary before the deadline.",
+            "Create a responsive college event website using HTML, CSS, and JavaScript. Submit the source code and a brief project report.",
         dueDate: "2026-09-28",
         createdBy: "admin-1",
         createdAt: "2026-09-24",
@@ -212,19 +186,17 @@ export const INITIAL_ASSIGNMENTS = [
         materials: [
             {
                 type: "text",
-                title: "Project requirements",
+                title: "Written requirements",
                 content:
-                    "Submit your source code and a brief README describing how to run the project.",
+                    "Build the event pages, make the layout work on mobile screens, and include a short report describing the design and implementation.",
             },
         ],
         submissions: {
             "student-1": { submitted: false, submittedAt: null },
-            "student-2": {
-                submitted: true,
-                submittedAt: "2026-09-25T12:00:00Z",
-            },
+            "student-2": { submitted: false, submittedAt: null },
             "student-3": { submitted: false, submittedAt: null },
             "student-4": { submitted: false, submittedAt: null },
+            "student-5": { submitted: false, submittedAt: null },
         },
     },
 ];

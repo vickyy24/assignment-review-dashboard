@@ -1,8 +1,25 @@
 import React, { useEffect } from "react";
-import { CalendarDays, ExternalLink, FileText, Link2 } from "lucide-react";
+import {
+    AlignLeft,
+    CalendarDays,
+    ExternalLink,
+    FileText,
+    Link2,
+} from "lucide-react";
+import { DEMO_DRIVE_LINK } from "../../data/mockData";
 import Button from "../ui/Button";
 
 function getAssignmentMaterials(assignment) {
+    if (assignment.id === "asgn-1" || assignment.id === "asgn-3") {
+        return [
+            {
+                type: "link",
+                title: "Drive link",
+                url: DEMO_DRIVE_LINK,
+            },
+        ];
+    }
+
     const materials = Array.isArray(assignment.materials)
         ? [...assignment.materials]
         : [];
@@ -30,21 +47,26 @@ function getAssignmentMaterials(assignment) {
         });
     }
 
-    return materials;
+    return materials.filter((material, index) => {
+        if (!material.url) {
+            return true;
+        }
+
+        return materials.findIndex((candidate) => {
+            return candidate.url === material.url;
+        }) === index;
+    });
 }
 
 export default function AssignmentDetailsModal({
     assignment,
     status,
     onClose,
-    onStartSubmission,
+    onRemoveSubmission,
 }) {
     const materials = getAssignmentMaterials(assignment);
     const submission = assignment.mySubmission;
     const isSubmitted = submission?.submitted;
-    const isOverdue =
-        !isSubmitted &&
-        new Date(`${assignment.dueDate}T23:59:59`) < new Date();
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -66,7 +88,7 @@ export default function AssignmentDetailsModal({
             aria-labelledby="assignment-details-title"
         >
             <section
-                className="modal-box relative max-h-[90vh] w-full max-w-[620px] overflow-y-auto p-6 text-left sm:p-7"
+                className="modal-box modal-scroll relative max-h-[90vh] w-full max-w-[620px] overflow-y-auto p-6 text-left sm:p-7"
                 onClick={handleDialogClick}
             >
                 <Button
@@ -126,7 +148,7 @@ export default function AssignmentDetailsModal({
                     </p>
                 </div>
 
-                <div className="mt-5 rounded-lg border border-[var(--border-color)] p-4">
+                {materials.length > 0 && <div className="mt-5 rounded-lg border border-[var(--border-color)] p-4">
                     <h3 className="asgn-card-title m-0">Materials from your instructor</h3>
                     {materials.length > 0 ? (
                         <div className="mt-3 space-y-3">
@@ -157,8 +179,13 @@ export default function AssignmentDetailsModal({
                                         key={`${material.url || materialTitle}-${index}`}
                                     >
                                         <div className="min-w-0 flex-1">
-                                            <p className="stat-label m-0 inline-flex items-center gap-2">
-                                                {isText || isPdf || isFile ? (
+                                            {!isText && <p className="stat-label m-0 inline-flex items-center gap-2">
+                                                {isText ? (
+                                                    <AlignLeft
+                                                        size={16}
+                                                        aria-hidden="true"
+                                                    />
+                                                ) : isPdf || isFile ? (
                                                     <FileText
                                                         size={16}
                                                         aria-hidden="true"
@@ -170,7 +197,7 @@ export default function AssignmentDetailsModal({
                                                     />
                                                 )}
                                                 {materialTitle}
-                                            </p>
+                                            </p>}
                                             {isText && material.content && (
                                                 <p className="modal-body mt-2 whitespace-pre-wrap text-left">
                                                     {material.content}
@@ -206,11 +233,25 @@ export default function AssignmentDetailsModal({
                             written instructions above.
                         </p>
                     )}
-                </div>
+                </div>}
 
                 {isSubmitted && (
                     <div className="mt-4 rounded-lg border border-[var(--border-color)] p-4">
-                        <h3 className="asgn-card-title m-0">Your submitted work</h3>
+                        <div className="flex items-center justify-between gap-3">
+                            <h3 className="asgn-card-title m-0">
+                                Your submitted work
+                            </h3>
+                            <Button
+                                className="modal-close h-7 w-7"
+                                onClick={() => {
+                                    onRemoveSubmission(assignment.id);
+                                }}
+                                aria-label="Remove submitted assignment"
+                                title="Remove submission"
+                            >
+                                ×
+                            </Button>
+                        </div>
                         {submission.submissionType === "file" &&
                         submission.fileName ? (
                             <p className="modal-body mt-2 inline-flex items-center gap-2">
@@ -256,17 +297,6 @@ export default function AssignmentDetailsModal({
                         onClick={onClose}
                     >
                         Close
-                    </Button>
-                    <Button
-                        variant="submit"
-                        onClick={onStartSubmission}
-                        disabled={!isSubmitted && isOverdue}
-                    >
-                        {!isSubmitted && isOverdue
-                            ? "Submission closed"
-                            : isSubmitted
-                              ? "Replace Submission"
-                              : "Submit Assignment"}
                     </Button>
                 </div>
             </section>

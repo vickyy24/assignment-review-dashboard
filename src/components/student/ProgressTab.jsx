@@ -220,7 +220,7 @@ export default function ProgressTab({
                                     <th className="px-3 py-3 font-semibold">#</th>
                                     <th className="px-3 py-3 font-semibold">Assignment</th>
                                     <th className="px-3 py-3 font-semibold">Subject</th>
-                                    <th className="px-3 py-3 font-semibold">Submission Date</th>
+                                    <th className="px-3 py-3 font-semibold">Submitted Date</th>
                                     <th className="px-3 py-3 font-semibold">Status</th>
                                     <th className="px-3 py-3 font-semibold">Progress</th>
                                     <th className="px-2 py-3" aria-label="Details" />

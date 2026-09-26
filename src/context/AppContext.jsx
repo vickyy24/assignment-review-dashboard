@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { USERS, INITIAL_ASSIGNMENTS } from "../data/mockData";
+import { DEMO_DRIVE_LINK, USERS, INITIAL_ASSIGNMENTS } from "../data/mockData";
 
 // ──────────────────────────────────────────────
 //  Context
 // ──────────────────────────────────────────────
 const AppContext = createContext(null);
 const ASSIGNMENT_EXAMPLES_MIGRATION_KEY = "eduboard_assignment_examples_v1";
+const SUBMISSION_EXAMPLES_MIGRATION_KEY = "eduboard_submission_examples_v1";
 
 function hasSubmissionContent(submission) {
     if (!submission || typeof submission !== "object") {
@@ -61,7 +62,11 @@ function normalizeAssignmentSubmissions(assignments) {
     });
 }
 
-function mergeInitialAssignments(savedAssignments, addExampleAssignment) {
+function mergeInitialAssignments(
+    savedAssignments,
+    addExampleAssignment,
+    resetDemoSubmissions,
+) {
     const savedAssignmentsById = new Map(
         savedAssignments.map((assignment) => {
             return [assignment.id, assignment];
@@ -79,10 +84,39 @@ function mergeInitialAssignments(savedAssignments, addExampleAssignment) {
         return {
             ...initialAssignment,
             ...savedAssignment,
+            driveLink:
+                savedAssignment.driveLink?.includes("/drive/folders/sample") ||
+                savedAssignment.driveLink === DEMO_DRIVE_LINK
+                    ? ""
+                    : savedAssignment.driveLink ?? initialAssignment.driveLink,
+            submissions: resetDemoSubmissions
+                ? initialAssignment.submissions
+                : savedAssignment.submissions ?? initialAssignment.submissions,
             materials:
-                savedAssignment.materials === undefined
+                (initialAssignment.id === "asgn-5" &&
+                    savedAssignment.title === "Web Development Mini Project") ||
+                savedAssignment.materials === undefined ||
+                savedAssignment.id === "asgn-3" ||
+                ((savedAssignment.id === "asgn-1" ||
+                    savedAssignment.id === "asgn-2" ||
+                    savedAssignment.id === "asgn-3" ||
+                    savedAssignment.id === "asgn-4") &&
+                    savedAssignment.materials?.some((material) =>
+                        material.title === "Written instructions" ||
+                        material.title === "ER diagram source.sql" ||
+                        material.url?.includes("/drive/folders/sample") ||
+                        material.url?.includes("dummy.pdf") ||
+                        material.url === DEMO_DRIVE_LINK,
+                    ))
                     ? initialAssignment.materials
                     : savedAssignment.materials,
+            ...(initialAssignment.id === "asgn-5" &&
+            savedAssignment.title === "Web Development Mini Project"
+                ? {
+                      title: initialAssignment.title,
+                      description: initialAssignment.description,
+                  }
+                : {}),
         };
     });
 
@@ -139,10 +173,14 @@ export function AppProvider({ children }) {
             const hasMigratedAssignmentExamples = localStorage.getItem(
                 ASSIGNMENT_EXAMPLES_MIGRATION_KEY,
             );
+            const shouldResetSubmissionExamples = !localStorage.getItem(
+                SUBMISSION_EXAMPLES_MIGRATION_KEY,
+            );
             const assignmentsToNormalize = saved
                 ? mergeInitialAssignments(
                       JSON.parse(saved),
                       !hasMigratedAssignmentExamples,
+                      shouldResetSubmissionExamples,
                   )
                 : INITIAL_ASSIGNMENTS;
             return normalizeAssignmentSubmissions(assignmentsToNormalize);
@@ -166,6 +204,7 @@ export function AppProvider({ children }) {
             JSON.stringify(assignments),
         );
         localStorage.setItem(ASSIGNMENT_EXAMPLES_MIGRATION_KEY, "true");
+        localStorage.setItem(SUBMISSION_EXAMPLES_MIGRATION_KEY, "true");
     }, [assignments]);
 
     // ── Auth actions ──────────────────────────
@@ -254,6 +293,27 @@ export function AppProvider({ children }) {
         });
     };
 
+    const removeSubmission = (assignmentId) => {
+        setAssignments((previousAssignments) => {
+            return previousAssignments.map((assignment) => {
+                if (assignment.id !== assignmentId) {
+                    return assignment;
+                }
+
+                return {
+                    ...assignment,
+                    submissions: {
+                        ...assignment.submissions,
+                        [currentUser.id]: {
+                            submitted: false,
+                            submittedAt: null,
+                        },
+                    },
+                };
+            });
+        });
+    };
+
     // ── Helpers ───────────────────────────────
     const getStudentsByIds = (ids) => {
         return USERS.filter((userRecord) => {
@@ -295,6 +355,7 @@ export function AppProvider({ children }) {
                 deleteAssignment,
                 updateAssignment,
                 submitAssignment,
+                removeSubmission,
                 getStudentsByIds,
                 getAllStudents,
                 getUserById,

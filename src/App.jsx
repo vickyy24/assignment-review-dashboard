@@ -1,33 +1,21 @@
-import React from 'react';
-import { AppProvider, useApp } from './context/AppContext';
-import LoginPage from './pages/LoginPage';
+import React from "react";
+import { AppProvider, useApp } from "./context/AppContext";
+import LoginPage from "./pages/LoginPage";
+import StudentDashboard from "./pages/StudentDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
-function LoginProgress() {
-  const { currentUser, logout } = useApp();
+function Router() {
+    const { currentUser } = useApp();
 
-  const handleSignOut = () => {
-    logout();
-  };
-
-  if (!currentUser) {
-    return <LoginPage />;
-  }
-
-  return (
-    <main className="login-root grid min-h-screen place-items-center p-6">
-      <section className="login-card w-full max-w-[440px] p-8 text-left">
-        <h1 className="login-title">Welcome, {currentUser.name}</h1>
-        <p className="login-subtitle">Your sign-in is working. Assignment dashboards will be added in the next project steps.</p>
-        <button className="btn-logout mt-6" type="button" onClick={handleSignOut}>Sign out</button>
-      </section>
-    </main>
-  );
+    if (!currentUser) return <LoginPage />;
+    if (currentUser.role === "admin") return <AdminDashboard />;
+    return <StudentDashboard />;
 }
 
 export default function App() {
-  return (
-    <AppProvider>
-      <LoginProgress />
-    </AppProvider>
-  );
+    return (
+        <AppProvider>
+            <Router />
+        </AppProvider>
+    );
 }

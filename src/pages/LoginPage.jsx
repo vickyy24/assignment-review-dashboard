@@ -56,6 +56,10 @@ export default function LoginPage() {
                 setTimeout(resolve, 600);
             }); // simulate network
             login(credentials.email.trim(), credentials.password);
+            setCredentials({ email: "", password: "" });
+            setFieldErrors({ email: "", password: "" });
+            setFormError("");
+            setShowPassword(false);
         } catch (err) {
             setFormError(err.message);
         } finally {
@@ -178,6 +182,7 @@ export default function LoginPage() {
                         <form
                             onSubmit={handleSubmit}
                             className="w-full max-w-none max-md:gap-[15px] flex flex-col gap-[15px]"
+                            autoComplete="off"
                             noValidate
                         >
                             <div className="field flex flex-col gap-[7px]">
@@ -193,7 +198,7 @@ export default function LoginPage() {
                                         name="email"
                                         type="text"
                                         inputMode="email"
-                                        autoComplete="email"
+                                        autoComplete="new-password"
                                         aria-invalid={Boolean(
                                             fieldErrors.email,
                                         )}
@@ -235,7 +240,7 @@ export default function LoginPage() {
                                         type={
                                             showPassword ? "text" : "password"
                                         }
-                                        autoComplete="current-password"
+                                        autoComplete="new-password"
                                         aria-invalid={Boolean(
                                             fieldErrors.password,
                                         )}
@@ -275,14 +280,17 @@ export default function LoginPage() {
                                         {fieldErrors.password}
                                     </p>
                                 )}
+                                {formError && (
+                                    <p className="field-error" role="alert">
+                                        <CircleAlert
+                                            className="mr-1 inline"
+                                            size={14}
+                                            aria-hidden="true"
+                                        />
+                                        {formError}
+                                    </p>
+                                )}
                             </div>
-
-                            {formError && (
-                                <div className="error-banner" role="alert">
-                                    <CircleAlert size={16} aria-hidden="true" />{" "}
-                                    {formError}
-                                </div>
-                            )}
 
                             <Button
                                 variant="primary"

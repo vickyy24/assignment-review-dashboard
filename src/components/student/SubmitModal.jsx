@@ -63,7 +63,7 @@ export default function SubmitModal({ assignment, onClose }) {
                     >
                         ✕
                     </button>
-                    <div className="modal-icon text-[#438a60]">
+                    <div className="modal-icon text-[var(--success-color)]">
                         <CircleCheck size={34} strokeWidth={1.7} />
                     </div>
                     <h2 className="modal-title">Assignment Details</h2>
@@ -106,7 +106,7 @@ export default function SubmitModal({ assignment, onClose }) {
 
                 {step === 1 && (
                     <>
-                        <div className="modal-icon text-[#7eaff4]">
+                        <div className="modal-icon text-[var(--brand-primary-color)]">
                             <CircleHelp size={34} strokeWidth={1.7} />
                         </div>
                         <h2 className="modal-title">Submit Assignment?</h2>
@@ -137,7 +137,7 @@ export default function SubmitModal({ assignment, onClose }) {
 
                 {step === 2 && (
                     <>
-                        <div className="modal-icon text-[#e6ad57]">
+                        <div className="modal-icon text-[var(--warning-color)]">
                             <TriangleAlert size={34} strokeWidth={1.7} />
                         </div>
                         <h2 className="modal-title">Final Confirmation</h2>
@@ -173,7 +173,7 @@ export default function SubmitModal({ assignment, onClose }) {
 
                 {step === "done" && (
                     <>
-                        <div className="modal-icon text-[#45bd8c]">
+                        <div className="modal-icon text-[var(--success-color)]">
                             <CircleCheck size={34} strokeWidth={1.7} />
                         </div>
                         <h2 className="modal-title">Submission Recorded!</h2>

@@ -2,22 +2,24 @@
 
 :root {
     font-family: "DM Sans", sans-serif;
-    color: #e8efe9;
+    color: #ece8ef;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
-    --page-background-color: #101713;
-    --panel-background-color: #17211b;
-    --secondary-panel-background-color: #1d2a22;
-    --border-color: #304238;
-    --muted-text-color: #9aac9f;
-    --brand-primary-color: #70bd94;
-    --primary-button-background: #347b57;
-    --primary-button-hover-background: #286747;
-    --outline-button-background: #1c2b22;
-    --outline-button-border-color: #42624c;
-    --outline-button-text-color: #a9d6b7;
-    --outline-button-hover-background: #253a2d;
-    --success-color: #62c995;
+    --page-background-color: #141017;
+    --panel-background-color: #1d1721;
+    --secondary-panel-background-color: #251d2a;
+    --border-color: #3b3042;
+    --muted-text-color: #a49aac;
+    --brand-primary-color: #a98ad8;
+    --primary-button-background: #7550c4;
+    --primary-button-hover-background: #6240ad;
+    --primary-button-end-background: #5b3b9c;
+    --outline-button-background: #251c2b;
+    --outline-button-border-color: #554262;
+    --outline-button-text-color: #c3a9d6;
+    --outline-button-hover-background: #31253a;
+    --success-color: #58c3aa;
+    --success-button-hover-background: #3d9f88;
     --warning-color: #e7b86c;
     --error-color: #e77c78;
     --card-border-radius: 18px;
@@ -25,62 +27,62 @@
     --progress-ring-track-color: #ffffff26;
     --login-brand-panel-background: linear-gradient(
         145deg,
-        #edf4ee,
-        #e7f0e8 68%,
-        #e7eee5
+        #f1edf4,
+        #ece7f0 68%,
+        #eae5ee
     );
-    --navbar-app-name-color: #e8efe9;
-    --navbar-user-name-color: #e8efe9;
-    --navbar-user-email-color: #91a397;
-    --welcome-title-color: #edf4ee;
-    --welcome-subtitle-color: #a3b2a7;
-    --stat-value-color: #edf4ee;
-    --stat-label-color: #9aac9f;
-    --stat-icon-background-color: #26392d;
-    --stat-icon-green-background-color: #1d392b;
+    --navbar-app-name-color: #ece8ef;
+    --navbar-user-name-color: #ece8ef;
+    --navbar-user-email-color: #9b91a3;
+    --welcome-title-color: #f1edf4;
+    --welcome-subtitle-color: #aca3b2;
+    --stat-value-color: #f1edf4;
+    --stat-label-color: #a49aac;
+    --stat-icon-background-color: #312639;
+    --stat-icon-green-background-color: #1d332f;
     --stat-icon-amber-background-color: #3a3323;
     --stat-icon-red-background-color: #392625;
     --stat-icon-purple-background-color: #302b36;
-    --assignment-title-color: #e8efe9;
-    --assignment-description-color: #a2b0a5;
-    --assignment-footer-border-color: #304238;
-    --assignment-meta-color: #a6b3a8;
-    --submitted-chip-text-color: #80d4a2;
-    --filter-tab-text-color: #9aac9f;
-    --filter-count-background-color: #29382e;
-    --progress-track-background-color: #293a30;
-    --submission-description-color: #9aab9e;
-    --empty-state-text-color: #9aab9e;
-    --student-row-name-color: #c7d2c9;
-    --student-row-muted-color: #9aab9e;
+    --assignment-title-color: #ece8ef;
+    --assignment-description-color: #aaa2b0;
+    --assignment-footer-border-color: #3b3042;
+    --assignment-meta-color: #aea6b3;
+    --submitted-chip-text-color: #68d2b9;
+    --filter-tab-text-color: #a49aac;
+    --filter-count-background-color: #322938;
+    --progress-track-background-color: #33293a;
+    --submission-description-color: #a49aab;
+    --empty-state-text-color: #a49aab;
+    --student-row-name-color: #cdc7d2;
+    --student-row-muted-color: #a49aab;
     --student-submission-time-color: #8c9b90;
-    --student-row-progress-color: #83cba1;
-    --modal-overlay-background: #05080dcc;
-    --modal-title-color: #e8efe9;
-    --modal-body-color: #a7b4a9;
-    --modal-strong-color: #e8efe9;
-    --field-label-color: #b7c5b9;
-    --field-placeholder-color: #75877a;
-    --select-option-background-color: #17211b;
-    --button-ghost-hover-background: #25342a;
+    --student-row-progress-color: #68d2b9;
+    --modal-overlay-background: #0a050dcc;
+    --modal-title-color: #ece8ef;
+    --modal-body-color: #afa7b4;
+    --modal-strong-color: #ece8ef;
+    --field-label-color: #bfb7c5;
+    --field-placeholder-color: #807587;
+    --select-option-background-color: #1d1721;
+    --button-ghost-hover-background: #2e2534;
     --logout-button-text-color: #d0a09c;
     --logout-button-border-color: #513c39;
     --logout-button-background: #211a19;
     --button-logout-hover-color: var(--error-color);
     --logout-button-hover-background: #352321;
-    --login-title-background-image: linear-gradient(100deg, #f1f6ef, #8ac8a1);
+    --login-title-background-image: linear-gradient(100deg, #f3eff6, #ae8ac8);
     --login-subtitle-color: var(--muted-text-color);
-    --progress-ring-center-background: #17211b;
-    --demo-credentials-title-color: #a5b7a8;
-    --demo-credentials-background: #141e18;
-    --demo-credentials-border-color: #304238;
-    --login-demo-credentials-background: #f5f8f4;
-    --login-demo-credentials-border-color: #e2e9e0;
-    --login-demo-credentials-title-color: #27382d;
-    --login-field-placeholder-color: #8d9b90;
+    --progress-ring-center-background: #1d1721;
+    --demo-credentials-title-color: #b0a5b7;
+    --demo-credentials-background: #1a141e;
+    --demo-credentials-border-color: #3b3042;
+    --login-demo-credentials-background: #f6f4f8;
+    --login-demo-credentials-border-color: #e5e0e9;
+    --login-demo-credentials-title-color: #312738;
+    --login-field-placeholder-color: #93879d;
     --toggle-students-hover-background: transparent;
     --body-background-image:
-        radial-gradient(ellipse at 85% 0%, #1a2b21 0, transparent 34%), #101713;
+        radial-gradient(ellipse at 85% 0%, #241a2b 0, transparent 34%), #141017;
 }
 
 * {
@@ -140,7 +142,7 @@ select:focus-visible {
 .blob-1 {
     width: 420px;
     height: 420px;
-    background: #477e5d;
+    background: #67477e;
     top: -130px;
     left: -80px;
 }
@@ -156,7 +158,7 @@ select:focus-visible {
 .blob-3 {
     width: 260px;
     height: 260px;
-    background: #0f9c91;
+    background: #680f9c;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -164,15 +166,15 @@ select:focus-visible {
 
 .login-card {
     background: rgba(23, 33, 27, 0.96);
-    border: 1px solid #304238;
+    border: 1px solid #3b3042;
     border-radius: 26px;
     box-shadow: 0 28px 100px #0008;
 }
 
 .navbar-logo {
-    background: linear-gradient(145deg, #3c805a, #6aa67b);
+    background: linear-gradient(145deg, #643c80, #8d6aa6);
     color: white;
-    box-shadow: 0 8px 28px #347b5733;
+    box-shadow: 0 8px 28px #5d347b33;
 }
 
 .login-title {
@@ -200,16 +202,16 @@ select:focus-visible {
 .field-input {
     width: 100%;
     padding: 11px 12px;
-    background: #101722;
-    border: 1px solid #303d50;
+    background: #1b1022;
+    border: 1px solid #443050;
     border-radius: 10px;
-    color: #edf3fc;
+    color: #f7edfc;
     outline: none;
 }
 
 .field-input:focus {
     border-color: var(--brand-primary-color);
-    box-shadow: 0 0 0 3px #70bd9422;
+    box-shadow: 0 0 0 3px #9d70bd22;
 }
 
 .field-textarea {
@@ -237,14 +239,28 @@ select:focus-visible {
 .btn-primary {
     border: 0;
     padding: 11px 16px;
-    background: var(--primary-button-background);
+    background: linear-gradient(
+        125deg,
+        var(--primary-button-background),
+        var(--primary-button-end-background)
+    );
     color: white;
-    box-shadow: 0 5px 16px #347b5733;
+    box-shadow: 0 5px 16px #7550c433;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: var(--primary-button-hover-background);
+    background: linear-gradient(
+        125deg,
+        var(--primary-button-hover-background),
+        var(--primary-button-background)
+    );
     transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled),
+.btn-submit:active:not(:disabled),
+.btn-danger:active:not(:disabled) {
+    transform: translateY(0);
 }
 
 .btn-primary:disabled,
@@ -261,11 +277,21 @@ select:focus-visible {
     color: white;
 }
 
+.btn-danger:hover:not(:disabled) {
+    background: #a73744;
+    transform: translateY(-1px);
+}
+
 .btn-ghost {
-    border: 1px solid #3b4c40;
+    border: 1px solid #453b4c;
     padding: 10px 15px;
     background: transparent;
-    color: #c2cec3;
+    color: #c9c2ce;
+}
+
+.btn-ghost:hover:not(:disabled) {
+    background: var(--button-ghost-hover-background);
+    border-color: var(--outline-button-border-color);
 }
 
 .btn-outline {
@@ -284,9 +310,15 @@ select:focus-visible {
 .btn-submit {
     border: 0;
     padding: 9px 13px;
-    background: #347b57;
-    color: #f3f8f3;
+    background: var(--success-color);
+    color: #f6f3f8;
     font-size: 12px;
+    box-shadow: 0 4px 14px #58c3aa33;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: var(--success-button-hover-background);
+    transform: translateY(-1px);
 }
 
 .btn-logout {
@@ -326,7 +358,7 @@ select:focus-visible {
 }
 
 .navbar {
-    background: #121b16f2;
+    background: #17121bf2;
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-color);
 }
@@ -348,29 +380,29 @@ select:focus-visible {
 .navbar-badge {
     font-size: 10px;
     padding: 4px 8px;
-    border: 1px solid #39465a;
+    border: 1px solid #4e395a;
     border-radius: 20px;
-    color: #a9bbd1;
+    color: #c2a9d1;
 }
 
 .navbar-badge-admin {
-    color: #b0d1b8;
-    border-color: #45654d;
-    background: #223429;
+    color: #c3b0d1;
+    border-color: #584565;
+    background: #2d2234;
 }
 
 .navbar-badge-student {
-    color: #a9d8b7;
-    border-color: #42654b;
-    background: #1d3425;
+    color: #c4a9d8;
+    border-color: #564265;
+    background: #2a1d34;
 }
 
 .user-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #304638;
-    color: #c0dec6;
+    background: #3d3046;
+    color: #d2c0de;
     font-size: 11px;
     font-weight: 800;
 }
@@ -387,23 +419,23 @@ select:focus-visible {
 }
 
 .navbar-hamburger {
-    border: 1px solid #3b4c40;
-    background: #1d2a22;
-    color: #dce7dd;
+    border: 1px solid #453b4c;
+    background: #251d2a;
+    color: #e2dce7;
     border-radius: 8px;
     padding: 7px 10px;
 }
 
 .navbar-mobile-menu {
     border-top: 1px solid var(--border-color);
-    background: #141e18;
+    background: #1a141e;
 }
 
 .welcome-banner {
     position: relative;
-    border: 1px solid #344b39;
+    border: 1px solid #41344b;
     border-radius: var(--card-border-radius);
-    background: linear-gradient(115deg, #1a2b20, #1a241d 62%, #213329);
+    background: linear-gradient(115deg, #241a2b, #201a24 62%, #2c2133);
     overflow: hidden;
 }
 
@@ -415,7 +447,7 @@ select:focus-visible {
     right: 8%;
     top: -180px;
     border-radius: 50%;
-    background: #6cac7a33;
+    background: #916cac33;
     filter: blur(45px);
 }
 
@@ -448,7 +480,7 @@ select:focus-visible {
 
 .ring-sub {
     font-size: 9px;
-    color: #9aaac0;
+    color: #b29ac0;
 }
 
 .stat-card {
@@ -488,9 +520,9 @@ select:focus-visible {
 }
 
 .filter-tab-active {
-    color: #b4d9bf;
-    background: #203329;
-    border-color: #42654b;
+    color: #cab4d9;
+    background: #2b2033;
+    border-color: #564265;
 }
 
 .filter-count {
@@ -502,23 +534,24 @@ select:focus-visible {
 
 .asgn-card {
     border: 1px solid var(--border-color);
-    background: linear-gradient(145deg, #19241d, #151e19);
+    background: linear-gradient(145deg, #1f1924, #1a151e);
     border-radius: 15px;
     padding: 18px;
     transition: 0.2s;
 }
 
 .asgn-card:hover {
-    border-color: #54735a;
+    border-color: #665473;
+    box-shadow: 0 10px 28px #a98ad81c;
     transform: translateY(-1px);
 }
 
 .subject-chip {
     font-size: 10px;
     font-weight: 700;
-    color: #b1d6bb;
-    background: #203329;
-    border: 1px solid #3b5943;
+    color: #c7b1d6;
+    background: #2b2033;
+    border: 1px solid #4c3b59;
     padding: 5px 8px;
     border-radius: 7px;
 }
@@ -531,8 +564,8 @@ select:focus-visible {
 }
 
 .badge-green {
-    background: #203c2d;
-    color: #87d4a3;
+    background: #1d3632;
+    color: #76d5bd;
 }
 
 .badge-red {
@@ -546,8 +579,8 @@ select:focus-visible {
 }
 
 .badge-blue {
-    background: #29372d;
-    color: #c1d0c3;
+    background: #312937;
+    color: #cac1d0;
 }
 
 .asgn-card-title {
@@ -581,8 +614,8 @@ select:focus-visible {
 }
 
 .overall-progress-card {
-    border: 1px solid #28364a;
-    background: #121a26;
+    border: 1px solid #3e284a;
+    background: #1f1226;
     border-radius: 14px;
     padding: 16px 18px;
     margin-bottom: 18px;
@@ -604,7 +637,7 @@ select:focus-visible {
 .progress-fill {
     height: 100%;
     border-radius: 20px;
-    background: linear-gradient(90deg, #478bf0, #55c4cf);
+    background: linear-gradient(90deg, #8061cc, var(--success-color));
     transition: width 0.3s;
 }
 
@@ -630,10 +663,10 @@ select:focus-visible {
 .search-bar {
     width: min(100%, 420px);
     padding: 10px 12px 10px 36px;
-    background: #131c28;
-    border: 1px solid #2c394c;
+    background: #201328;
+    border: 1px solid #402c4c;
     border-radius: 10px;
-    color: #eaf0fa;
+    color: #f4eafa;
     font-size: 12px;
 }
 
@@ -667,8 +700,8 @@ select:focus-visible {
 
 .toggle-students-btn {
     background: transparent;
-    color: #93bfff;
-    border: 1px solid #344c6b;
+    color: #d793ff;
+    border: 1px solid #57346b;
     border-radius: 8px;
     font-size: 10px;
     font-weight: 700;
@@ -677,8 +710,8 @@ select:focus-visible {
 
 .spb-row {
     padding: 8px;
-    background: #111a25;
-    border: 1px solid #253244;
+    background: #1e1125;
+    border: 1px solid #392544;
     border-radius: 9px;
 }
 
@@ -686,8 +719,8 @@ select:focus-visible {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: #283c59;
-    color: #b8d5ff;
+    background: #472859;
+    color: #e5b8ff;
     font-size: 9px;
     font-weight: 700;
 }
@@ -714,16 +747,16 @@ select:focus-visible {
 }
 
 .modal-box {
-    background: #151e2b;
-    border: 1px solid #35445a;
+    background: #23152b;
+    border: 1px solid #4c355a;
     border-radius: 20px;
     box-shadow: 0 25px 80px #0009;
 }
 
 .modal-close {
-    border: 1px solid #344155;
-    background: #1b2635;
-    color: #aebbd0;
+    border: 1px solid #493455;
+    background: #2b1b35;
+    color: #c4aed0;
     border-radius: 50%;
 }
 
@@ -748,15 +781,15 @@ select:focus-visible {
 /* Admin cards share the same visual language as student assignment cards. */
 
 .admin-card {
-    border: 1px solid #263244;
-    background: linear-gradient(145deg, #151e2b, #111821);
+    border: 1px solid #392644;
+    background: linear-gradient(145deg, #23152b, #1b1121);
     border-radius: 15px;
     padding: 18px;
     transition: 0.2s;
 }
 
 .admin-card:hover {
-    border-color: #3d526d;
+    border-color: #5b3d6d;
     transform: translateY(-1px);
 }
 
@@ -780,9 +813,9 @@ select:focus-visible {
 }
 
 .admin-card-actions .icon-btn {
-    border: 1px solid #344155;
+    border: 1px solid #493455;
     background: transparent;
-    color: #aab9cc;
+    color: #c0aacc;
     border-radius: 8px;
     padding: 6px 9px;
     font-size: 11px;
@@ -854,17 +887,17 @@ select:focus-visible {
 }
 
 .login-illustration-orbit {
-    border: 1px solid #74a9f528;
+    border: 1px solid #c674f528;
     border-radius: 50%;
     box-shadow:
-        0 0 0 28px #74a9f20a,
-        0 0 0 58px #74a9f208;
+        0 0 0 28px #c474f20a,
+        0 0 0 58px #c474f208;
 }
 
 .login-illustration-card {
-    border: 1px solid #7894bb38;
-    background: #202d46e8;
-    box-shadow: 0 18px 48px #050a1570;
+    border: 1px solid #a278bb38;
+    background: #382046e8;
+    box-shadow: 0 18px 48px #0f051570;
     border-radius: 14px;
 }
 
@@ -872,48 +905,48 @@ select:focus-visible {
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: #397de533;
-    color: #80b5ff;
+    background: #a639e533;
+    color: #d080ff;
 }
 
 .illustration-lines i {
     width: 88%;
     height: 6px;
     border-radius: 8px;
-    background: #b9cbe522;
+    background: #d5b9e522;
 }
 
 .illustration-lines i:first-child {
     width: 62%;
     height: 8px;
-    background: #b9cbe542;
+    background: #d5b9e542;
 }
 
 .illustration-bars i {
     width: 6px;
     border-radius: 3px 3px 0 0;
-    background: #778ef4;
+    background: #c677f4;
 }
 
 .login-illustration-ring {
-    border: 1px solid #53d6a133;
+    border: 1px solid #9f53d633;
     border-radius: 50%;
-    background: #17362f;
-    color: #53d6a1;
+    background: #2b1736;
+    color: #9f53d6;
 }
 
 .login-illustration-dot {
     border-radius: 50%;
-    background: #80b5ff;
+    background: #d080ff;
 }
 
 /* Reference-style, airy two-panel sign-in screen. */
 
 .login-layout {
     background: #fff;
-    border: 1px solid #dce8f8;
+    border: 1px solid #eedcf8;
     border-radius: 20px;
-    box-shadow: 0 22px 65px #2c54841a;
+    box-shadow: 0 22px 65px #642c841a;
 }
 
 .login-brand-panel {
@@ -935,7 +968,7 @@ select:focus-visible {
     height: 370px;
     right: -210px;
     top: -200px;
-    background: #dce8da66;
+    background: #e2dae866;
     border: 0;
 }
 
@@ -947,14 +980,14 @@ select:focus-visible {
     line-height: 1.07;
     letter-spacing: -1.3px;
     color: #fff;
-    background: linear-gradient(105deg, #354d37, #438a60);
+    background: linear-gradient(105deg, #43354d, #6c438a);
     -webkit-text-fill-color: #fff;
 }
 
 .login-brand-panel .login-subtitle {
     max-width: 390px;
     margin-top: 14px;
-    color: #536486;
+    color: #735386;
     font-size: 16px;
     line-height: 1.5;
 }
@@ -965,8 +998,8 @@ select:focus-visible {
 }
 
 .login-feature-icon-blue {
-    background: #e8efe2;
-    color: #438356;
+    background: #eae2ef;
+    color: #684383;
 }
 
 .login-feature-icon-purple {
@@ -975,43 +1008,43 @@ select:focus-visible {
 }
 
 .login-feature-icon-green {
-    background: #dff0e3;
-    color: #347b57;
+    background: #e0f2ed;
+    color: #287d6b;
 }
 
 .login-feature strong {
-    color: #182544;
+    color: #341844;
     font-size: 14px;
     font-weight: 700;
 }
 
 .login-feature small {
-    color: #5d6d8d;
+    color: #7b5d8d;
     font-size: 12px;
 }
 
 .login-illustration-orbit {
-    border-color: #7ca6e51c;
+    border-color: #bf7ce51c;
     box-shadow:
-        0 0 0 28px #74a9f20a,
-        0 0 0 58px #74a9f208;
+        0 0 0 28px #c474f20a,
+        0 0 0 58px #c474f208;
 }
 
 .login-illustration-card {
     background: #ffffffd9;
-    border-color: #d9e4f3;
-    box-shadow: 0 15px 40px #35588718;
+    border-color: #e9d9f3;
+    box-shadow: 0 15px 40px #69358718;
 }
 
 .login-illustration-ring {
-    background: #e1f8f0;
-    color: #17a978;
-    border-color: #a7e7d333;
+    background: #eee1f8;
+    color: #6c17a9;
+    border-color: #cca7e733;
 }
 
 .login-form-heading h2 {
     margin: 0;
-    color: #26382c;
+    color: #312638;
     font-family: Manrope, sans-serif;
     font-weight: 800;
     letter-spacing: -0.7px;
@@ -1019,21 +1052,21 @@ select:focus-visible {
 
 .login-form-heading p {
     margin: 7px 0 0;
-    color: #667669;
+    color: #6f6676;
     font-size: 14px;
 }
 
 .login-form-panel .field-label {
     font-size: 13px;
-    color: #435849;
+    color: #4f4358;
 }
 
 .login-form-panel .field-input {
     padding: 0 45px 0 48px;
-    border-color: #cbd9c9;
+    border-color: #d2c9d9;
     border-radius: 10px;
-    background: #f8faf6;
-    color: #293a2e;
+    background: #f8f6fa;
+    color: #33293a;
     font-size: 14px;
     box-shadow: 0 1px 2px rgb(20 32 62 / 5%);
     transition:
@@ -1043,37 +1076,45 @@ select:focus-visible {
 }
 
 .login-form-panel .field-input:hover:not(:focus) {
-    border: 1px solid #91b49a;
+    border: 1px solid #a591b4;
     background: #fff;
 }
 
 .login-form-panel .field-input:focus {
     outline: none;
-    border-color: #4b8a60;
+    border-color: #704b8a;
     background: #fff;
     box-shadow: none;
 }
 
 .login-form-panel .login-input-icon {
-    color: #6b7b9a;
+    color: #896b9a;
     pointer-events: none;
 }
 
 .login-form-panel .password-visibility {
     border: 0;
     background: transparent;
-    color: #627391;
+    color: #806291;
 }
 
-.login-form-panel .btn-primary {
-    border-radius: 9px;
-    font-size: 15px;
-    background: var(--primary-button-background);
-    box-shadow: none;
-}
+    .login-form-panel .btn-primary {
+        border-radius: 9px;
+        font-size: 15px;
+        background: linear-gradient(
+            125deg,
+            var(--primary-button-background),
+            var(--primary-button-end-background)
+        );
+        box-shadow: none;
+    }
 
-.login-form-panel .btn-primary:hover:not(:disabled) {
-    background: var(--primary-button-hover-background);
+    .login-form-panel .btn-primary:hover:not(:disabled) {
+        background: linear-gradient(
+            125deg,
+            var(--primary-button-hover-background),
+            var(--primary-button-background)
+        );
 }
 
 .login-form-panel .demo-credentials {
@@ -1092,10 +1133,10 @@ select:focus-visible {
 
 .demo-account-card {
     min-width: 0;
-    border: 1px solid #e6edf6;
+    border: 1px solid #f0e6f6;
     border-radius: 11px;
     background: #fff;
-    color: #536486;
+    color: #735386;
     font-size: 12px;
 }
 
@@ -1107,13 +1148,13 @@ select:focus-visible {
 }
 
 .demo-account-icon-student {
-    background: #e8efff;
-    color: #315fe0;
+    background: #f7e8ff;
+    color: #a031e0;
 }
 
 .demo-account-icon-admin {
-    background: #ddf8f0;
-    color: #09a56d;
+    background: #edddf8;
+    color: #6409a5;
 }
 
 .login-form-panel .spinner {
@@ -1127,7 +1168,7 @@ select:focus-visible {
 }
 
 .login-product-name {
-    color: #15336d;
+    color: #4d156d;
     font:
         800 24px Manrope,
         sans-serif;
@@ -1135,160 +1176,165 @@ select:focus-visible {
 }
 
 .login-product-by {
-    color: #667795;
+    color: #846695;
     font-size: 12px;
 }
 
 body.theme-light {
-    color: #253329;
-    background: #f3f6f1;
-    --page-background-color: #f3f6f1;
+    color: #2d2533;
+    background: #f4f1f6;
+    --page-background-color: #f4f1f6;
     --panel-background-color: #fff;
-    --secondary-panel-background-color: #f1f5ef;
-    --border-color: #d9e3d9;
-    --muted-text-color: #667669;
-    --brand-primary-color: #367e59;
-    --primary-button-background: #347b57;
-    --primary-button-hover-background: #286747;
-    --outline-button-background: #f2f7f1;
-    --outline-button-border-color: #c6d8c7;
-    --outline-button-text-color: #356e4d;
-    --outline-button-hover-background: #e7f1e7;
-    --progress-ring-fill-color: #438e62;
-    --progress-ring-track-color: #dce7dc;
+    --secondary-panel-background-color: #f3eff5;
+    --border-color: #dfd9e3;
+    --muted-text-color: #6f6676;
+    --brand-primary-color: #6845ab;
+    --primary-button-background: #704bbc;
+    --primary-button-hover-background: #5c3ca0;
+    --primary-button-end-background: #553897;
+    --outline-button-background: #f5f1f7;
+    --outline-button-border-color: #d1c6d8;
+    --outline-button-text-color: #56356e;
+    --outline-button-hover-background: #ede7f1;
+    --progress-ring-fill-color: #278a77;
+    --progress-ring-track-color: #d8e9e3;
+    --success-color: #278a77;
+    --success-button-hover-background: #1d7465;
+    --warning-color: #a76a10;
+    --error-color: #c3424b;
     --login-brand-panel-background: linear-gradient(
         145deg,
-        #edf4ee,
-        #e8f0e7 68%,
-        #edf1e4
+        #f1edf4,
+        #ece7f0 68%,
+        #ece4f1
     );
-    --navbar-app-name-color: #26382b;
-    --navbar-user-name-color: #293a2f;
+    --navbar-app-name-color: #312638;
+    --navbar-user-name-color: #33293a;
     --navbar-user-email-color: #718173;
-    --welcome-title-color: #25362a;
-    --welcome-subtitle-color: #657668;
-    --stat-value-color: #28392d;
+    --welcome-title-color: #2f2536;
+    --welcome-subtitle-color: #6f6576;
+    --stat-value-color: #322839;
     --stat-label-color: #718173;
-    --stat-icon-background-color: #e8f0e7;
-    --stat-icon-green-background-color: #e3f1e6;
+    --stat-icon-background-color: #ece7f0;
+    --stat-icon-green-background-color: #e2f2ed;
     --stat-icon-amber-background-color: #f6efdd;
     --stat-icon-red-background-color: #f7e8e5;
     --stat-icon-purple-background-color: #edeae1;
-    --assignment-title-color: #26382c;
-    --assignment-description-color: #67796a;
-    --assignment-footer-border-color: #e1e8df;
-    --assignment-meta-color: #687969;
-    --submitted-chip-text-color: #287449;
-    --filter-tab-text-color: #667669;
-    --filter-count-background-color: #e8efe6;
-    --progress-track-background-color: #e0e9df;
+    --assignment-title-color: #312638;
+    --assignment-description-color: #726779;
+    --assignment-footer-border-color: #e4dfe8;
+    --assignment-meta-color: #726879;
+    --submitted-chip-text-color: #26796a;
+    --filter-tab-text-color: #6f6676;
+    --filter-count-background-color: #ebe6ef;
+    --progress-track-background-color: #e5dfe9;
     --submission-description-color: #718173;
     --empty-state-text-color: #718173;
-    --student-row-name-color: #34483a;
+    --student-row-name-color: #403448;
     --student-row-muted-color: #718173;
     --student-submission-time-color: #718173;
-    --student-row-progress-color: #367e59;
-    --modal-overlay-background: #1d2d2266;
-    --modal-title-color: #26382c;
-    --modal-body-color: #667669;
-    --modal-strong-color: #314435;
-    --field-label-color: #435849;
+    --student-row-progress-color: #278a77;
+    --modal-overlay-background: #261d2d66;
+    --modal-title-color: #312638;
+    --modal-body-color: #6f6676;
+    --modal-strong-color: #3c3144;
+    --field-label-color: #4f4358;
     --field-placeholder-color: #8b9a8c;
     --select-option-background-color: #fff;
-    --button-ghost-hover-background: #edf4ec;
+    --button-ghost-hover-background: #f1ecf4;
     --logout-button-text-color: #9e4b47;
     --logout-button-border-color: #e5c9c6;
     --logout-button-background: #fff9f8;
     --button-logout-hover-color: #a84745;
     --logout-button-hover-background: #f8e9e7;
-    --login-title-background-image: linear-gradient(100deg, #26382c, #367e59);
-    --login-subtitle-color: #667669;
+    --login-title-background-image: linear-gradient(100deg, #312638, #60367e);
+    --login-subtitle-color: #6f6676;
     --progress-ring-center-background: #fff;
-    --demo-credentials-title-color: #5f735f;
-    --demo-credentials-background: #f6f8f4;
-    --demo-credentials-border-color: #d9e3d9;
-    --login-demo-credentials-background: #f5f8f4;
-    --login-demo-credentials-border-color: #e2e9e0;
-    --login-demo-credentials-title-color: #27382d;
-    --toggle-students-hover-background: #e7f1e7;
+    --demo-credentials-title-color: #6b5f73;
+    --demo-credentials-background: #f6f4f8;
+    --demo-credentials-border-color: #dfd9e3;
+    --login-demo-credentials-background: #f6f4f8;
+    --login-demo-credentials-border-color: #e5e0e9;
+    --login-demo-credentials-title-color: #312738;
+    --toggle-students-hover-background: #ede7f1;
     --body-background-image:
-        radial-gradient(ellipse at 85% 0%, #e7eee3 0, transparent 38%), #f3f6f1;
+        radial-gradient(ellipse at 85% 0%, #e9e3ee 0, transparent 38%), #f4f1f6;
     color-scheme: light;
 
     .login-layout {
         background: #fff;
-        border-color: #dce5f0;
+        border-color: #e9dcf0;
     }
 
     .login-illustration-orbit {
-        border-color: #4c83c526;
+        border-color: #994cc526;
         box-shadow:
-            0 0 0 28px #4c83c50a,
-            0 0 0 58px #4c83c508;
+            0 0 0 28px #994cc50a,
+            0 0 0 58px #994cc508;
     }
 
     .login-illustration-card {
         background: #ffffffed;
-        border-color: #d8e4f3;
-        box-shadow: 0 18px 48px #344c6818;
+        border-color: #e9d8f3;
+        box-shadow: 0 18px 48px #55346818;
     }
 
     .navbar {
-        background: #fbfcf9ed;
-        border-color: #d9e3d9;
+        background: #fbf9fced;
+        border-color: #dfd9e3;
     }
 
     .navbar-mobile-menu {
         background: #fff;
-        border-color: #e1e8f0;
+        border-color: #ebe1f0;
     }
 
     .theme-toggle {
-        background: #f1f5ef;
-        border-color: #d4dfd2;
-        color: #526655;
+        background: #f3eff5;
+        border-color: #dad2df;
+        color: #5e5266;
     }
 
     .navbar-hamburger {
-        background: #f1f5ef;
-        color: #34483a;
-        border-color: #d4dfd2;
+        background: #f3eff5;
+        color: #403448;
+        border-color: #dad2df;
     }
 
     .welcome-banner {
-        background: linear-gradient(115deg, #e8f1e7, #f3f0e5 62%, #e8f2e8);
-        border-color: #d7e3d6;
+        background: linear-gradient(115deg, #ede7f1, #f3f0e5 62%, #eee8f2);
+        border-color: #ded6e3;
     }
 
     .stat-card,
     .overall-progress-card {
         background: #fff;
-        border-color: #dfe7dc;
-        box-shadow: 0 4px 14px #304c3510;
+        border-color: #e2dce7;
+        box-shadow: 0 4px 14px #40304c10;
     }
 
     .asgn-card,
     .admin-card {
         background: #fff;
-        border-color: #dfe7dc;
-        box-shadow: 0 4px 14px #304c3510;
+        border-color: #e2dce7;
+        box-shadow: 0 4px 14px #40304c10;
     }
 
     .asgn-card:hover,
     .admin-card:hover {
-        border-color: #b7cbb7;
-        box-shadow: 0 8px 22px #304c3518;
+        border-color: #c3b7cb;
+        box-shadow: 0 8px 22px #40304c18;
     }
 
     .subject-chip {
-        color: #356e4d;
-        background: #edf4e9;
-        border-color: #d6e5d3;
+        color: #56356e;
+        background: #efe9f4;
+        border-color: #ded3e5;
     }
 
     .badge-green {
-        background: #e5f7ee;
-        color: #188451;
+        background: #e5f4ef;
+        color: #247665;
     }
 
     .badge-red {
@@ -1302,79 +1348,79 @@ body.theme-light {
     }
 
     .badge-blue {
-        background: #edf2e9;
-        color: #5a6b57;
+        background: #eee9f2;
+        color: #63576b;
     }
 
     .filter-tab-active {
-        color: #356e4d;
-        background: #eaf3e8;
-        border-color: #cddfca;
+        color: #56356e;
+        background: #eee8f3;
+        border-color: #d6cadf;
     }
 
     .search-bar {
         background: #fff;
-        border-color: #d6e0d4;
-        color: #293a2e;
+        border-color: #dbd4e0;
+        color: #33293a;
     }
 
     .spb-row {
-        background: #f7f9fc;
-        border-color: #e5ebf2;
+        background: #faf7fc;
+        border-color: #ede5f2;
     }
 
     .spb-avatar,
     .user-avatar {
-        background: #e4eee1;
-        color: #3e7651;
+        background: #e9e1ee;
+        color: #5f3e76;
     }
 
     .toggle-students-btn {
-        color: #356e4d;
-        border-color: #cbd9c9;
+        color: #56356e;
+        border-color: #d2c9d9;
     }
 
     .admin-card-actions .icon-btn {
-        color: #596a80;
-        border-color: #d8e1ec;
+        color: #725980;
+        border-color: #e5d8ec;
     }
 
     .admin-card-actions .icon-btn:hover {
-        color: #347b57;
-        border-color: #98b99c;
+        color: #5d347b;
+        border-color: #ab98b9;
     }
 
     .modal-box {
         background: #fff;
-        border-color: #dce4ee;
-        box-shadow: 0 25px 80px #1c2e4a33;
+        border-color: #e7dcee;
+        box-shadow: 0 25px 80px #391c4a33;
     }
 
     .modal-close {
-        background: #f4f7fb;
-        border-color: #dce4ee;
-        color: #63748b;
+        background: #f8f4fb;
+        border-color: #e7dcee;
+        color: #7c638b;
     }
 
     .field-input {
         background: #fff;
-        border-color: #d5deea;
-        color: #26364b;
+        border-color: #e2d5ea;
+        color: #3d264b;
     }
 
     .field-input:focus {
-        border-color: #438a60;
-        box-shadow: 0 0 0 3px #438a6022;
+        border-color: #6c438a;
+        box-shadow: 0 0 0 3px #6c438a22;
     }
 
     select.field-input option {
         background: #fff;
-        color: #26364b;
+        color: #3d264b;
     }
 
     .btn-ghost {
-        color: #526655;
-        border-color: #d0dbce;
+        color: #5e5266;
+        border-color: #d6cedb;
     }
 
     .btn-logout {
@@ -1385,12 +1431,12 @@ body.theme-light {
 
     .login-card {
         background: #ffffffed;
-        border-color: #dce5f0;
-        box-shadow: 0 28px 90px #263c5b1c;
+        border-color: #e9dcf0;
+        box-shadow: 0 28px 90px #48265b1c;
     }
 
     .login-brand-panel .login-brand-title {
-        background: linear-gradient(105deg, #354d37, #438a60);
+        background: linear-gradient(105deg, #43354d, #6c438a);
         background-clip: border-box;
         -webkit-background-clip: border-box;
         color: #fff;

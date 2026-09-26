@@ -93,7 +93,7 @@ export default function CreateAssignmentModal({ onClose }) {
                 >
                     ✕
                 </button>
-                <div className="modal-icon text-[#7eaff4]">
+                <div className="modal-icon text-[var(--brand-primary-color)]">
                     <FileText size={32} strokeWidth={1.7} />
                 </div>
                 <h2 className="modal-title">Create Assignment</h2>

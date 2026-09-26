@@ -31,7 +31,7 @@ export default function AdminDashboard() {
             ? Math.round((totalSubmissions / maxSubmissions) * 100)
             : 0;
     const overallRateColor =
-        theme === "light" ? "text-[#367e59]" : "text-[#83cba1]";
+        theme === "light" ? "text-[#60367e]" : "text-[#ad83cb]";
 
     const filtered = visibleAssignments.filter((a) => {
         return (
@@ -142,7 +142,7 @@ export default function AdminDashboard() {
                     </span>
                     <input
                         type="text"
-                        className={`search-bar ${theme === "light" ? "[&::placeholder]:text-[#8491a3]" : "[&::placeholder]:text-[#78879c]"}`}
+                        className={`search-bar ${theme === "light" ? "[&::placeholder]:text-[#9884a3]" : "[&::placeholder]:text-[#8f789c]"}`}
                         placeholder="Search assignments by title or subject…"
                         value={search}
                         onChange={handleSearchChange}
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
                 {/* ── Assignment cards ── */}
                 {filtered.length === 0 ? (
                     <div className="empty-state flex flex-col items-center gap-3">
-                        <div className="text-4xl text-[#7798c1]">
+                        <div className="text-4xl text-[#a677c1]">
                             {search ? (
                                 <SearchX size={32} strokeWidth={1.7} />
                             ) : (

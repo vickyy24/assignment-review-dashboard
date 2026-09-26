@@ -316,7 +316,7 @@ export default function StudentDashboard() {
                         <Moon size={17} aria-hidden="true" />
                     )}
                 </button>
-                <div className="hidden items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--panel-background-color)] px-2 py-1.5 sm:flex">
+                <div className="hidden items-center gap-2 rounded-full border border-[var(--border-color)] bg-[var(--panel-background-color)] px-1.5 py-1 sm:flex">
                     <div className="user-avatar grid flex-none place-items-center">
                         {currentUser.avatar}
                     </div>

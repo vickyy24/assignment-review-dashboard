@@ -32,7 +32,7 @@ export default function Navbar() {
 
                 {/* Desktop user info */}
                 <div className="hidden sm:flex max-sm:hidden items-center gap-[10px]">
-                    <div className="flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--panel-background-color)] px-2 py-1.5">
+                    <div className="flex items-center gap-2 rounded-full border border-[var(--border-color)] bg-[var(--panel-background-color)] px-1.5 py-1">
                         <div className="user-avatar grid place-items-center">
                             {currentUser.avatar}
                         </div>

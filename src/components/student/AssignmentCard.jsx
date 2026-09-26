@@ -28,7 +28,7 @@ export default function AssignmentCard({ assignment, onSubmit }) {
 
     return (
         <article
-            className={`asgn-card border-l-[3px] ${submitted ? "border-l-[#37bd8d]" : isOverdue ? "border-l-[#e35c69]" : "border-l-transparent"}`}
+            className={`asgn-card border-l-[3px] ${submitted ? "border-l-[var(--success-color)]" : isOverdue ? "border-l-[var(--error-color)]" : "border-l-transparent"}`}
         >
             {/* Subject chip */}
             <div className="flex items-center justify-between gap-2">

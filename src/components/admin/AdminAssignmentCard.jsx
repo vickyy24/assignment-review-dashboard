@@ -110,7 +110,7 @@ export default function AdminAssignmentCard({ assignment, students, onEdit }) {
                 </div>
                 <div className="progress-track h-[5px]">
                     <div
-                        className={`progress-fill ${rate === 100 ? "bg-[linear-gradient(90deg,#27ad7c,#5ad5a3)]" : ""}`}
+                        className={`progress-fill ${rate === 100 ? "bg-[linear-gradient(90deg,var(--primary-button-background),var(--success-color))]" : ""}`}
                         style={{ width: `${rate}%` }}
                     />
                 </div>

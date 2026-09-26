@@ -1,21 +1,14 @@
 import React from "react";
 import { CircleCheck, Clock3 } from "lucide-react";
-import { useApp } from "../../context/AppContext";
 
 /**
  * Per-student progress bar inside an admin assignment card.
  */
 export default function StudentProgressBar({ student, submission }) {
-    const { theme } = useApp();
     const submitted = submission?.submitted;
-    const statusColor =
-        theme === "light"
-            ? submitted
-                ? "text-[#188451]"
-                : "text-[#a76a10]"
-            : submitted
-              ? "text-[#80d4a2]"
-              : "text-[#e7b86c]";
+    const statusColor = submitted
+        ? "text-[var(--success-color)]"
+        : "text-[var(--warning-color)]";
     const submittedAt = submission?.submittedAt
         ? new Date(submission.submittedAt).toLocaleDateString("en-IN", {
               month: "short",
@@ -51,7 +44,7 @@ export default function StudentProgressBar({ student, submission }) {
                 {/* Progress bar: 100% if submitted, 0% if not */}
                 <div className="progress-track h-1">
                     <div
-                        className={`progress-fill ${submitted ? "bg-[linear-gradient(90deg,#347b57,#70bd94)]" : "bg-[#526454]"}`}
+                        className={`progress-fill ${submitted ? "bg-[linear-gradient(90deg,var(--primary-button-background),var(--success-color))]" : "bg-[var(--progress-track-background-color)]"}`}
                         style={{ width: submitted ? "100%" : "0%" }}
                     />
                 </div>

@@ -93,7 +93,7 @@ export default function EditAssignmentModal({ assignment, onClose }) {
                 >
                     ✕
                 </button>
-                <div className="modal-icon text-[#7eaff4]">
+                <div className="modal-icon text-[var(--brand-primary-color)]">
                     <Pencil size={30} strokeWidth={1.7} />
                 </div>
                 <h2 className="modal-title">Edit Assignment</h2>

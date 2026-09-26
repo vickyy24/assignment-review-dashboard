@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useApp } from "../context/AppContext";
+import Button from "../components/ui/Button";
 import Navbar from "../components/Navbar";
 import AdminAssignmentCard from "../components/admin/AdminAssignmentCard";
 import CreateAssignmentModal from "../components/admin/CreateAssignmentModal";
@@ -79,12 +80,13 @@ export default function AdminDashboard() {
                             progress.
                         </p>
                     </div>
-                    <button
-                        className="btn-primary btn-create inline-flex items-center justify-center gap-2"
+                    <Button
+                        variant="primary"
+                        className="btn-create inline-flex items-center justify-center gap-2"
                         onClick={handleOpenCreate}
                     >
                         <span>＋</span> New Assignment
-                    </button>
+                    </Button>
                 </section>
 
                 {/* ── Stats row ── */}
@@ -166,12 +168,13 @@ export default function AdminDashboard() {
                                 : "No assignments yet. Create one!"}
                         </p>
                         {!search && (
-                            <button
-                                className="btn-primary inline-flex items-center justify-center gap-2"
+                            <Button
+                                variant="primary"
+                                className="inline-flex items-center justify-center gap-2"
                                 onClick={handleOpenCreate}
                             >
                                 Create Assignment
-                            </button>
+                            </Button>
                         )}
                     </div>
                 ) : (

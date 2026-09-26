@@ -83,6 +83,14 @@ export const INITIAL_ASSIGNMENTS = [
         createdAt: "2026-09-20",
         subject: "Data Structures",
         maxMarks: 100,
+        materials: [
+            {
+                type: "text",
+                title: "Written instructions",
+                content:
+                    "Implement insert, search, and delete operations. Include your complexity analysis and test cases.",
+            },
+        ],
         submissions: {
             "student-1": {
                 submitted: true,
@@ -107,6 +115,18 @@ export const INITIAL_ASSIGNMENTS = [
         createdAt: "2026-09-21",
         subject: "Operating Systems",
         maxMarks: 50,
+        materials: [
+            {
+                type: "pdf",
+                title: "Scheduling reference.pdf",
+                url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+            },
+            {
+                type: "file",
+                title: "Process results.csv",
+                url: "https://drive.google.com/drive/folders/sample2",
+            },
+        ],
         submissions: {
             "student-1": { submitted: false, submittedAt: null },
             "student-2": {
@@ -131,6 +151,13 @@ export const INITIAL_ASSIGNMENTS = [
         createdAt: "2026-09-18",
         subject: "Database Management",
         maxMarks: 75,
+        materials: [
+            {
+                type: "file",
+                title: "ER diagram source.sql",
+                url: "https://drive.google.com/drive/folders/sample3",
+            },
+        ],
         submissions: {
             "student-1": {
                 submitted: true,
@@ -158,9 +185,44 @@ export const INITIAL_ASSIGNMENTS = [
         createdAt: "2026-09-22",
         subject: "Computer Networks",
         maxMarks: 60,
+        materials: [
+            {
+                type: "file",
+                title: "Network capture.pcapng",
+                url: "https://drive.google.com/drive/folders/sample4",
+            },
+        ],
         submissions: {
             "student-1": { submitted: false, submittedAt: null },
             "student-2": { submitted: false, submittedAt: null },
+            "student-3": { submitted: false, submittedAt: null },
+            "student-4": { submitted: false, submittedAt: null },
+        },
+    },
+    {
+        id: "asgn-5",
+        title: "Web Development Mini Project",
+        description:
+            "Build a responsive web page and submit a short project summary before the deadline.",
+        dueDate: "2026-09-28",
+        createdBy: "admin-1",
+        createdAt: "2026-09-24",
+        subject: "Web Development",
+        maxMarks: 50,
+        materials: [
+            {
+                type: "text",
+                title: "Project requirements",
+                content:
+                    "Submit your source code and a brief README describing how to run the project.",
+            },
+        ],
+        submissions: {
+            "student-1": { submitted: false, submittedAt: null },
+            "student-2": {
+                submitted: true,
+                submittedAt: "2026-09-25T12:00:00Z",
+            },
             "student-3": { submitted: false, submittedAt: null },
             "student-4": { submitted: false, submittedAt: null },
         },

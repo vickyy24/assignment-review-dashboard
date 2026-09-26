@@ -11,25 +11,15 @@ export default function AssignmentCard({ assignment, onSubmit }) {
     const submitted = mySubmission?.submitted;
 
     const due = new Date(dueDate);
-    const now = new Date();
-    const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
-    const isOverdue = !submitted && diffDays < 0;
-    const isDueSoon = !submitted && diffDays >= 0 && diffDays <= 3;
+    const isOverdue = !submitted && due < new Date();
 
     const dueBadge = submitted
         ? { label: "Submitted", cls: "badge-green" }
-        : isOverdue
-          ? { label: "Overdue", cls: "badge-red" }
-          : isDueSoon
-            ? { label: `Due in ${diffDays}d`, cls: "badge-amber" }
-            : {
-                  label: `Due ${due.toLocaleDateString("en-IN", { month: "short", day: "numeric" })}`,
-                  cls: "badge-blue",
-              };
+        : { label: "Pending", cls: "badge-amber" };
 
     return (
         <article
-            className={`asgn-card border-l-[3px] ${submitted ? "border-l-[var(--success-color)]" : isOverdue ? "border-l-[var(--error-color)]" : "border-l-transparent"}`}
+            className={`asgn-card border-l-[3px] ${submitted ? "border-l-[var(--success-color)]" : "border-l-transparent"}`}
         >
             {/* Subject chip */}
             <div className="flex items-center justify-between gap-2">
@@ -90,7 +80,7 @@ export default function AssignmentCard({ assignment, onSubmit }) {
                             {isOverdue ? (
                                 <>
                                     <CircleAlert size={14} aria-hidden="true" />{" "}
-                                    Overdue
+                                    Submission closed
                                 </>
                             ) : (
                                 "Submit Assignment"

@@ -5,6 +5,7 @@ import { USERS, INITIAL_ASSIGNMENTS } from "../data/mockData";
 //  Context
 // ──────────────────────────────────────────────
 const AppContext = createContext(null);
+const ASSIGNMENT_EXAMPLES_MIGRATION_KEY = "eduboard_assignment_examples_v1";
 
 function hasSubmissionContent(submission) {
     if (!submission || typeof submission !== "object") {
@@ -60,6 +61,46 @@ function normalizeAssignmentSubmissions(assignments) {
     });
 }
 
+function mergeInitialAssignments(savedAssignments, addExampleAssignment) {
+    const savedAssignmentsById = new Map(
+        savedAssignments.map((assignment) => {
+            return [assignment.id, assignment];
+        }),
+    );
+    const mergedAssignments = savedAssignments.map((savedAssignment) => {
+        const initialAssignment = INITIAL_ASSIGNMENTS.find((assignment) => {
+            return assignment.id === savedAssignment.id;
+        });
+
+        if (!initialAssignment) {
+            return savedAssignment;
+        }
+
+        return {
+            ...initialAssignment,
+            ...savedAssignment,
+            materials:
+                savedAssignment.materials === undefined
+                    ? initialAssignment.materials
+                    : savedAssignment.materials,
+        };
+    });
+
+    if (
+        addExampleAssignment &&
+        !savedAssignmentsById.has("asgn-5")
+    ) {
+        const exampleAssignment = INITIAL_ASSIGNMENTS.find((assignment) => {
+            return assignment.id === "asgn-5";
+        });
+        if (exampleAssignment) {
+            mergedAssignments.push(exampleAssignment);
+        }
+    }
+
+    return mergedAssignments;
+}
+
 function getInitialTheme() {
     try {
         return localStorage.getItem("eduboard_theme") || "dark";
@@ -95,8 +136,14 @@ export function AppProvider({ children }) {
     const [assignments, setAssignments] = useState(() => {
         try {
             const saved = localStorage.getItem("eduboard_assignments");
+            const hasMigratedAssignmentExamples = localStorage.getItem(
+                ASSIGNMENT_EXAMPLES_MIGRATION_KEY,
+            );
             const assignmentsToNormalize = saved
-                ? JSON.parse(saved)
+                ? mergeInitialAssignments(
+                      JSON.parse(saved),
+                      !hasMigratedAssignmentExamples,
+                  )
                 : INITIAL_ASSIGNMENTS;
             return normalizeAssignmentSubmissions(assignmentsToNormalize);
         } catch {
@@ -118,6 +165,7 @@ export function AppProvider({ children }) {
             "eduboard_assignments",
             JSON.stringify(assignments),
         );
+        localStorage.setItem(ASSIGNMENT_EXAMPLES_MIGRATION_KEY, "true");
     }, [assignments]);
 
     // ── Auth actions ──────────────────────────

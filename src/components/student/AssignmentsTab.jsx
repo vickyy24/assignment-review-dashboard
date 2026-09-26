@@ -2,12 +2,11 @@ import React from "react";
 import { CalendarDays, FileText } from "lucide-react";
 import Button from "../ui/Button";
 
-const statusFilters = ["All", "Pending", "Submitted", "Not Started"];
+const statusFilters = ["All", "Pending", "Submitted"];
 const filterBadgeClassNames = {
     All: "bg-[var(--outline-button-hover-background)] text-[var(--brand-primary-color)]",
     Pending: "bg-[var(--stat-icon-amber-background-color)] text-[var(--warning-color)]",
     Submitted: "bg-[var(--stat-icon-green-background-color)] text-[var(--success-color)]",
-    "Not Started": "bg-[var(--stat-icon-purple-background-color)] text-[var(--muted-text-color)]",
 };
 
 export default function AssignmentsTab({
@@ -26,7 +25,7 @@ export default function AssignmentsTab({
             return true;
         }
         if (selectedFilter === "Pending") {
-            return status === "Pending" || status === "Overdue";
+            return status === "Pending";
         }
         return status === selectedFilter;
     });

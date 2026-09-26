@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useApp } from "../../context/AppContext";
 import StudentProgressBar from "./StudentProgressBar";
+import Button from "../ui/Button";
 import { CalendarDays, Link2, Pencil, Trash2, TriangleAlert } from "lucide-react";
 
 export default function AdminAssignmentCard({ assignment, students, onEdit }) {
@@ -47,15 +48,17 @@ export default function AdminAssignmentCard({ assignment, students, onEdit }) {
                     )}
                 </div>
                 <div className="admin-card-actions flex items-center gap-2 flex-wrap">
-                    <button
+                    <Button
+                        variant="plain"
                         className="icon-btn icon-btn-edit inline-flex items-center justify-center gap-2"
                         onClick={onEdit}
                         data-assignment-id={assignment.id}
                         aria-label="Edit assignment"
                     >
                         <Pencil size={14} aria-hidden="true" />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant="plain"
                         className={`icon-btn inline-flex items-center justify-center gap-2 ${confirmDelete ? "icon-btn-confirm animate-pulse" : "icon-btn-delete"}`}
                         onClick={handleDelete}
                         aria-label="Delete assignment"
@@ -68,7 +71,7 @@ export default function AdminAssignmentCard({ assignment, students, onEdit }) {
                         ) : (
                             <Trash2 size={14} aria-hidden="true" />
                         )}
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -117,13 +120,14 @@ export default function AdminAssignmentCard({ assignment, students, onEdit }) {
             </div>
 
             {/* Toggle student list */}
-            <button
+            <Button
+                variant="plain"
                 className="toggle-students-btn self-start hover:bg-[var(--toggle-students-hover-background)]"
                 onClick={handleToggleStudents}
                 aria-expanded={expanded}
             >
                 {expanded ? "▲ Hide" : "▼ View"} student status
-            </button>
+            </Button>
 
             {expanded && (
                 <div className="flex flex-col gap-[7px]">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "../../context/AppContext";
 import { CircleCheck, FileText } from "lucide-react";
+import Button from "../ui/Button";
 import { HTTP_URL_REGEX } from "../../utils/validation";
 
 const SUBJECTS = [
@@ -21,6 +22,7 @@ export default function CreateAssignmentModal({ onClose }) {
         description: "",
         subject: SUBJECTS[0],
         dueDate: "",
+        pdfLink: "",
         driveLink: "",
         maxMarks: 100,
     });
@@ -39,6 +41,8 @@ export default function CreateAssignmentModal({ onClose }) {
         if (!form.title.trim()) e.title = "Title is required";
         if (!form.description.trim()) e.description = "Description is required";
         if (!form.dueDate) e.dueDate = "Due date is required";
+        if (form.pdfLink && !HTTP_URL_REGEX.test(form.pdfLink.trim()))
+            e.pdfLink = "Enter a valid PDF URL";
         if (form.driveLink && !HTTP_URL_REGEX.test(form.driveLink.trim()))
             e.driveLink = "Enter a valid URL";
         return e;
@@ -86,13 +90,14 @@ export default function CreateAssignmentModal({ onClose }) {
                 className="modal-box relative w-full max-w-[570px] max-h-screen overflow-auto p-[27px] text-left max-sm:p-[1.5rem_1.25rem]"
                 onClick={handleDialogClick}
             >
-                <button
+                <Button
+                    variant="plain"
                     className="modal-close absolute right-3 top-3 h-[30px] w-[30px]"
                     onClick={onClose}
                     aria-label="Close"
                 >
                     ✕
-                </button>
+                </Button>
                 <div className="modal-icon text-[var(--brand-primary-color)]">
                     <FileText size={32} strokeWidth={1.7} />
                 </div>
@@ -164,32 +169,46 @@ export default function CreateAssignmentModal({ onClose }) {
                         </Field>
                     </div>
 
-                    <Field
-                        label="Google Drive Link (optional)"
-                        error={errors.driveLink}
-                    >
-                        <input
-                            type="text"
-                            inputMode="url"
-                            className={`field-input placeholder:text-[var(--field-placeholder-color)]${errors.driveLink ? " border-[var(--error-color)]" : ""}`}
-                            name="driveLink"
-                            value={form.driveLink}
-                            onChange={handleFieldChange}
-                            placeholder="https://drive.google.com/…"
-                        />
-                    </Field>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <Field label="PDF Link (optional)" error={errors.pdfLink}>
+                            <input
+                                type="text"
+                                inputMode="url"
+                                className={`field-input placeholder:text-[var(--field-placeholder-color)]${errors.pdfLink ? " border-[var(--error-color)]" : ""}`}
+                                name="pdfLink"
+                                value={form.pdfLink}
+                                onChange={handleFieldChange}
+                                placeholder="https://…/assignment.pdf"
+                            />
+                        </Field>
+                        <Field
+                            label="Google Drive Link (optional)"
+                            error={errors.driveLink}
+                        >
+                            <input
+                                type="text"
+                                inputMode="url"
+                                className={`field-input placeholder:text-[var(--field-placeholder-color)]${errors.driveLink ? " border-[var(--error-color)]" : ""}`}
+                                name="driveLink"
+                                value={form.driveLink}
+                                onChange={handleFieldChange}
+                                placeholder="https://drive.google.com/…"
+                            />
+                        </Field>
+                    </div>
 
                     <div className="flex flex-wrap justify-end gap-[9px] mt-[5px]">
-                        <button
-                            type="button"
-                            className="btn-ghost hover:bg-[var(--button-ghost-hover-background)] inline-flex items-center justify-center gap-2"
+                        <Button
+                            variant="ghost"
+                            className="hover:bg-[var(--button-ghost-hover-background)] inline-flex items-center justify-center gap-2"
                             onClick={onClose}
                         >
                             Cancel
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant="primary"
                             type="submit"
-                            className="btn-primary inline-flex items-center justify-center gap-2"
+                            className="inline-flex items-center justify-center gap-2"
                             disabled={loading}
                         >
                             {loading ? (
@@ -200,7 +219,7 @@ export default function CreateAssignmentModal({ onClose }) {
                                     Create Assignment
                                 </>
                             )}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

@@ -40,8 +40,11 @@ export default function AssignmentDetailsModal({
     onStartSubmission,
 }) {
     const materials = getAssignmentMaterials(assignment);
-    const isSubmitted = assignment.mySubmission?.submitted;
-    const isOverdue = status.label === "Overdue";
+    const submission = assignment.mySubmission;
+    const isSubmitted = submission?.submitted;
+    const isOverdue =
+        !isSubmitted &&
+        new Date(`${assignment.dueDate}T23:59:59`) < new Date();
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -89,11 +92,9 @@ export default function AssignmentDetailsModal({
                             </h2>
                         </div>
                     </div>
-                    {status.label !== "Not Started" && (
-                        <span className={`badge ${status.className}`}>
-                            {status.label}
-                        </span>
-                    )}
+                    <span className={`badge ${status.className}`}>
+                        {status.label}
+                    </span>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -126,7 +127,7 @@ export default function AssignmentDetailsModal({
                 </div>
 
                 <div className="mt-5 rounded-lg border border-[var(--border-color)] p-4">
-                    <h3 className="asgn-card-title m-0">Assignment material</h3>
+                    <h3 className="asgn-card-title m-0">Materials from your instructor</h3>
                     {materials.length > 0 ? (
                         <div className="mt-3 space-y-3">
                             {materials.map((material, index) => {
@@ -134,6 +135,7 @@ export default function AssignmentDetailsModal({
                                     material.type || "link",
                                 ).toLowerCase();
                                 const isText = materialType === "text";
+                                const isFile = materialType === "file";
                                 const isPdf =
                                     materialType === "pdf" ||
                                     /\.pdf(?:$|[?#])/i.test(
@@ -145,7 +147,9 @@ export default function AssignmentDetailsModal({
                                         ? "Text material"
                                         : isPdf
                                           ? "PDF document"
-                                          : "Drive link");
+                                          : isFile
+                                            ? "Attached file"
+                                            : "Drive link");
 
                                 return (
                                     <div
@@ -154,7 +158,7 @@ export default function AssignmentDetailsModal({
                                     >
                                         <div className="min-w-0 flex-1">
                                             <p className="stat-label m-0 inline-flex items-center gap-2">
-                                                {isText || isPdf ? (
+                                                {isText || isPdf || isFile ? (
                                                     <FileText
                                                         size={16}
                                                         aria-hidden="true"
@@ -180,7 +184,12 @@ export default function AssignmentDetailsModal({
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                             >
-                                                Open {isPdf ? "PDF" : "link"}
+                                                Open{" "}
+                                                {isPdf
+                                                    ? "PDF"
+                                                    : isFile
+                                                      ? "file"
+                                                      : "link"}
                                                 <ExternalLink
                                                     size={14}
                                                     aria-hidden="true"
@@ -199,6 +208,48 @@ export default function AssignmentDetailsModal({
                     )}
                 </div>
 
+                {isSubmitted && (
+                    <div className="mt-4 rounded-lg border border-[var(--border-color)] p-4">
+                        <h3 className="asgn-card-title m-0">Your submitted work</h3>
+                        {submission.submissionType === "file" &&
+                        submission.fileName ? (
+                            <p className="modal-body mt-2 inline-flex items-center gap-2">
+                                <FileText size={16} aria-hidden="true" />
+                                <span className="break-all">
+                                    {submission.fileName}
+                                </span>
+                                <span className="stat-label whitespace-nowrap">
+                                    {submission.fileType === "application/pdf" ||
+                                    /\.pdf$/i.test(submission.fileName)
+                                        ? "PDF file"
+                                        : "Uploaded file"}
+                                </span>
+                            </p>
+                        ) : submission.submissionType === "link" &&
+                          submission.link ? (
+                            <a
+                                className="btn-outline mt-2 inline-flex items-center gap-2"
+                                href={submission.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Link2 size={15} aria-hidden="true" />
+                                Open submitted link
+                                <ExternalLink size={14} aria-hidden="true" />
+                            </a>
+                        ) : submission.submissionType === "text" &&
+                          submission.text ? (
+                            <p className="modal-body mt-2 whitespace-pre-wrap">
+                                {submission.text}
+                            </p>
+                        ) : (
+                            <p className="stat-label mt-2">
+                                Submission recorded.
+                            </p>
+                        )}
+                    </div>
+                )}
+
                 <div className="mt-6 flex flex-wrap justify-end gap-2">
                     <Button
                         variant="danger"
@@ -206,17 +257,17 @@ export default function AssignmentDetailsModal({
                     >
                         Close
                     </Button>
-                    {!isSubmitted && (
-                        <Button
-                            variant="submit"
-                            onClick={onStartSubmission}
-                            disabled={isOverdue}
-                        >
-                            {isOverdue
-                                ? "Submission closed"
-                                : "Submit Assignment"}
-                        </Button>
-                    )}
+                    <Button
+                        variant="submit"
+                        onClick={onStartSubmission}
+                        disabled={!isSubmitted && isOverdue}
+                    >
+                        {!isSubmitted && isOverdue
+                            ? "Submission closed"
+                            : isSubmitted
+                              ? "Replace Submission"
+                              : "Submit Assignment"}
+                    </Button>
                 </div>
             </section>
         </div>

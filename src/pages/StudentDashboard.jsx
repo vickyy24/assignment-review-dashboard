@@ -48,15 +48,11 @@ const formatActivityDate = (date) => {
 };
 
 function getAssignmentStatus(assignment) {
-    if (assignment.mySubmission.submitted)
+    if (assignment.mySubmission.submitted) {
         return { label: "Submitted", className: "badge-green" };
-    const dueDate = new Date(`${assignment.dueDate}T23:59:59`);
-    if (dueDate < new Date())
-        return { label: "Overdue", className: "badge-red" };
-    if (dueDate.getTime() - Date.now() <= 3 * 24 * 60 * 60 * 1000) {
-        return { label: "Pending", className: "badge-amber" };
     }
-    return { label: "Not Started", className: "badge-blue" };
+
+    return { label: "Pending", className: "badge-amber" };
 }
 
 export default function StudentDashboard() {
@@ -114,14 +110,12 @@ export default function StudentDashboard() {
             counts.All += 1;
             if (status === "Submitted") {
                 counts.Submitted += 1;
-            } else if (status === "Pending" || status === "Overdue") {
-                counts.Pending += 1;
             } else {
-                counts["Not Started"] += 1;
+                counts.Pending += 1;
             }
             return counts;
         },
-        { All: 0, Pending: 0, Submitted: 0, "Not Started": 0 },
+        { All: 0, Pending: 0, Submitted: 0 },
     );
     const upcomingAssignments = [...matchingAssignments]
         .sort((first, second) => {
@@ -523,7 +517,7 @@ export default function StudentDashboard() {
                                             key={assignment.id}
                                             className="grid grid-cols-1 items-center gap-3 py-3 md:grid-cols-12"
                                         >
-                                            <div className="flex min-w-0 items-center gap-3 md:col-span-5">
+                                            <div className="flex min-w-0 items-center gap-3 md:col-span-6">
                                                 <span className="stat-icon grid flex-none place-items-center">
                                                     <FileText
                                                         size={18}
@@ -539,7 +533,7 @@ export default function StudentDashboard() {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-2 text-sm md:col-span-2">
+                                            <div className="flex items-center gap-2 text-sm md:col-span-3">
                                                 <CalendarDays
                                                     size={16}
                                                     aria-hidden="true"
@@ -555,23 +549,13 @@ export default function StudentDashboard() {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center md:col-span-2 md:justify-center">
+                                            <div className="flex items-center md:col-span-3 md:justify-center">
                                                 <span
                                                     className={`badge ${status.className}`}
                                                 >
                                                     {status.label}
                                                 </span>
                                             </div>
-                                            <Button
-                                                variant="primary"
-                                                className="dashboard-action-button inline-flex h-[42px] w-[120px] items-center justify-center rounded-lg px-3 py-2 text-sm md:col-span-3 md:justify-self-end"
-                                                onClick={handleOpenAssignment}
-                                                data-assignment-id={
-                                                    assignment.id
-                                                }
-                                            >
-                                                View Details
-                                            </Button>
                                         </article>
                                     );
                                 })}
@@ -661,11 +645,10 @@ export default function StudentDashboard() {
                             <table className="w-full min-w-[760px] table-fixed border-collapse text-left text-sm 2xl:min-w-0">
                                 <colgroup>
                                     <col className="w-[5%]" />
-                                    <col className="w-[26%]" />
-                                    <col className="w-[19%]" />
-                                    <col className="w-[15%]" />
-                                    <col className="w-[17%]" />
+                                    <col className="w-[32%]" />
+                                    <col className="w-[21%]" />
                                     <col className="w-[18%]" />
+                                    <col className="w-[24%]" />
                                 </colgroup>
                                 <thead className="bg-[var(--secondary-panel-background-color)]">
                                     <tr className="border-b border-[var(--border-color)]">
@@ -683,9 +666,6 @@ export default function StudentDashboard() {
                                         </th>
                                         <th className="px-3 py-2.5 font-semibold">
                                             Status
-                                        </th>
-                                        <th className="px-3 py-2.5 font-semibold">
-                                            Action
                                         </th>
                                     </tr>
                                 </thead>
@@ -719,20 +699,6 @@ export default function StudentDashboard() {
                                                         >
                                                             {status.label}
                                                         </span>
-                                                    </td>
-                                                    <td className="px-3 py-2.5">
-                                                        <Button
-                                                            variant="outline"
-                                                            className="dashboard-action-button inline-flex h-[30px] w-[110px] items-center justify-center rounded-md bg-[var(--secondary-panel-background-color)] px-2 py-1 text-xs"
-                                                            onClick={
-                                                                handleOpenAssignment
-                                                            }
-                                                            data-assignment-id={
-                                                                assignment.id
-                                                            }
-                                                        >
-                                                            View Details
-                                                        </Button>
                                                     </td>
                                                 </tr>
                                             );

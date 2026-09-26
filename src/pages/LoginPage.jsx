@@ -36,9 +36,13 @@ export default function LoginPage() {
       <div className="blob blob-3 animate-float" />
 
       <main className="login-card login-layout grid-cols-1 md:grid-cols-2 h-[calc(100svh-2rem)] min-h-0 max-md:h-auto max-md:max-h-none max-md:overflow-visible max-md:max-w-[520px]">
-        <section className="login-brand-panel max-md:min-h-0 max-md:px-[30px] max-md:pt-7 max-md:pb-5 max-sm:px-5 max-sm:pt-6 max-sm:pb-4" aria-label="Joineazy Assignment and Review Dashboard">
+        <section className="login-brand-panel max-md:min-h-0 max-md:px-[30px] max-md:pt-7 max-md:pb-5 max-sm:px-5 max-sm:pt-6 max-sm:pb-4" aria-label="EduBoard by Joineazy">
           <div className="login-header">
-            <img className="joineazy-logo-login max-md:w-[165px] max-md:h-[42px] max-md:mb-[22px]" src="/joineazy-logo.png" alt="Joineazy" />
+            <div className="login-product-brand flex flex-wrap items-center gap-2 max-sm:gap-1">
+              <span className="login-product-name">EduBoard</span>
+              <span className="login-product-by">by</span>
+              <img className="joineazy-logo-login" src="/joineazy-logo.png" alt="Joineazy" />
+            </div>
             <h1 className="login-title login-brand-title max-md:text-4xl max-sm:text-[30px]">Learn. Build. Grow.</h1>
             <p className="login-subtitle">Assignments, progress and feedback — all in one place.</p>
           </div>

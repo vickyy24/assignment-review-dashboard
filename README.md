@@ -1,6 +1,6 @@
 # Joineazy Assignment & Review Dashboard
 
-Joineazy Frontend Intern Task 1. This progress branch contains project setup and the completed sign-in page. Student and professor dashboard pages will be added in later commits as each page is completed.
+EduBoard is Joineazy's assignment and review product. This progress branch contains project setup and the completed sign-in page. Student and professor dashboard pages will be added in later commits as each page is completed.
 
 ## Run locally
 

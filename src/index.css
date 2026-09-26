@@ -51,3 +51,8 @@
 .login-brand-title span{display:block}
 
 :root[data-theme="light"] .login-brand-panel .login-brand-title{background:linear-gradient(105deg,#1f3b72,#3479d1);background-clip:border-box;-webkit-background-clip:border-box;color:#fff;-webkit-text-fill-color:#fff}
+
+.login-product-brand{display:flex;align-items:center;gap:9px;margin-bottom:34px}
+.login-product-name{color:#15336d;font:800 24px Manrope,sans-serif;letter-spacing:-.7px}
+.login-product-by{color:#667795;font-size:12px}
+.login-product-brand .joineazy-logo-login{width:150px;height:38px;margin:0;border-radius:0;background:transparent;mix-blend-mode:multiply}

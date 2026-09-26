@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AssignmentDetailsModal from "../components/student/AssignmentDetailsModal";
 import AssignmentsTab from "../components/student/AssignmentsTab";
+import ProgressTab from "../components/student/ProgressTab";
 import SubmissionFormModal from "../components/student/SubmissionFormModal";
 import SubmissionsTab from "../components/student/SubmissionsTab";
 import Button from "../components/ui/Button";
@@ -158,7 +159,7 @@ export default function StudentDashboard() {
         },
         {
             label: "Progress",
-            target: "progress-overview",
+            target: "progress",
             Icon: ChartNoAxesColumnIncreasing,
         },
     ];
@@ -176,7 +177,11 @@ export default function StudentDashboard() {
     const handleSectionNavigation = (event) => {
         const target = event.currentTarget.dataset.target;
         setActiveSection(target);
-        if (target === "assignments" || target === "submissions") {
+        if (
+            target === "assignments" ||
+            target === "submissions" ||
+            target === "progress"
+        ) {
             window.scrollTo({ top: 0, behavior: "smooth" });
             return;
         }
@@ -429,12 +434,22 @@ export default function StudentDashboard() {
                 />
             )}
 
+            {activeSection === "progress" && (
+                <ProgressTab
+                    assignments={searchMatchedAssignments}
+                    getAssignmentStatus={getAssignmentStatus}
+                    onViewDetails={handleOpenAssignment}
+                    sidebarOpen={sidebarOpen}
+                />
+            )}
+
             <main
                 id="dashboard"
                 className={`min-w-0 scroll-mt-16 space-y-4 px-4 py-5 transition-all duration-200 ease-in-out md:px-7 md:py-7 ${sidebarOpen ? "lg:ml-60" : "lg:ml-20"}`}
                 hidden={
                     activeSection === "assignments" ||
-                    activeSection === "submissions"
+                    activeSection === "submissions" ||
+                    activeSection === "progress"
                 }
             >
                 <section className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-4">

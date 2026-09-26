@@ -318,7 +318,7 @@ export default function LoginPage() {
                                         Student
                                     </strong>
                                     <span>Vikas Sontakke</span>
-                                    <span>Email: arjun@student.edu</span>
+                                    <span>Email: vikas@student.edu</span>
                                     <span>Password: student123</span>
                                     <span>Priya</span>
                                     <span>Email: priya@student.edu</span>

@@ -5,9 +5,9 @@ export const USERS = [
     {
         id: "student-1",
         name: "Vikas Sontakke",
-        email: "arjun@student.edu",
+        email: "vikas@student.edu",
         role: "student",
-        avatar: "AM",
+        avatar: "VS",
         password: "student123",
     },
     {

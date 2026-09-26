@@ -160,7 +160,10 @@ export function AppProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(() => {
         try {
             const saved = localStorage.getItem("eduboard_user");
-            return saved ? JSON.parse(saved) : null;
+            if (!saved) return null;
+
+            const savedUser = JSON.parse(saved);
+            return USERS.find((userRecord) => userRecord.id === savedUser.id) || savedUser;
         } catch {
             return null;
         }

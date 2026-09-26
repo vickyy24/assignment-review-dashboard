@@ -32,7 +32,7 @@ Enter one of these demo accounts on the sign-in page. Credentials are displayed 
 
 | Role | Email | Password |
 | --- | --- | --- |
-| Student: Vikas Sontakke | `arjun@student.edu` | `student123` |
+| Student: Vikas Sontakke | `vikas@student.edu` | `student123` |
 | Student | `priya@student.edu` | `student123` |
 | Student | `rohit@student.edu` | `student123` |
 | Student | `sneha@student.edu` | `student123` |

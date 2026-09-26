@@ -6,6 +6,60 @@ import { USERS, INITIAL_ASSIGNMENTS } from "../data/mockData";
 // ──────────────────────────────────────────────
 const AppContext = createContext(null);
 
+function hasSubmissionContent(submission) {
+    if (!submission || typeof submission !== "object") {
+        return false;
+    }
+
+    if (
+        submission.submissionType === "file" &&
+        submission.fileName?.trim()
+    ) {
+        return true;
+    }
+
+    if (
+        submission.submissionType === "text" &&
+        submission.text?.trim()
+    ) {
+        return true;
+    }
+
+    if (submission.submissionType === "link" && submission.link) {
+        try {
+            const submissionUrl = new URL(submission.link);
+            return ["http:", "https:"].includes(submissionUrl.protocol);
+        } catch {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+function normalizeAssignmentSubmissions(assignments) {
+    return assignments.map((assignment) => {
+        const submissions = { ...(assignment.submissions || {}) };
+        const initialAssignment = INITIAL_ASSIGNMENTS.find((initialRecord) => {
+            return initialRecord.id === assignment.id;
+        });
+
+        Object.entries(initialAssignment?.submissions || {}).forEach(
+            ([studentId, initialSubmission]) => {
+                const savedSubmission = submissions[studentId];
+                if (
+                    initialSubmission.submitted &&
+                    !hasSubmissionContent(savedSubmission)
+                ) {
+                    submissions[studentId] = initialSubmission;
+                }
+            },
+        );
+
+        return { ...assignment, submissions };
+    });
+}
+
 function getInitialTheme() {
     try {
         return localStorage.getItem("eduboard_theme") || "dark";
@@ -41,9 +95,12 @@ export function AppProvider({ children }) {
     const [assignments, setAssignments] = useState(() => {
         try {
             const saved = localStorage.getItem("eduboard_assignments");
-            return saved ? JSON.parse(saved) : INITIAL_ASSIGNMENTS;
+            const assignmentsToNormalize = saved
+                ? JSON.parse(saved)
+                : INITIAL_ASSIGNMENTS;
+            return normalizeAssignmentSubmissions(assignmentsToNormalize);
         } catch {
-            return INITIAL_ASSIGNMENTS;
+            return normalizeAssignmentSubmissions(INITIAL_ASSIGNMENTS);
         }
     });
 
@@ -123,7 +180,11 @@ export function AppProvider({ children }) {
     };
 
     // ── Student submission ────────────────────
-    const submitAssignment = (assignmentId) => {
+    const submitAssignment = (assignmentId, submissionDetails = {}) => {
+        if (!hasSubmissionContent(submissionDetails)) {
+            return;
+        }
+
         setAssignments((previousAssignments) => {
             return previousAssignments.map((assignment) => {
                 if (assignment.id !== assignmentId) {
@@ -137,6 +198,7 @@ export function AppProvider({ children }) {
                         [currentUser.id]: {
                             submitted: true,
                             submittedAt: new Date().toISOString(),
+                            ...submissionDetails,
                         },
                     },
                 };

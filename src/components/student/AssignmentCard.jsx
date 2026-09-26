@@ -1,5 +1,6 @@
 import React from "react";
 import { CalendarDays, Check, CircleAlert, Link2 } from "lucide-react";
+import Button from "../ui/Button";
 
 /**
  * Individual assignment card shown to the student.
@@ -79,8 +80,9 @@ export default function AssignmentCard({ assignment, onSubmit }) {
                                 : ""}
                         </div>
                     ) : (
-                        <button
-                            className="btn-submit inline-flex items-center justify-center gap-2"
+                        <Button
+                            variant="submit"
+                            className="inline-flex items-center justify-center gap-2"
                             onClick={onSubmit}
                             data-assignment-id={assignment.id}
                             disabled={isOverdue}
@@ -91,9 +93,9 @@ export default function AssignmentCard({ assignment, onSubmit }) {
                                     Overdue
                                 </>
                             ) : (
-                                "Mark Submitted"
+                                "Submit Assignment"
                             )}
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>

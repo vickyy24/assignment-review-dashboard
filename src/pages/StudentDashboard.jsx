@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import AssignmentDetailsModal from "../components/student/AssignmentDetailsModal";
+import AssignmentsTab from "../components/student/AssignmentsTab";
+import SubmissionFormModal from "../components/student/SubmissionFormModal";
+import SubmissionsTab from "../components/student/SubmissionsTab";
+import Button from "../components/ui/Button";
 import { useApp } from "../context/AppContext";
-import SubmitModal from "../components/student/SubmitModal";
 import { Bell, CalendarDays, ChartNoAxesColumnIncreasing, ChevronDown, ClipboardCheck, FileText, GraduationCap, House, Info, LogOut, Megaphone, Moon, ChevronLeft, ChevronRight, Search, Sun } from "lucide-react";
 
 const announcements = [
@@ -61,7 +65,11 @@ export default function StudentDashboard() {
     const [search, setSearch] = useState("");
     const [subjectFilter, setSubjectFilter] = useState("All Subjects");
     const [activeSection, setActiveSection] = useState("dashboard");
+    const [assignmentStatusFilter, setAssignmentStatusFilter] =
+        useState("All");
     const [selectedAssignment, setSelectedAssignment] = useState(null);
+    const [activeSubmissionAssignment, setActiveSubmissionAssignment] =
+        useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const myAssignments = visibleAssignments.map((assignment) => {
@@ -88,15 +96,33 @@ export default function StudentDashboard() {
             }),
         ),
     ];
-    const matchingAssignments = myAssignments.filter((assignment) => {
-        const matchesSearch = `${assignment.title} ${assignment.subject}`
+    const searchMatchedAssignments = myAssignments.filter((assignment) => {
+        const matchesSearch = `${assignment.title} ${assignment.subject} ${assignment.description}`
             .toLowerCase()
             .includes(search.toLowerCase());
+        return matchesSearch;
+    });
+    const matchingAssignments = searchMatchedAssignments.filter((assignment) => {
         const matchesSubject =
             subjectFilter === "All Subjects" ||
             assignment.subject === subjectFilter;
-        return matchesSearch && matchesSubject;
+        return matchesSubject;
     });
+    const assignmentFilterCounts = myAssignments.reduce(
+        (counts, assignment) => {
+            const status = getAssignmentStatus(assignment).label;
+            counts.All += 1;
+            if (status === "Submitted") {
+                counts.Submitted += 1;
+            } else if (status === "Pending" || status === "Overdue") {
+                counts.Pending += 1;
+            } else {
+                counts["Not Started"] += 1;
+            }
+            return counts;
+        },
+        { All: 0, Pending: 0, Submitted: 0, "Not Started": 0 },
+    );
     const upcomingAssignments = [...matchingAssignments]
         .sort((first, second) => {
             return new Date(first.dueDate) - new Date(second.dueDate);
@@ -130,10 +156,10 @@ export default function StudentDashboard() {
         "rounded-xl border border-[var(--border-color)] bg-[var(--panel-background-color)]";
     const navigationItems = [
         { label: "Dashboard", target: "dashboard", Icon: House },
-        { label: "Assignments", target: "upcoming-deadlines", Icon: FileText },
+        { label: "Assignments", target: "assignments", Icon: FileText },
         {
             label: "Submissions",
-            target: "assignment-table",
+            target: "submissions",
             Icon: ClipboardCheck,
         },
         {
@@ -150,21 +176,50 @@ export default function StudentDashboard() {
     const handleSubjectChange = (event) => {
         setSubjectFilter(event.target.value);
     };
+    const handleAssignmentStatusFilterChange = (filter) => {
+        setAssignmentStatusFilter(filter);
+    };
     const handleSectionNavigation = (event) => {
         const target = event.currentTarget.dataset.target;
         setActiveSection(target);
-        document
-            .getElementById(target)
-            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (target === "assignments" || target === "submissions") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+        }
+        requestAnimationFrame(() => {
+            document
+                .getElementById(target)
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
     };
-    const handleOpenAssignment = (event) => {
+    const handleOpenAssignment = (eventOrAssignmentId) => {
+        const assignmentId =
+            typeof eventOrAssignmentId === "string"
+                ? eventOrAssignmentId
+                : eventOrAssignmentId.currentTarget.dataset.assignmentId;
         const assignment = myAssignments.find((item) => {
-            return item.id === event.currentTarget.dataset.assignmentId;
+            return item.id === assignmentId;
         });
         if (assignment) setSelectedAssignment(assignment);
     };
 
-    const handleCloseSubmit = () => {
+    const handleOpenSubmission = (assignmentId) => {
+        const assignment = myAssignments.find((item) => {
+            return item.id === assignmentId;
+        });
+        if (assignment) setActiveSubmissionAssignment(assignment);
+    };
+
+    const handleCloseSubmission = () => {
+        setActiveSubmissionAssignment(null);
+    };
+
+    const handleCloseAssignmentDetails = () => {
+        setSelectedAssignment(null);
+    };
+
+    const handleStartSubmission = () => {
+        setActiveSubmissionAssignment(selectedAssignment);
         setSelectedAssignment(null);
     };
 
@@ -177,7 +232,7 @@ export default function StudentDashboard() {
     return (
         <div className="page-root min-h-screen bg-[var(--page-background-color)] text-[var(--assignment-title-color)]">
             <aside
-                className={`navbar z-10 flex min-w-0 flex-col border-r border-[var(--border-color)] transition-all duration-200 ease-in-out lg:fixed lg:inset-y-0 lg:left-0 ${sidebarOpen ? "lg:w-60" : "lg:w-20"}`}
+                className={`z-10 flex min-w-0 flex-col border-r border-[var(--border-color)] bg-gradient-to-b from-[var(--secondary-panel-background-color)] to-[var(--panel-background-color)] transition-all duration-200 ease-in-out lg:fixed lg:inset-y-0 lg:left-0 ${sidebarOpen ? "lg:w-60" : "lg:w-20"}`}
             >
                 <div
                     className={`flex h-[70px] flex-none items-center ${sidebarOpen ? "justify-between px-5" : "justify-center px-3"}`}
@@ -199,7 +254,7 @@ export default function StudentDashboard() {
                         </span>
                     </a>
                     <button
-                        className="theme-toggle hidden h-9 w-9 flex-none items-center justify-center p-0 lg:inline-flex"
+                        className="theme-toggle sidebar-collapse-toggle hidden h-9 w-9 flex-none items-center justify-center p-0 lg:inline-flex"
                         type="button"
                         onClick={handleSidebarToggle}
                         aria-label={
@@ -210,9 +265,17 @@ export default function StudentDashboard() {
                         }
                     >
                         {sidebarOpen ? (
-                            <ChevronLeft size={18} aria-hidden="true" />
+                            <ChevronLeft
+                                className="text-[var(--error-color)]"
+                                size={18}
+                                aria-hidden="true"
+                            />
                         ) : (
-                            <ChevronRight size={18} aria-hidden="true" />
+                            <ChevronRight
+                                className="text-[var(--error-color)]"
+                                size={18}
+                                aria-hidden="true"
+                            />
                         )}
                     </button>
                 </div>
@@ -234,7 +297,7 @@ export default function StudentDashboard() {
                                         : undefined
                                 }
                                 title={sidebarOpen ? undefined : label}
-                                className={`flex flex-none items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${sidebarOpen ? "" : "lg:justify-center"} ${activeSection === target ? "bg-[var(--outline-button-hover-background)] font-semibold" : "hover:bg-[var(--secondary-panel-background-color)]"}`}
+                                className={`flex flex-none items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-all duration-200 ${sidebarOpen ? "" : "lg:justify-center"} ${activeSection === target ? "bg-gradient-to-r from-[var(--primary-button-background)] to-[var(--primary-button-end-background)] font-semibold text-white shadow-sm" : "text-[var(--muted-text-color)] hover:translate-x-0.5 hover:bg-[var(--sidebar-item-hover-background-color)] hover:text-[var(--brand-primary-color)]"}`}
                             >
                                 <Icon size={18} aria-hidden="true" />
                                 <span
@@ -301,7 +364,11 @@ export default function StudentDashboard() {
                     aria-label="View announcements"
                     title="View announcements"
                 >
-                    <Bell size={18} aria-hidden="true" />
+                    <Bell
+                        className="text-[var(--warning-color)]"
+                        size={18}
+                        aria-hidden="true"
+                    />
                 </button>
                 <button
                     type="button"
@@ -311,9 +378,17 @@ export default function StudentDashboard() {
                     title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
                 >
                     {theme === "dark" ? (
-                        <Sun size={17} aria-hidden="true" />
+                        <Sun
+                            className="text-[var(--warning-color)]"
+                            size={17}
+                            aria-hidden="true"
+                        />
                     ) : (
-                        <Moon size={17} aria-hidden="true" />
+                        <Moon
+                            className="text-[var(--brand-primary-color)]"
+                            size={17}
+                            aria-hidden="true"
+                        />
                     )}
                 </button>
                 <div className="hidden items-center gap-2 rounded-full border border-[var(--border-color)] bg-[var(--panel-background-color)] px-1.5 py-1 sm:flex">
@@ -337,9 +412,36 @@ export default function StudentDashboard() {
                 </button>
             </header>
 
+            {activeSection === "assignments" && (
+                <AssignmentsTab
+                    assignments={searchMatchedAssignments}
+                    selectedFilter={assignmentStatusFilter}
+                    filterCounts={assignmentFilterCounts}
+                    onFilterChange={handleAssignmentStatusFilterChange}
+                    onViewDetails={handleOpenAssignment}
+                    getAssignmentStatus={getAssignmentStatus}
+                    formatDueDate={formatDueDate}
+                    sidebarOpen={sidebarOpen}
+                />
+            )}
+
+            {activeSection === "submissions" && (
+                <SubmissionsTab
+                    assignments={searchMatchedAssignments}
+                    onViewDetails={handleOpenAssignment}
+                    onSubmitAssignment={handleOpenSubmission}
+                    formatDueDate={formatDueDate}
+                    sidebarOpen={sidebarOpen}
+                />
+            )}
+
             <main
                 id="dashboard"
                 className={`min-w-0 scroll-mt-16 space-y-4 px-4 py-5 transition-all duration-200 ease-in-out md:px-7 md:py-7 ${sidebarOpen ? "lg:ml-60" : "lg:ml-20"}`}
+                hidden={
+                    activeSection === "assignments" ||
+                    activeSection === "submissions"
+                }
             >
                 <section className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-4">
                     <div className="lg:col-span-2">
@@ -433,7 +535,7 @@ export default function StudentDashboard() {
                                                         {assignment.title}
                                                     </h3>
                                                     <p className="meta-item mt-1">
-                                                        {assignment.subject}
+                                                        Subject: {assignment.subject}
                                                     </p>
                                                 </div>
                                             </div>
@@ -460,16 +562,16 @@ export default function StudentDashboard() {
                                                     {status.label}
                                                 </span>
                                             </div>
-                                            <button
-                                                type="button"
-                                                className="btn-primary inline-flex h-[42px] w-[120px] items-center justify-center rounded-lg px-3 py-2 text-sm md:col-span-3 md:justify-self-end"
+                                            <Button
+                                                variant="primary"
+                                                className="dashboard-action-button inline-flex h-[42px] w-[120px] items-center justify-center rounded-lg px-3 py-2 text-sm md:col-span-3 md:justify-self-end"
                                                 onClick={handleOpenAssignment}
                                                 data-assignment-id={
                                                     assignment.id
                                                 }
                                             >
                                                 View Details
-                                            </button>
+                                            </Button>
                                         </article>
                                     );
                                 })}
@@ -559,10 +661,10 @@ export default function StudentDashboard() {
                             <table className="w-full min-w-[760px] table-fixed border-collapse text-left text-sm 2xl:min-w-0">
                                 <colgroup>
                                     <col className="w-[5%]" />
-                                    <col className="w-[29%]" />
-                                    <col className="w-[21%]" />
+                                    <col className="w-[26%]" />
+                                    <col className="w-[19%]" />
                                     <col className="w-[15%]" />
-                                    <col className="w-[12%]" />
+                                    <col className="w-[17%]" />
                                     <col className="w-[18%]" />
                                 </colgroup>
                                 <thead className="bg-[var(--secondary-panel-background-color)]">
@@ -613,15 +715,15 @@ export default function StudentDashboard() {
                                                     </td>
                                                     <td className="px-3 py-2.5">
                                                         <span
-                                                            className={`badge ${status.className}`}
+                                                            className={`badge whitespace-nowrap ${status.className}`}
                                                         >
                                                             {status.label}
                                                         </span>
                                                     </td>
                                                     <td className="px-3 py-2.5">
-                                                        <button
-                                                            type="button"
-                                                            className="btn-outline inline-flex h-[30px] w-[110px] items-center justify-center rounded-md bg-[var(--secondary-panel-background-color)] px-2 py-1 text-xs"
+                                                        <Button
+                                                            variant="outline"
+                                                            className="dashboard-action-button inline-flex h-[30px] w-[110px] items-center justify-center rounded-md bg-[var(--secondary-panel-background-color)] px-2 py-1 text-xs"
                                                             onClick={
                                                                 handleOpenAssignment
                                                             }
@@ -630,7 +732,7 @@ export default function StudentDashboard() {
                                                             }
                                                         >
                                                             View Details
-                                                        </button>
+                                                        </Button>
                                                     </td>
                                                 </tr>
                                             );
@@ -697,9 +799,18 @@ export default function StudentDashboard() {
             </main>
 
             {selectedAssignment && (
-                <SubmitModal
+                <AssignmentDetailsModal
                     assignment={selectedAssignment}
-                    onClose={handleCloseSubmit}
+                    status={getAssignmentStatus(selectedAssignment)}
+                    onClose={handleCloseAssignmentDetails}
+                    onStartSubmission={handleStartSubmission}
+                />
+            )}
+
+            {activeSubmissionAssignment && (
+                <SubmissionFormModal
+                    assignment={activeSubmissionAssignment}
+                    onClose={handleCloseSubmission}
                 />
             )}
         </div>

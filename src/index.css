@@ -18,6 +18,8 @@
     --outline-button-border-color: #554262;
     --outline-button-text-color: #c3a9d6;
     --outline-button-hover-background: #31253a;
+    --sidebar-item-hover-background-color: #3b2d47;
+    --table-header-background-color: #302637;
     --success-color: #58c3aa;
     --success-button-hover-background: #3d9f88;
     --warning-color: #e7b86c;
@@ -65,11 +67,11 @@
     --field-placeholder-color: #807587;
     --select-option-background-color: #1d1721;
     --button-ghost-hover-background: #2e2534;
-    --logout-button-text-color: #d0a09c;
-    --logout-button-border-color: #513c39;
-    --logout-button-background: #211a19;
+    --logout-button-text-color: var(--error-color);
+    --logout-button-border-color: #704044;
+    --logout-button-background: #241819;
     --button-logout-hover-color: var(--error-color);
-    --logout-button-hover-background: #352321;
+    --logout-button-hover-background: #3a2225;
     --login-title-background-image: linear-gradient(100deg, #f3eff6, #ae8ac8);
     --login-subtitle-color: var(--muted-text-color);
     --progress-ring-center-background: #1d1721;
@@ -80,7 +82,7 @@
     --login-demo-credentials-border-color: #e5e0e9;
     --login-demo-credentials-title-color: #312738;
     --login-field-placeholder-color: #93879d;
-    --toggle-students-hover-background: transparent;
+    --toggle-students-hover-background: #31253a;
     --body-background-image:
         radial-gradient(ellipse at 85% 0%, #241a2b 0, transparent 34%), #141017;
 }
@@ -110,6 +112,12 @@ select {
 
 button {
     cursor: pointer;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
 }
 
 a {
@@ -292,6 +300,7 @@ select:focus-visible {
 .btn-ghost:hover:not(:disabled) {
     background: var(--button-ghost-hover-background);
     border-color: var(--outline-button-border-color);
+    transform: translateY(-1px);
 }
 
 .btn-outline {
@@ -305,6 +314,11 @@ select:focus-visible {
 .btn-outline:hover:not(:disabled) {
     background: var(--outline-button-hover-background);
     border-color: var(--brand-primary-color);
+    transform: translateY(-1px);
+}
+
+.dashboard-action-button {
+    font-weight: 500;
 }
 
 .btn-submit {
@@ -333,6 +347,15 @@ select:focus-visible {
     border-color: var(--error-color);
     color: var(--button-logout-hover-color);
     background: var(--logout-button-hover-background);
+    transform: translateY(-1px);
+}
+
+.btn-logout svg {
+    transition: transform 180ms ease;
+}
+
+.btn-logout:hover svg {
+    transform: translateX(2px);
 }
 
 .search-bar:focus,
@@ -668,6 +691,23 @@ select:focus-visible {
     border-radius: 10px;
     color: #f4eafa;
     font-size: 12px;
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease;
+}
+
+.search-bar:hover:not(:focus) {
+    background: var(--secondary-panel-background-color);
+    border-color: var(--brand-primary-color);
+}
+
+.search-bar:focus {
+    border-color: var(--brand-primary-color);
+}
+
+select.field-input:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
 }
 
 .empty-state {
@@ -706,6 +746,13 @@ select:focus-visible {
     font-size: 10px;
     font-weight: 700;
     padding: 7px 10px;
+}
+
+.toggle-students-btn:hover {
+    border-color: var(--brand-primary-color);
+    color: var(--brand-primary-color);
+    background: var(--toggle-students-hover-background);
+    transform: translateY(-1px);
 }
 
 .spb-row {
@@ -754,15 +801,35 @@ select:focus-visible {
 }
 
 .modal-close {
-    border: 1px solid #493455;
-    background: #2b1b35;
-    color: #c4aed0;
+    border: 1px solid var(--border-color);
+    background: var(--panel-background-color);
+    color: var(--muted-text-color);
     border-radius: 50%;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        filter 180ms ease,
+        transform 180ms ease;
+}
+
+.modal-close:hover {
+    border-color: var(--error-color);
+    background: var(--panel-background-color);
+    color: var(--error-color);
+    box-shadow: none;
+    transform: none;
 }
 
 .modal-icon {
     font-size: 34px;
     margin-bottom: 8px;
+}
+
+.theme-light .modal-close:hover {
+    border-color: var(--error-color);
+    background: var(--panel-background-color);
+    color: var(--error-color);
 }
 
 .modal-title {
@@ -819,11 +886,18 @@ select:focus-visible {
     border-radius: 8px;
     padding: 6px 9px;
     font-size: 11px;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
 }
 
 .admin-card-actions .icon-btn:hover {
     border-color: var(--brand-primary-color);
     color: var(--outline-button-text-color);
+    background: var(--outline-button-hover-background);
+    transform: translateY(-1px);
 }
 
 .theme-toggle {
@@ -841,6 +915,34 @@ select:focus-visible {
     border-color: var(--brand-primary-color);
     background: var(--outline-button-hover-background);
     color: var(--assignment-title-color);
+    box-shadow: 0 5px 12px rgb(30 20 40 / 12%);
+    transform: translateY(-1px);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+}
+
+.theme-toggle svg {
+    transition: transform 180ms ease;
+}
+
+.theme-toggle:hover svg {
+    transform: scale(1.08);
+}
+
+.sidebar-collapse-toggle {
+    border-color: var(--border-color);
+    color: var(--error-color);
+}
+
+.theme-toggle.sidebar-collapse-toggle:hover {
+    border-color: var(--brand-primary-color);
+    background: var(--secondary-panel-background-color);
+    color: var(--brand-primary-color);
+    outline: none;
+    box-shadow: none;
+    transform: none;
 }
 
 .theme-toggle-mobile {
@@ -1196,6 +1298,8 @@ body.theme-light {
     --outline-button-border-color: #d1c6d8;
     --outline-button-text-color: #56356e;
     --outline-button-hover-background: #ede7f1;
+    --sidebar-item-hover-background-color: #e5daed;
+    --table-header-background-color: #e6dbea;
     --progress-ring-fill-color: #278a77;
     --progress-ring-track-color: #d8e9e3;
     --success-color: #278a77;
@@ -1242,11 +1346,11 @@ body.theme-light {
     --field-placeholder-color: #8b9a8c;
     --select-option-background-color: #fff;
     --button-ghost-hover-background: #f1ecf4;
-    --logout-button-text-color: #9e4b47;
-    --logout-button-border-color: #e5c9c6;
-    --logout-button-background: #fff9f8;
-    --button-logout-hover-color: #a84745;
-    --logout-button-hover-background: #f8e9e7;
+    --logout-button-text-color: var(--error-color);
+    --logout-button-border-color: #e4b8bc;
+    --logout-button-background: #fffafa;
+    --button-logout-hover-color: var(--error-color);
+    --logout-button-hover-background: #f9e8ea;
     --login-title-background-image: linear-gradient(100deg, #312638, #60367e);
     --login-subtitle-color: #6f6676;
     --progress-ring-center-background: #fff;
@@ -1333,22 +1437,22 @@ body.theme-light {
     }
 
     .badge-green {
-        background: #e5f4ef;
-        color: #247665;
+        background: #a9d8c4;
+        color: #185f4c;
     }
 
     .badge-red {
-        background: #ffebed;
-        color: #c3424b;
+        background: #e8b7bd;
+        color: #a12d39;
     }
 
     .badge-amber {
-        background: #fff4df;
+        background: #f8e8c8;
         color: #a76a10;
     }
 
     .badge-blue {
-        background: #eee9f2;
+        background: #e2d9eb;
         color: #63576b;
     }
 
@@ -1397,9 +1501,9 @@ body.theme-light {
     }
 
     .modal-close {
-        background: #f8f4fb;
-        border-color: #e7dcee;
-        color: #7c638b;
+        background: var(--panel-background-color);
+        border-color: var(--border-color);
+        color: var(--muted-text-color);
     }
 
     .field-input {
@@ -1429,6 +1533,12 @@ body.theme-light {
         background: var(--logout-button-background);
     }
 
+    .btn-logout:hover {
+        color: var(--button-logout-hover-color);
+        border-color: var(--error-color);
+        background: var(--logout-button-hover-background);
+    }
+
     .login-card {
         background: #ffffffed;
         border-color: #e9dcf0;
@@ -1442,4 +1552,12 @@ body.theme-light {
         color: #fff;
         -webkit-text-fill-color: #fff;
     }
+}
+
+select.field-input:focus,
+select.field-input:focus-visible {
+    outline: none;
+    outline-offset: 0;
+    border-color: var(--brand-primary-color);
+    box-shadow: none;
 }

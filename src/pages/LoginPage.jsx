@@ -31,9 +31,9 @@ export default function LoginPage() {
   return (
     <div className="login-root p-4">
       {/* Background blobs */}
-      <div className="blob blob-1 animate-float" />
-      <div className="blob blob-2 animate-float" />
-      <div className="blob blob-3 animate-float" />
+      <div className="blob blob-1" />
+      <div className="blob blob-2" />
+      <div className="blob blob-3" />
 
       <main className="login-card login-layout grid-cols-1 md:grid-cols-2 h-[calc(100svh-2rem)] min-h-0 max-md:h-auto max-md:max-h-none max-md:overflow-visible max-md:max-w-[520px]">
         <section className="login-brand-panel max-md:min-h-0 max-md:px-[30px] max-md:pt-7 max-md:pb-5 max-sm:px-5 max-sm:pt-6 max-sm:pb-4" aria-label="EduBoard by Joineazy">

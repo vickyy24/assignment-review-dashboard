@@ -1,17 +1,12 @@
-import React, { Suspense, lazy, useMemo, useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import {
     BookOpenCheck,
-    CalendarDays,
     ChartNoAxesColumnIncreasing,
-    CheckCircle2,
     ChevronLeft,
     ChevronRight,
-    ClipboardList,
     ExternalLink,
     Eye,
     FileText,
-    GraduationCap,
-    House,
     RotateCcw,
     Search,
 } from "lucide-react";
@@ -22,9 +17,7 @@ import { useApp } from "../context/AppContext";
 import Button from "../components/ui/Button";
 
 const ProgressCharts = lazy(() => import("../components/admin/ProgressCharts"));
-
 const TEACHER_NAVIGATION = [
-    { label: "Dashboard", target: "dashboard", Icon: House },
     { label: "Assignments", target: "assignments", Icon: FileText },
     { label: "Submissions", target: "submissions", Icon: BookOpenCheck },
     { label: "Progress", target: "progress", Icon: ChartNoAxesColumnIncreasing },
@@ -43,7 +36,7 @@ export default function AdminDashboard() {
         getAllStudents,
         createAssignment,
     } = useApp();
-    const [activeSection, setActiveSection] = useState("dashboard");
+    const [activeSection, setActiveSection] = useState("assignments");
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
     const [globalSearch, setGlobalSearch] = useState("");
@@ -55,33 +48,6 @@ export default function AdminDashboard() {
 
     const students = getAllStudents();
     const assignments = visibleAssignments;
-    const submittedRows = useMemo(
-        () =>
-            assignments
-                .flatMap((assignment) =>
-                    Object.entries(assignment.submissions || {})
-                        .filter(([, submission]) => submission.submitted)
-                        .map(([studentId, submission]) => ({
-                            assignment,
-                            student: students.find((item) => item.id === studentId),
-                            submission,
-                        })),
-                )
-                .filter((row) => row.student)
-                .sort(
-                    (first, second) =>
-                        new Date(second.submission.submittedAt || 0) -
-                        new Date(first.submission.submittedAt || 0),
-                ),
-        [assignments, students],
-    );
-    const totalSubmissions = submittedRows.length;
-    const totalPossible = assignments.length * students.length;
-    const pendingCount = Math.max(0, totalPossible - totalSubmissions);
-    const completion = totalPossible
-        ? Math.round((totalSubmissions / totalPossible) * 100)
-        : 0;
-    const recentSubmissions = submittedRows.slice(0, 5);
     const filteredAssignments = assignments.filter((assignment) => {
         const matchesSearch = `${assignment.title} ${assignment.subject}`
             .toLowerCase()
@@ -119,21 +85,6 @@ export default function AdminDashboard() {
             notificationLabel="View notifications"
             roleLabel="Teacher"
         >
-            {activeSection === "dashboard" && (
-                <TeacherDashboardView
-                    assignments={assignments}
-                    students={students}
-                    totalSubmissions={totalSubmissions}
-                    totalPossible={totalPossible}
-                    pendingCount={pendingCount}
-                    completion={completion}
-                    recentSubmissions={recentSubmissions}
-                    globalSearch={globalSearch}
-                    sidebarOpen={sidebarOpen}
-                    onViewAll={() => setActiveSection("submissions")}
-                />
-            )}
-
             {activeSection === "assignments" && (
                 <TeacherAssignmentsView
                     assignments={filteredAssignments}
@@ -186,84 +137,6 @@ export default function AdminDashboard() {
                 />
             )}
         </AppLayout>
-    );
-}
-
-function TeacherDashboardView({
-    assignments,
-    students,
-    totalSubmissions,
-    totalPossible,
-    pendingCount,
-    completion,
-    recentSubmissions,
-    globalSearch,
-    sidebarOpen,
-    onViewAll,
-}) {
-    const recentRows = recentSubmissions.filter(({ student, assignment }) =>
-        `${student.name} ${assignment.title}`
-            .toLowerCase()
-            .includes(globalSearch.trim().toLowerCase()),
-    );
-
-    return (
-        <main className={`min-w-0 space-y-4 px-4 py-5 transition-all duration-200 ease-in-out md:px-7 md:py-7 ${sidebarOpen ? "lg:ml-60" : "lg:ml-20"}`}>
-            <header>
-                <h1 className="welcome-title text-[28px] max-sm:text-2xl">Dashboard</h1>
-                <p className="welcome-sub">Overview of assignments and student submissions.</p>
-            </header>
-
-            <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-label="Teaching overview">
-                <StatCard Icon={ClipboardList} label="Total Assignments" value={assignments.length} color="blue" />
-                <StatCard Icon={GraduationCap} label="Total Students" value={students.length} color="purple" />
-                <StatCard Icon={CheckCircle2} label="Total Submissions" value={totalSubmissions} color="green" />
-                <CompletionStat value={completion} />
-            </section>
-
-            <section className="grid grid-cols-1 gap-4 xl:grid-cols-[0.95fr_1.05fr]">
-                <Panel title="Submission Status">
-                    <p className="stat-label mb-4">{totalSubmissions} submitted out of {totalPossible} possible</p>
-                    <div className="flex flex-wrap items-center justify-center gap-8 py-1 sm:justify-around">
-                        <SubmissionDonut submitted={totalSubmissions} pending={pendingCount} />
-                        <div className="min-w-40 space-y-4">
-                            <Legend color="var(--success-color)" label="Submitted" value={totalSubmissions} total={totalPossible} />
-                            <Legend color="var(--warning-color)" label="Pending" value={pendingCount} total={totalPossible} />
-                        </div>
-                    </div>
-                </Panel>
-                <Panel title="Assignment Completion Trend" subtitle="Cumulative submissions over the last seven days">
-                    <CompletionTrend assignments={assignments} />
-                </Panel>
-            </section>
-
-            <Panel title="Recent Submissions" subtitle="Latest work submitted by your students" action={<button type="button" onClick={onViewAll} className="font-semibold text-[var(--brand-primary-color)] hover:underline">View All</button>}>
-                {recentRows.length ? (
-                    <div className="overflow-x-auto">
-                        <table className="w-full min-w-[540px] text-left text-sm">
-                            <thead className="bg-[var(--table-header-background-color)] text-[var(--muted-text-color)]">
-                                <tr>
-                                    <th className="px-3 py-3 font-semibold">#</th>
-                                    <th className="px-3 py-3 font-semibold">Student</th>
-                                    <th className="px-3 py-3 font-semibold">Assignment</th>
-                                    <th className="px-3 py-3 font-semibold">Submission Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {recentRows.map(({ assignment, student, submission }, index) => (
-                                    <tr key={`${assignment.id}-${student.id}`} className="border-b border-[var(--border-color)] last:border-0">
-                                        <td className="px-3 py-3">{index + 1}</td>
-                                        <td className="px-3 py-3">{student.name}</td>
-                                        <td className="px-3 py-3">{assignment.title}</td>
-                                        <td className="whitespace-nowrap px-3 py-3">{submission.submittedAt ? formatDate(submission.submittedAt.slice(0, 10)) : "—"}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ) : <p className="empty-state py-6 text-center">No student submissions yet.</p>}
-            </Panel>
-        </main>
     );
 }
 
@@ -555,8 +428,9 @@ function SubmissionDetailsModal({ record, onClose }) {
     const { assignment, student, submission } = record;
     return (
         <div className="modal-overlay fixed inset-0 z-40 grid place-items-center overflow-y-auto p-4" onClick={onClose}>
-            <section className="modal-box w-full max-w-lg p-6" role="dialog" aria-modal="true" aria-labelledby="submission-view-title" onClick={(event) => event.stopPropagation()}>
-                <div className="flex items-start justify-between gap-4">
+            <section className="modal-box relative w-full max-w-lg p-6" role="dialog" aria-modal="true" aria-labelledby="submission-view-title" onClick={(event) => event.stopPropagation()}>
+                <button type="button" className="modal-close absolute right-3 top-3 h-[30px] w-[30px]" onClick={onClose} aria-label="Close submission details">×</button>
+                <div className="flex items-start justify-between gap-4 pr-9">
                     <div><p className="stat-label mb-1">Student submission</p><h2 id="submission-view-title" className="modal-title m-0">{student.name}</h2></div>
                     <span className="badge badge-green">Submitted</span>
                 </div>
@@ -566,7 +440,7 @@ function SubmissionDetailsModal({ record, onClose }) {
                     <div><dt className="stat-label">Status</dt><dd className="mt-1 font-semibold">Submitted</dd></div>
                 </dl>
                 {submission.link && <a href={submission.link} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 inline-flex w-full items-center justify-center gap-2">Open Submission <ExternalLink size={16} aria-hidden="true" /></a>}
-                <div className="mt-5 flex justify-end"><Button type="button" variant="outline" onClick={onClose}>Close</Button></div>
+                <div className="mt-5 flex justify-end"><Button type="button" variant="outline" className="teacher-modal-dismiss" onClick={onClose}>Close</Button></div>
             </section>
         </div>
     );
@@ -634,27 +508,27 @@ function TeacherProgressView({ assignments, students, sidebarOpen, search, onVie
                 <p className="welcome-sub">View and analyze student progress for assignments.</p>
             </header>
 
-            <section className="grid grid-cols-1 items-end gap-3 rounded-xl border border-[var(--border-color)] bg-[var(--panel-background-color)] p-4 lg:grid-cols-[1fr_1fr_1fr_auto] md:p-5" aria-label="Progress filters">
+            <section className="teacher-progress-filters grid grid-cols-1 items-end gap-3 rounded-xl border border-[var(--border-color)] bg-[var(--panel-background-color)] p-4 sm:grid-cols-2 2xl:grid-cols-[repeat(3,minmax(0,1fr))_auto]" aria-label="Progress filters">
                 <FormField label="Subject">
-                    <select className="field-input" name="subject" value={draft.subject} onChange={updateDraft}>
+                    <select className="field-input teacher-progress-filter-select" name="subject" value={draft.subject} onChange={updateDraft}>
                         <option>All Subjects</option>
                         {subjects.map((subject) => <option key={subject}>{subject}</option>)}
                     </select>
                 </FormField>
                 <FormField label="Student">
-                    <select className="field-input" name="student" value={draft.student} onChange={updateDraft}>
+                    <select className="field-input teacher-progress-filter-select" name="student" value={draft.student} onChange={updateDraft}>
                         <option>All Students</option>
                         {students.map((student) => <option key={student.id} value={student.id}>{student.name}</option>)}
                     </select>
                 </FormField>
                 <FormField label="Status">
-                    <select className="field-input" name="status" value={draft.status} onChange={updateDraft}>
+                    <select className="field-input teacher-progress-filter-select" name="status" value={draft.status} onChange={updateDraft}>
                         <option>All Statuses</option>
                         <option>Submitted</option>
                         <option>Pending</option>
                     </select>
                 </FormField>
-                <div className="flex flex-wrap gap-2 lg:pb-0.5">
+                <div className="teacher-progress-filter-actions flex flex-wrap gap-2 sm:col-span-2 2xl:col-span-1">
                     <Button type="button" variant="primary" className="inline-flex items-center justify-center gap-2" onClick={applyFilters}>Apply Filters</Button>
                     <Button type="button" variant="outline" className="inline-flex items-center justify-center gap-2" onClick={resetFilters}><RotateCcw size={15} aria-hidden="true" /> Reset</Button>
                 </div>
@@ -766,8 +640,9 @@ function CompletionBar({ value }) {
 function StudentProgressModal({ record, onClose }) {
     return (
         <div className="modal-overlay fixed inset-0 z-40 grid place-items-center overflow-y-auto p-4" onClick={onClose}>
-            <section className="modal-box w-full max-w-2xl p-5 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="student-progress-title" onClick={(event) => event.stopPropagation()}>
-                <div className="flex flex-wrap items-start justify-between gap-3">
+            <section className="modal-box relative w-full max-w-2xl p-5 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="student-progress-title" onClick={(event) => event.stopPropagation()}>
+                <button type="button" className="modal-close absolute right-3 top-3 h-[30px] w-[30px]" onClick={onClose} aria-label="Close student progress">×</button>
+                <div className="flex flex-wrap items-start justify-between gap-3 pr-9">
                     <div><p className="stat-label mb-1">Progress details</p><h2 id="student-progress-title" className="modal-title m-0">{record.student.name}</h2><p className="meta-item mt-1">{record.subject}</p></div>
                     <CompletionBar value={record.completion} />
                 </div>
@@ -777,7 +652,7 @@ function StudentProgressModal({ record, onClose }) {
                         <tbody>{record.assignments.map(({ assignment, submission }) => <tr key={assignment.id} className="border-b border-[var(--border-color)] last:border-0"><td className="px-3 py-2.5">{assignment.title}</td><td className="px-3 py-2.5"><span className={`badge ${submission.submitted ? "badge-green" : "badge-amber"}`}>{submission.submitted ? "Submitted" : "Pending"}</span></td><td className="whitespace-nowrap px-3 py-2.5">{submission.submittedAt ? formatDate(submission.submittedAt.slice(0, 10)) : "—"}</td></tr>)}</tbody>
                     </table>
                 </div>
-                <div className="mt-5 flex justify-end"><Button type="button" variant="outline" onClick={onClose}>Close</Button></div>
+                <div className="mt-5 flex justify-end"><Button type="button" variant="outline" className="teacher-modal-dismiss" onClick={onClose}>Close</Button></div>
             </section>
         </div>
     );
@@ -785,78 +660,4 @@ function StudentProgressModal({ record, onClose }) {
 
 function FormField({ label, children }) {
     return <label className="field flex flex-col gap-2"><span className="field-label">{label}</span>{children}</label>;
-}
-
-function StatCard({ Icon, label, value, color }) {
-    const colorClass = {
-        blue: "bg-[var(--stat-icon-background-color)] text-[var(--brand-primary-color)]",
-        purple: "bg-[var(--stat-icon-purple-background-color)] text-violet-600",
-        green: "bg-[var(--stat-icon-green-background-color)] text-[var(--success-color)]",
-    }[color];
-    return (
-        <article className="stat-card flex min-w-0 items-center gap-4 p-4 md:p-5">
-            <span className={`stat-icon grid flex-none place-items-center ${colorClass}`}><Icon size={26} strokeWidth={1.9} /></span>
-            <div className="min-w-0"><p className="stat-value text-3xl">{value}</p><p className="stat-label">{label}</p></div>
-        </article>
-    );
-}
-
-function CompletionStat({ value }) {
-    return (
-        <article className="stat-card flex items-center gap-4 p-4 md:p-5">
-            <div className="relative grid h-[76px] w-[76px] flex-none place-items-center rounded-full" style={{ background: `conic-gradient(var(--warning-color) ${value}%, var(--progress-track-background-color) 0)` }}>
-                <div className="grid h-[58px] w-[58px] place-items-center rounded-full bg-[var(--panel-background-color)]"><ChartNoAxesColumnIncreasing className="text-[var(--warning-color)]" size={25} /></div>
-            </div>
-            <div><p className="stat-value text-3xl">{value}%</p><p className="stat-label">Completion</p></div>
-        </article>
-    );
-}
-
-function SubmissionDonut({ submitted, pending }) {
-    const total = submitted + pending;
-    const submittedDegrees = total ? (submitted / total) * 360 : 0;
-    return (
-        <div className="relative grid h-40 w-40 flex-none place-items-center rounded-full" role="img" aria-label={`${submitted} submitted and ${pending} pending`} style={{ background: `conic-gradient(var(--success-color) 0deg ${submittedDegrees}deg, var(--warning-color) ${submittedDegrees}deg 360deg)` }}>
-            <div className="grid h-28 w-28 place-content-center rounded-full bg-[var(--panel-background-color)] text-center"><strong className="text-3xl text-[var(--assignment-title-color)]">{total}</strong><span className="stat-label">Total</span></div>
-        </div>
-    );
-}
-
-function Legend({ color, label, value, total }) {
-    const percent = total ? Math.round((value / total) * 100) : 0;
-    return <div className="flex items-center gap-2 text-sm"><span className="h-3 w-3 rounded-full" style={{ backgroundColor: color }} /><span className="text-[var(--muted-text-color)]">{label}</span><span className="ml-auto whitespace-nowrap text-[var(--assignment-title-color)]">{value} ({percent}%)</span></div>;
-}
-
-function CompletionTrend({ assignments }) {
-    const today = new Date();
-    today.setHours(23, 59, 59, 999);
-    const firstDay = new Date(today);
-    firstDay.setDate(firstDay.getDate() - 6);
-    firstDay.setHours(0, 0, 0, 0);
-    const dates = assignments.flatMap((assignment) => Object.values(assignment.submissions || {})
-        .filter((submission) => submission.submitted && submission.submittedAt)
-        .map((submission) => new Date(submission.submittedAt)));
-    const values = Array.from({ length: 7 }, (_, index) => {
-        const day = new Date(firstDay);
-        day.setDate(day.getDate() + index);
-        const cutoff = new Date(day);
-        cutoff.setHours(23, 59, 59, 999);
-        return { day, count: dates.filter((date) => date <= cutoff).length };
-    });
-    const max = Math.max(1, ...values.map((item) => item.count));
-    const x = (index) => 38 + index * 52;
-    const y = (count) => 130 - (count / max) * 92;
-    const line = values.map((item, index) => `${x(index)},${y(item.count)}`).join(" ");
-    const area = `38,130 ${line} ${x(6)},130`;
-
-    return (
-        <div className="min-w-0 overflow-hidden">
-            <svg viewBox="0 0 390 164" className="h-48 w-full" role="img" aria-label="Cumulative submissions across the last seven days">
-                {[38, 84, 130].map((gridY) => <line key={gridY} x1="32" x2="368" y1={gridY} y2={gridY} stroke="var(--border-color)" strokeDasharray="3 4" />)}
-                <polygon points={area} fill="var(--brand-primary-color)" opacity="0.12" />
-                <polyline points={line} fill="none" stroke="var(--brand-primary-color)" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
-                {values.map((item, index) => <g key={item.day.toISOString()}><circle cx={x(index)} cy={y(item.count)} r="4" fill="var(--brand-primary-color)" /><text x={x(index)} y="154" textAnchor="middle" fill="var(--muted-text-color)" fontSize="9">{item.day.toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</text></g>)}
-            </svg>
-        </div>
-    );
 }

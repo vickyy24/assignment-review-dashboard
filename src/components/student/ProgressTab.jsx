@@ -204,7 +204,8 @@ export default function ProgressTab({
 
             <section className="overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--panel-background-color)] p-2 md:p-3">
                 {view === "assignment" ? (
-                    <div className="overflow-x-auto">
+                    <>
+                    <div className="hidden overflow-x-auto lg:block">
                         <table className="w-full min-w-[860px] table-fixed border-collapse text-left text-sm">
                             <colgroup>
                                 <col className="w-[5%]" />
@@ -277,8 +278,58 @@ export default function ProgressTab({
                             <p className="empty-state">No assignments match these filters.</p>
                         )}
                     </div>
+                    <div className="space-y-3 lg:hidden">
+                        {filteredAssignments.map((assignment, index) => {
+                            const status = getAssignmentStatus(assignment);
+                            return (
+                                <article
+                                    className="rounded-lg border border-[var(--border-color)] bg-[var(--secondary-panel-background-color)] p-3 sm:p-4"
+                                    key={assignment.id}
+                                >
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="flex min-w-0 items-start gap-2.5">
+                                            <span className="stat-icon grid flex-none place-items-center">
+                                                <FileText size={18} aria-hidden="true" />
+                                            </span>
+                                            <div className="min-w-0">
+                                                <p className="stat-label mb-1">Assignment {index + 1}</p>
+                                                <h2 className="asgn-card-title m-0 break-words">{assignment.title}</h2>
+                                            </div>
+                                        </div>
+                                        <span className={`badge flex-none ${status.className}`}>{status.label}</span>
+                                    </div>
+                                    <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
+                                        <p className="m-0 break-words text-[var(--assignment-meta-color)]">
+                                            <span className="font-semibold">Subject:</span>{" "}{assignment.subject}
+                                        </p>
+                                        <p className="m-0 text-[var(--muted-text-color)]">
+                                            <span className="font-semibold">Submitted:</span>{" "}
+                                            {formatSubmissionDate(assignment.mySubmission?.submittedAt)}
+                                        </p>
+                                    </div>
+                                    <div className="mt-3 flex items-center justify-between gap-3">
+                                        <AssignmentProgress assignment={assignment} status={status} />
+                                        <Button
+                                            variant="plain"
+                                            className="inline-grid h-9 w-9 flex-none place-items-center rounded-md text-[var(--brand-primary-color)]"
+                                            data-assignment-id={assignment.id}
+                                            onClick={handleViewDetails}
+                                            aria-label={`View ${assignment.title}`}
+                                        >
+                                            <ChevronRight size={18} aria-hidden="true" />
+                                        </Button>
+                                    </div>
+                                </article>
+                            );
+                        })}
+                        {!filteredAssignments.length && (
+                            <p className="empty-state py-6 text-center">No assignments match these filters.</p>
+                        )}
+                    </div>
+                    </>
                 ) : (
-                    <div className="overflow-x-auto">
+                    <>
+                    <div className="hidden overflow-x-auto lg:block">
                         <table className="w-full min-w-[720px] table-fixed border-collapse text-left text-sm">
                             <colgroup>
                                 <col className="w-[5%]" />
@@ -361,6 +412,60 @@ export default function ProgressTab({
                             <p className="empty-state">No subjects match these filters.</p>
                         )}
                     </div>
+                    <div className="space-y-3 lg:hidden">
+                        {subjectSummaries.map((summary, index) => {
+                            const total = summary.assignments.length;
+                            const percent = total
+                                ? Math.round((summary.submitted / total) * 100)
+                                : 0;
+                            const remaining = total - summary.submitted;
+                            return (
+                                <article
+                                    className="rounded-lg border border-[var(--border-color)] bg-[var(--secondary-panel-background-color)] p-3 sm:p-4"
+                                    key={summary.name}
+                                >
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                            <p className="stat-label mb-1">Subject {index + 1}</p>
+                                            <Button
+                                                variant="plain"
+                                                className="break-words text-left font-semibold text-[var(--assignment-title-color)] hover:text-[var(--brand-primary-color)]"
+                                                data-subject={summary.name}
+                                                onClick={handleOpenSubjectClick}
+                                            >
+                                                {summary.name}
+                                            </Button>
+                                        </div>
+                                        <span className="badge badge-green flex-none">{summary.submitted} submitted</span>
+                                    </div>
+                                    <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-[var(--muted-text-color)]">
+                                        <span>{total} assignments</span>
+                                        {remaining > 0 && <span className="badge badge-amber">{remaining} pending</span>}
+                                    </div>
+                                    <div className="mt-3 flex items-center gap-2">
+                                        <div
+                                            className="h-2 min-w-12 flex-1 overflow-hidden rounded-full bg-[var(--progress-track-background-color)]"
+                                            role="progressbar"
+                                            aria-label={`${summary.name} completion`}
+                                            aria-valuemin={0}
+                                            aria-valuemax={100}
+                                            aria-valuenow={percent}
+                                        >
+                                            <div
+                                                className="h-full rounded-full bg-[var(--success-color)] transition-all duration-300"
+                                                style={{ width: `${percent}%` }}
+                                            />
+                                        </div>
+                                        <span className="min-w-9 text-right text-xs text-[var(--muted-text-color)]">{percent}%</span>
+                                    </div>
+                                </article>
+                            );
+                        })}
+                        {!subjectSummaries.length && (
+                            <p className="empty-state py-6 text-center">No subjects match these filters.</p>
+                        )}
+                    </div>
+                    </>
                 )}
             </section>
         </main>

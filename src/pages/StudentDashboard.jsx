@@ -4,9 +4,10 @@ import AssignmentsTab from "../components/student/AssignmentsTab";
 import ProgressTab from "../components/student/ProgressTab";
 import SubmissionFormModal from "../components/student/SubmissionFormModal";
 import SubmissionsTab from "../components/student/SubmissionsTab";
+import AppLayout from "../components/layout/AppLayout";
 import Button from "../components/ui/Button";
 import { useApp } from "../context/AppContext";
-import { Bell, CalendarDays, ChartNoAxesColumnIncreasing, ChevronDown, ClipboardCheck, FileText, GraduationCap, House, Info, LogOut, Megaphone, Moon, ChevronLeft, ChevronRight, Search, Sun } from "lucide-react";
+import { CalendarDays, ChartNoAxesColumnIncreasing, ClipboardCheck, FileText, GraduationCap, House, Info, Megaphone } from "lucide-react";
 
 const announcements = [
     {
@@ -60,10 +61,6 @@ export default function StudentDashboard() {
     const {
         currentUser,
         visibleAssignments,
-        logout,
-        theme,
-        toggleTheme,
-        removeSubmission,
     } = useApp();
     const [search, setSearch] = useState("");
     const [subjectFilter, setSubjectFilter] = useState("All Subjects");
@@ -74,6 +71,7 @@ export default function StudentDashboard() {
     const [activeSubmissionAssignment, setActiveSubmissionAssignment] =
         useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
     const myAssignments = visibleAssignments.map((assignment) => {
         return {
@@ -208,6 +206,15 @@ export default function StudentDashboard() {
         if (assignment) setSelectedAssignment(assignment);
     };
 
+    const handleOpenSubmittedWork = (assignmentId) => {
+        const assignment = myAssignments.find((item) => {
+            return item.id === assignmentId;
+        });
+        if (assignment?.mySubmission?.submitted) {
+            setSelectedAssignment({ ...assignment, showSubmittedWork: true });
+        }
+    };
+
     const handleOpenSubmission = (assignmentId) => {
         const assignment = myAssignments.find((item) => {
             return item.id === assignmentId;
@@ -223,23 +230,6 @@ export default function StudentDashboard() {
         setSelectedAssignment(null);
     };
 
-    const handleRemoveSubmission = (assignmentId) => {
-        removeSubmission(assignmentId);
-        setSelectedAssignment((assignment) => {
-            if (!assignment || assignment.id !== assignmentId) {
-                return assignment;
-            }
-
-            return {
-                ...assignment,
-                mySubmission: {
-                    submitted: false,
-                    submittedAt: null,
-                },
-            };
-        });
-    };
-
     const handleSidebarToggle = () => {
         setSidebarOpen((isOpen) => {
             return !isOpen;
@@ -247,188 +237,22 @@ export default function StudentDashboard() {
     };
 
     return (
-        <div className="page-root min-h-screen bg-[var(--page-background-color)] text-[var(--assignment-title-color)]">
-            <aside
-                className={`z-10 flex min-w-0 flex-col border-r border-[var(--border-color)] bg-gradient-to-b from-[var(--secondary-panel-background-color)] to-[var(--panel-background-color)] transition-all duration-200 ease-in-out lg:fixed lg:inset-y-0 lg:left-0 ${sidebarOpen ? "lg:w-60" : "lg:w-20"}`}
-            >
-                <div
-                    className={`flex h-[70px] flex-none items-center ${sidebarOpen ? "justify-between px-5" : "justify-center px-3"}`}
-                >
-                    <a
-                        href="#dashboard"
-                        className="flex min-w-0 items-center gap-3"
-                        aria-label="EduBoard dashboard"
-                    >
-                        <img
-                            className="h-9 w-9 flex-none object-contain"
-                            src="/eduboard-mark.svg"
-                            alt=""
-                        />
-                        <span
-                            className={`navbar-appname truncate ${sidebarOpen ? "lg:inline" : "lg:hidden"}`}
-                        >
-                            EduBoard
-                        </span>
-                    </a>
-                    <button
-                        className="theme-toggle sidebar-collapse-toggle hidden h-9 w-9 flex-none items-center justify-center p-0 lg:inline-flex"
-                        type="button"
-                        onClick={handleSidebarToggle}
-                        aria-label={
-                            sidebarOpen ? "Collapse sidebar" : "Expand sidebar"
-                        }
-                        title={
-                            sidebarOpen ? "Collapse sidebar" : "Expand sidebar"
-                        }
-                    >
-                        {sidebarOpen ? (
-                            <ChevronLeft
-                                className="text-[var(--error-color)]"
-                                size={18}
-                                aria-hidden="true"
-                            />
-                        ) : (
-                            <ChevronRight
-                                className="text-[var(--error-color)]"
-                                size={18}
-                                aria-hidden="true"
-                            />
-                        )}
-                    </button>
-                </div>
-
-                <nav
-                    className="flex gap-2 overflow-x-auto px-3 pb-3 lg:flex-1 lg:flex-col lg:overflow-visible lg:px-3 lg:pt-3"
-                    aria-label="Student navigation"
-                >
-                    {navigationItems.map(({ label, target, Icon }) => {
-                        return (
-                            <button
-                                key={target}
-                                type="button"
-                                data-target={target}
-                                onClick={handleSectionNavigation}
-                                aria-current={
-                                    activeSection === target
-                                        ? "page"
-                                        : undefined
-                                }
-                                title={sidebarOpen ? undefined : label}
-                                className={`flex flex-none items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-all duration-200 ${sidebarOpen ? "" : "lg:justify-center"} ${activeSection === target ? "bg-gradient-to-r from-[var(--primary-button-background)] to-[var(--primary-button-end-background)] font-semibold text-white shadow-sm" : "text-[var(--muted-text-color)] hover:translate-x-0.5 hover:bg-[var(--sidebar-item-hover-background-color)] hover:text-[var(--brand-primary-color)]"}`}
-                            >
-                                <Icon size={18} aria-hidden="true" />
-                                <span
-                                    className={
-                                        sidebarOpen ? "lg:inline" : "lg:hidden"
-                                    }
-                                >
-                                    {label}
-                                </span>
-                            </button>
-                        );
-                    })}
-                </nav>
-
-                <div
-                    className={`hidden items-center border-t border-[var(--border-color)] p-4 lg:flex ${sidebarOpen ? "gap-3" : "flex-col gap-3"}`}
-                >
-                    <div className="user-avatar grid flex-none place-items-center">
-                        {currentUser.avatar}
-                    </div>
-                    <div
-                        className={`min-w-0 flex-1 ${sidebarOpen ? "lg:block" : "lg:hidden"}`}
-                    >
-                        <p className="user-name truncate m-0">Student</p>
-                        <p className="user-email truncate m-0">
-                            {currentUser.email}
-                        </p>
-                    </div>
-                    <button
-                        className={`btn-logout inline-flex items-center justify-center ${sidebarOpen ? "" : "p-2"}`}
-                        type="button"
-                        onClick={logout}
-                        aria-label="Sign out"
-                        title="Sign out"
-                    >
-                        <LogOut size={16} aria-hidden="true" />
-                    </button>
-                </div>
-            </aside>
-
-            <header
-                className={`navbar sticky top-0 z-10 flex min-w-0 items-center gap-3 border-b border-[var(--border-color)] px-4 py-2 transition-all duration-200 ease-in-out lg:px-7 ${sidebarOpen ? "lg:ml-60" : "lg:ml-20"}`}
-            >
-                <div className="relative flex h-9 min-w-0 flex-1 items-center">
-                    <Search
-                        className="search-icon"
-                        size={16}
-                        aria-hidden="true"
-                    />
-                    <input
-                        type="search"
-                        className="search-bar h-9 w-full py-2"
-                        placeholder="Search assignments..."
-                        value={search}
-                        onChange={handleSearchChange}
-                        aria-label="Search assignments"
-                    />
-                </div>
-                <button
-                    type="button"
-                    className="theme-toggle inline-flex h-9 w-9 flex-none items-center justify-center"
-                    onClick={handleSectionNavigation}
-                    data-target="announcements"
-                    aria-label="View announcements"
-                    title="View announcements"
-                >
-                    <Bell
-                        className="text-[var(--warning-color)]"
-                        size={18}
-                        aria-hidden="true"
-                    />
-                </button>
-                <button
-                    type="button"
-                    className="theme-toggle inline-flex h-9 w-9 flex-none items-center justify-center"
-                    onClick={toggleTheme}
-                    aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                    title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                >
-                    {theme === "dark" ? (
-                        <Sun
-                            className="text-[var(--warning-color)]"
-                            size={17}
-                            aria-hidden="true"
-                        />
-                    ) : (
-                        <Moon
-                            className="text-[var(--brand-primary-color)]"
-                            size={17}
-                            aria-hidden="true"
-                        />
-                    )}
-                </button>
-                <div className="hidden items-center gap-2 rounded-full border border-[var(--border-color)] bg-[var(--panel-background-color)] px-1.5 py-1 sm:flex">
-                    <div className="user-avatar grid flex-none place-items-center">
-                        {currentUser.avatar}
-                    </div>
-                    <div className="hidden min-w-0 md:block">
-                        <p className="user-name truncate m-0">
-                            {currentUser.name}
-                        </p>
-                    </div>
-                    <ChevronDown size={16} aria-hidden="true" />
-                </div>
-                <button
-                    type="button"
-                    className="btn-logout inline-flex h-9 w-9 flex-none items-center justify-center p-0 sm:hidden"
-                    onClick={logout}
-                    aria-label="Sign out"
-                >
-                    <LogOut size={16} aria-hidden="true" />
-                </button>
-            </header>
-
+        <AppLayout
+            navigationItems={navigationItems}
+            activeSection={activeSection}
+            onNavigate={handleSectionNavigation}
+            sidebarOpen={sidebarOpen}
+            mobileNavOpen={mobileNavOpen}
+            onToggleSidebar={handleSidebarToggle}
+            onOpenMobile={() => setMobileNavOpen(true)}
+            onCloseMobile={() => setMobileNavOpen(false)}
+            search={search}
+            onSearchChange={handleSearchChange}
+            searchPlaceholder="Search assignments..."
+            onNotificationClick={handleSectionNavigation}
+            notificationLabel="View announcements"
+            roleLabel="Student"
+        >
             {activeSection === "assignments" && (
                 <AssignmentsTab
                     assignments={searchMatchedAssignments}
@@ -445,7 +269,7 @@ export default function StudentDashboard() {
             {activeSection === "submissions" && (
                 <SubmissionsTab
                     assignments={searchMatchedAssignments}
-                    onViewDetails={handleOpenAssignment}
+                    onViewDetails={handleOpenSubmittedWork}
                     onSubmitAssignment={handleOpenSubmission}
                     formatDueDate={formatDueDate}
                     sidebarOpen={sidebarOpen}
@@ -535,7 +359,7 @@ export default function StudentDashboard() {
                                 className="text-sm text-[var(--brand-primary-color)]"
                                 type="button"
                                 onClick={handleSectionNavigation}
-                                data-target="assignment-table"
+                                data-target="assignments"
                             >
                                 View All
                             </button>
@@ -611,9 +435,14 @@ export default function StudentDashboard() {
                             >
                                 Recent Activity
                             </h2>
-                            <span className="meta-item">
-                                {recentSubmissions.length}
-                            </span>
+                            <button
+                                className="text-sm font-semibold text-[var(--brand-primary-color)]"
+                                type="button"
+                                onClick={handleSectionNavigation}
+                                data-target="submissions"
+                            >
+                                View All
+                            </button>
                         </div>
                         {recentSubmissions.length ? (
                             <ol className="space-y-4">
@@ -674,7 +503,7 @@ export default function StudentDashboard() {
                                 })}
                             </select>
                         </div>
-                        <div className="overflow-x-auto 2xl:overflow-visible">
+                        <div className="hidden overflow-x-auto 2xl:overflow-visible lg:block">
                             <table className="w-full min-w-[760px] table-fixed border-collapse text-left text-sm 2xl:min-w-0">
                                 <colgroup>
                                     <col className="w-[5%]" />
@@ -745,6 +574,32 @@ export default function StudentDashboard() {
                                 </p>
                             )}
                         </div>
+                        <div className="space-y-2 lg:hidden">
+                            {matchingAssignments.map((assignment, index) => {
+                                const status = getAssignmentStatus(assignment);
+                                return (
+                                    <article
+                                        className="rounded-lg border border-[var(--border-color)] bg-[var(--secondary-panel-background-color)] p-3"
+                                        key={assignment.id}
+                                    >
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div className="min-w-0">
+                                                <p className="stat-label mb-1">Assignment {index + 1}</p>
+                                                <h3 className="asgn-card-title m-0 break-words">{assignment.title}</h3>
+                                            </div>
+                                            <span className={`badge flex-none ${status.className}`}>{status.label}</span>
+                                        </div>
+                                        <div className="mt-2 grid grid-cols-1 gap-1 text-sm text-[var(--assignment-meta-color)] sm:grid-cols-2">
+                                            <p className="m-0 break-words">{assignment.subject}</p>
+                                            <p className="m-0">Due {formatDueDate(assignment.dueDate)}</p>
+                                        </div>
+                                    </article>
+                                );
+                            })}
+                            {!matchingAssignments.length && (
+                                <p className="empty-state py-6 text-center">No assignments match this filter.</p>
+                            )}
+                        </div>
                     </section>
 
                     <section
@@ -801,8 +656,8 @@ export default function StudentDashboard() {
                 <AssignmentDetailsModal
                     assignment={selectedAssignment}
                     status={getAssignmentStatus(selectedAssignment)}
+                    showSubmittedWork={selectedAssignment.showSubmittedWork}
                     onClose={handleCloseAssignmentDetails}
-                    onRemoveSubmission={handleRemoveSubmission}
                 />
             )}
 
@@ -812,6 +667,6 @@ export default function StudentDashboard() {
                     onClose={handleCloseSubmission}
                 />
             )}
-        </div>
+        </AppLayout>
     );
 }

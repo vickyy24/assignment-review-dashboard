@@ -17,6 +17,15 @@
         <title>EduBoard — Assignment & Review Dashboard</title>
     </head>
     <body>
+        <script>
+            try {
+                if (localStorage.getItem("eduboard_theme") === "light") {
+                    document.body.classList.add("theme-light");
+                }
+            } catch {
+                // Keep the default theme if browser storage is unavailable.
+            }
+        </script>
         <div id="root"></div>
         <script type="module" src="/src/main.jsx"></script>
     </body>

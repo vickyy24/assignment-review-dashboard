@@ -41,7 +41,7 @@ export default function AssignmentsTab({
             <header>
                 <h1 className="welcome-title text-3xl">Assignments</h1>
                 <p className="welcome-sub">
-                    View all your assignments and submit your work.
+                    View all your assignments and their due dates.
                 </p>
             </header>
 

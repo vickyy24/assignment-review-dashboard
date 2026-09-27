@@ -5,8 +5,23 @@ import { DEMO_DRIVE_LINK, USERS, INITIAL_ASSIGNMENTS } from "../data/mockData";
 //  Context
 // ──────────────────────────────────────────────
 const AppContext = createContext(null);
-const ASSIGNMENT_EXAMPLES_MIGRATION_KEY = "eduboard_assignment_examples_v1";
-const SUBMISSION_EXAMPLES_MIGRATION_KEY = "eduboard_submission_examples_v1";
+const SUBMISSION_EXAMPLES_MIGRATION_KEY = "eduboard_submission_examples_v5";
+const MATERIAL_EXAMPLES_MIGRATION_KEY = "eduboard_material_examples_v4";
+const ASSIGNMENT_ORDER_MIGRATION_KEY = "eduboard_assignment_order_v2";
+
+function moveDataStructuresFirst(assignments) {
+    const dataStructuresAssignment = assignments.find(
+        (assignment) => assignment.id === "asgn-1",
+    );
+    if (!dataStructuresAssignment) {
+        return assignments;
+    }
+
+    return [
+        dataStructuresAssignment,
+        ...assignments.filter((assignment) => assignment.id !== "asgn-1"),
+    ];
+}
 
 function hasSubmissionContent(submission) {
     if (!submission || typeof submission !== "object") {
@@ -54,6 +69,14 @@ function normalizeAssignmentSubmissions(assignments) {
                     !hasSubmissionContent(savedSubmission)
                 ) {
                     submissions[studentId] = initialSubmission;
+                } else if (
+                    assignment.id === "asgn-3" &&
+                    studentId === "student-2" &&
+                    savedSubmission?.submissionType === "link" &&
+                    savedSubmission.link === DEMO_DRIVE_LINK &&
+                    savedSubmission.submittedAt === "2026-09-23T11:00:00Z"
+                ) {
+                    submissions[studentId] = initialSubmission;
                 }
             },
         );
@@ -64,8 +87,8 @@ function normalizeAssignmentSubmissions(assignments) {
 
 function mergeInitialAssignments(
     savedAssignments,
-    addExampleAssignment,
     resetDemoSubmissions,
+    seedDemoMaterials,
 ) {
     const savedAssignmentsById = new Map(
         savedAssignments.map((assignment) => {
@@ -85,15 +108,15 @@ function mergeInitialAssignments(
             ...initialAssignment,
             ...savedAssignment,
             driveLink:
-                savedAssignment.driveLink?.includes("/drive/folders/sample") ||
-                savedAssignment.driveLink === DEMO_DRIVE_LINK
+                savedAssignment.driveLink?.includes("/drive/folders/sample")
                     ? ""
                     : savedAssignment.driveLink ?? initialAssignment.driveLink,
             submissions: resetDemoSubmissions
                 ? initialAssignment.submissions
                 : savedAssignment.submissions ?? initialAssignment.submissions,
             materials:
-                (initialAssignment.id === "asgn-5" &&
+                (seedDemoMaterials ||
+                    (initialAssignment.id === "asgn-5" &&
                     savedAssignment.title === "Web Development Mini Project") ||
                 savedAssignment.materials === undefined ||
                 savedAssignment.id === "asgn-3" ||
@@ -107,7 +130,7 @@ function mergeInitialAssignments(
                         material.url?.includes("/drive/folders/sample") ||
                         material.url?.includes("dummy.pdf") ||
                         material.url === DEMO_DRIVE_LINK,
-                    ))
+                    )))
                     ? initialAssignment.materials
                     : savedAssignment.materials,
             ...(initialAssignment.id === "asgn-5" &&
@@ -120,17 +143,11 @@ function mergeInitialAssignments(
         };
     });
 
-    if (
-        addExampleAssignment &&
-        !savedAssignmentsById.has("asgn-5")
-    ) {
-        const exampleAssignment = INITIAL_ASSIGNMENTS.find((assignment) => {
-            return assignment.id === "asgn-5";
-        });
-        if (exampleAssignment) {
-            mergedAssignments.push(exampleAssignment);
+    INITIAL_ASSIGNMENTS.forEach((initialAssignment) => {
+        if (!savedAssignmentsById.has(initialAssignment.id)) {
+            mergedAssignments.push(initialAssignment);
         }
-    }
+    });
 
     return mergedAssignments;
 }
@@ -173,20 +190,44 @@ export function AppProvider({ children }) {
     const [assignments, setAssignments] = useState(() => {
         try {
             const saved = localStorage.getItem("eduboard_assignments");
-            const hasMigratedAssignmentExamples = localStorage.getItem(
-                ASSIGNMENT_EXAMPLES_MIGRATION_KEY,
-            );
             const shouldResetSubmissionExamples = !localStorage.getItem(
                 SUBMISSION_EXAMPLES_MIGRATION_KEY,
+            );
+            const shouldSeedDemoMaterials = !localStorage.getItem(
+                MATERIAL_EXAMPLES_MIGRATION_KEY,
+            );
+            const shouldMoveThirdAssignmentFirst = !localStorage.getItem(
+                ASSIGNMENT_ORDER_MIGRATION_KEY,
             );
             const assignmentsToNormalize = saved
                 ? mergeInitialAssignments(
                       JSON.parse(saved),
-                      !hasMigratedAssignmentExamples,
                       shouldResetSubmissionExamples,
+                      shouldSeedDemoMaterials,
                   )
                 : INITIAL_ASSIGNMENTS;
-            return normalizeAssignmentSubmissions(assignmentsToNormalize);
+            if (shouldSeedDemoMaterials) {
+                localStorage.setItem(
+                    MATERIAL_EXAMPLES_MIGRATION_KEY,
+                    "true",
+                );
+            }
+            if (shouldResetSubmissionExamples) {
+                localStorage.setItem(
+                    SUBMISSION_EXAMPLES_MIGRATION_KEY,
+                    "true",
+                );
+            }
+            if (shouldMoveThirdAssignmentFirst) {
+                localStorage.setItem(
+                    ASSIGNMENT_ORDER_MIGRATION_KEY,
+                    "true",
+                );
+            }
+            const orderedAssignments = shouldMoveThirdAssignmentFirst
+                ? moveDataStructuresFirst(assignmentsToNormalize)
+                : assignmentsToNormalize;
+            return normalizeAssignmentSubmissions(orderedAssignments);
         } catch {
             return normalizeAssignmentSubmissions(INITIAL_ASSIGNMENTS);
         }
@@ -206,8 +247,6 @@ export function AppProvider({ children }) {
             "eduboard_assignments",
             JSON.stringify(assignments),
         );
-        localStorage.setItem(ASSIGNMENT_EXAMPLES_MIGRATION_KEY, "true");
-        localStorage.setItem(SUBMISSION_EXAMPLES_MIGRATION_KEY, "true");
     }, [assignments]);
 
     // ── Auth actions ──────────────────────────
@@ -310,6 +349,7 @@ export function AppProvider({ children }) {
                         [currentUser.id]: {
                             submitted: false,
                             submittedAt: null,
+                            status: "pending",
                         },
                     },
                 };
@@ -337,12 +377,8 @@ export function AppProvider({ children }) {
     };
 
     // ── Admin sees only their own assignments ──
-    const visibleAssignments =
-        currentUser?.role === "admin"
-            ? assignments.filter((assignment) => {
-                  return assignment.createdBy === currentUser.id;
-              })
-            : assignments;
+    // The teacher dashboard monitors student submissions across the full demo.
+    const visibleAssignments = assignments;
 
     return (
         <AppContext.Provider

@@ -6,20 +6,9 @@ import {
     FileText,
     Link2,
 } from "lucide-react";
-import { DEMO_DRIVE_LINK } from "../../data/mockData";
 import Button from "../ui/Button";
 
 function getAssignmentMaterials(assignment) {
-    if (assignment.id === "asgn-1" || assignment.id === "asgn-3") {
-        return [
-            {
-                type: "link",
-                title: "Drive link",
-                url: DEMO_DRIVE_LINK,
-            },
-        ];
-    }
-
     const materials = Array.isArray(assignment.materials)
         ? [...assignment.materials]
         : [];
@@ -61,12 +50,11 @@ function getAssignmentMaterials(assignment) {
 export default function AssignmentDetailsModal({
     assignment,
     status,
+    showSubmittedWork = false,
     onClose,
-    onRemoveSubmission,
 }) {
     const materials = getAssignmentMaterials(assignment);
     const submission = assignment.mySubmission;
-    const isSubmitted = submission?.submitted;
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -148,7 +136,48 @@ export default function AssignmentDetailsModal({
                     </p>
                 </div>
 
-                {materials.length > 0 && <div className="mt-5 rounded-lg border border-[var(--border-color)] p-4">
+                {showSubmittedWork ? (
+                    <div className="mt-5 rounded-lg border border-[var(--border-color)] p-4">
+                        <h3 className="asgn-card-title m-0">Your submitted work</h3>
+                        {submission?.submissionType === "link" && submission.link ? (
+                            <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[var(--border-color)] bg-[var(--secondary-panel-background-color)] p-3">
+                                <p className="stat-label m-0 inline-flex items-center gap-2">
+                                    <Link2 size={16} aria-hidden="true" />
+                                    Google Drive submission
+                                </p>
+                                <a
+                                    className="assignment-material-open inline-flex items-center justify-center gap-2"
+                                    href={submission.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Open submitted Google Drive link"
+                                >
+                                    Open
+                                    <ExternalLink size={14} aria-hidden="true" />
+                                </a>
+                            </div>
+                        ) : submission?.submissionType === "file" ? (
+                            <p className="modal-body mt-2 break-words">
+                                Submitted file: {submission.fileName || "Uploaded file"}
+                            </p>
+                        ) : submission?.submissionType === "text" ? (
+                            <p className="modal-body mt-2 whitespace-pre-wrap break-words">
+                                {submission.text}
+                            </p>
+                        ) : (
+                            <p className="stat-label mt-2">No submitted work was recorded.</p>
+                        )}
+                        {submission?.submittedAt && (
+                            <p className="stat-label mt-3">
+                                Submitted {new Intl.DateTimeFormat("en-GB", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                }).format(new Date(submission.submittedAt))}
+                            </p>
+                        )}
+                    </div>
+                ) : materials.length > 0 && <div className="mt-5 rounded-lg border border-[var(--border-color)] p-4">
                     <h3 className="asgn-card-title m-0">Materials from your instructor</h3>
                     {materials.length > 0 ? (
                         <div className="mt-3 space-y-3">
@@ -206,17 +235,13 @@ export default function AssignmentDetailsModal({
                                         </div>
                                         {!isText && material.url && (
                                             <a
-                                                className="btn-outline inline-flex items-center justify-center gap-2"
+                                            className="assignment-material-open inline-flex items-center justify-center gap-2"
                                                 href={material.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
+                                            aria-label={`Open ${materialTitle}`}
                                             >
-                                                Open{" "}
-                                                {isPdf
-                                                    ? "PDF"
-                                                    : isFile
-                                                      ? "file"
-                                                      : "link"}
+                                            Open
                                                 <ExternalLink
                                                     size={14}
                                                     aria-hidden="true"
@@ -234,62 +259,6 @@ export default function AssignmentDetailsModal({
                         </p>
                     )}
                 </div>}
-
-                {isSubmitted && (
-                    <div className="mt-4 rounded-lg border border-[var(--border-color)] p-4">
-                        <div className="flex items-center justify-between gap-3">
-                            <h3 className="asgn-card-title m-0">
-                                Your submitted work
-                            </h3>
-                            <Button
-                                className="modal-close h-7 w-7"
-                                onClick={() => {
-                                    onRemoveSubmission(assignment.id);
-                                }}
-                                aria-label="Remove submitted assignment"
-                                title="Remove submission"
-                            >
-                                ×
-                            </Button>
-                        </div>
-                        {submission.submissionType === "file" &&
-                        submission.fileName ? (
-                            <p className="modal-body mt-2 inline-flex items-center gap-2">
-                                <FileText size={16} aria-hidden="true" />
-                                <span className="break-all">
-                                    {submission.fileName}
-                                </span>
-                                <span className="stat-label whitespace-nowrap">
-                                    {submission.fileType === "application/pdf" ||
-                                    /\.pdf$/i.test(submission.fileName)
-                                        ? "PDF file"
-                                        : "Uploaded file"}
-                                </span>
-                            </p>
-                        ) : submission.submissionType === "link" &&
-                          submission.link ? (
-                            <a
-                                className="btn-outline mt-2 inline-flex items-center gap-2"
-                                href={submission.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <Link2 size={15} aria-hidden="true" />
-                                Open submitted link
-                                <ExternalLink size={14} aria-hidden="true" />
-                            </a>
-                        ) : submission.submissionType === "text" &&
-                          submission.text ? (
-                            <p className="modal-body mt-2 whitespace-pre-wrap">
-                                {submission.text}
-                            </p>
-                        ) : (
-                            <p className="stat-label mt-2">
-                                Submission recorded.
-                            </p>
-                        )}
-                    </div>
-                )}
 
                 <div className="mt-6 flex flex-wrap justify-end gap-2">
                     <Button

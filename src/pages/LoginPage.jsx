@@ -74,7 +74,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="login-root bg-[#f4f1f6] h-screen max-md:h-auto max-md:min-h-screen p-4 max-sm:p-3 grid place-items-center">
+        <div className="login-root bg-[var(--page-background-color)] h-screen max-md:h-auto max-md:min-h-screen p-4 max-sm:p-3 grid place-items-center">
             {/* Background blobs */}
             <div className="blob blob-1" />
             <div className="blob blob-2" />
@@ -154,7 +154,7 @@ export default function LoginPage() {
                                 <CheckCircle2 size={17} />
                             </span>
                         </div>
-                        <div className="login-illustration-card text-[#a0783e] absolute right-0 bottom-[7px] h-[58px] w-[96px] max-md:right-1 max-md:bottom-[-2px] max-md:h-12 max-md:w-[82px] flex items-center justify-evenly">
+                        <div className="login-illustration-card text-[var(--warning-color)] absolute right-0 bottom-[7px] h-[58px] w-[96px] max-md:right-1 max-md:bottom-[-2px] max-md:h-12 max-md:w-[82px] flex items-center justify-evenly">
                             <ChartNoAxesColumnIncreasing size={23} />
                             <span className="illustration-bars h-[33px] flex items-end gap-1">
                                 <i className="h-3" />
@@ -164,7 +164,7 @@ export default function LoginPage() {
                             </span>
                         </div>
                         <div className="login-illustration-dot login-illustration-dot-one absolute right-[29%] top-[10%] h-[7px] w-[7px]" />
-                        <div className="login-illustration-dot bg-[#b28a55] absolute left-[17%] bottom-[9%] h-[7px] w-[7px]" />
+                        <div className="login-illustration-dot bg-[var(--warning-color)] absolute left-[17%] bottom-[9%] h-[7px] w-[7px]" />
                     </div>
                 </section>
 
@@ -182,9 +182,14 @@ export default function LoginPage() {
                         <form
                             onSubmit={handleSubmit}
                             className="w-full max-w-none max-md:gap-[15px] flex flex-col gap-[15px]"
-                            autoComplete="off"
                             noValidate
                         >
+                            {formError && (
+                                <div className="error-banner" role="alert">
+                                    <CircleAlert size={16} aria-hidden="true" />{" "}
+                                    {formError}
+                                </div>
+                            )}
                             <div className="field flex flex-col gap-[7px]">
                                 <label htmlFor="email" className="field-label">
                                     Email
@@ -198,7 +203,7 @@ export default function LoginPage() {
                                         name="email"
                                         type="text"
                                         inputMode="email"
-                                        autoComplete="new-password"
+                                        autoComplete="username"
                                         aria-invalid={Boolean(
                                             fieldErrors.email,
                                         )}
@@ -240,7 +245,7 @@ export default function LoginPage() {
                                         type={
                                             showPassword ? "text" : "password"
                                         }
-                                        autoComplete="new-password"
+                                        autoComplete="current-password"
                                         aria-invalid={Boolean(
                                             fieldErrors.password,
                                         )}
@@ -280,16 +285,6 @@ export default function LoginPage() {
                                         {fieldErrors.password}
                                     </p>
                                 )}
-                                {formError && (
-                                    <p className="field-error" role="alert">
-                                        <CircleAlert
-                                            className="mr-1 inline"
-                                            size={14}
-                                            aria-hidden="true"
-                                        />
-                                        {formError}
-                                    </p>
-                                )}
                             </div>
 
                             <Button
@@ -322,7 +317,7 @@ export default function LoginPage() {
                                     <span className="demo-account-icon demo-account-icon-student grid place-items-center">
                                         <GraduationCap size={19} />
                                     </span>
-                                    <strong className="text-[13px] text-[#41304d]">
+                                    <strong className="demo-account-role text-[13px]">
                                         Student
                                     </strong>
                                     <span>Vikas Sontakke</span>
@@ -336,7 +331,7 @@ export default function LoginPage() {
                                     <span className="demo-account-icon demo-account-icon-admin grid place-items-center">
                                         <UserRound size={19} />
                                     </span>
-                                    <strong className="text-[13px] text-[#41304d]">
+                                    <strong className="demo-account-role text-[13px]">
                                         Admin
                                     </strong>
                                     <span>ramesh@prof.edu</span>

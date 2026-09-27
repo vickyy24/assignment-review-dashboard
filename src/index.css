@@ -1,5 +1,259 @@
 @import "tailwindcss";
 
+.student-app {
+    --page-background-color: #eef7ff;
+    --panel-background-color: #ffffff;
+    --secondary-panel-background-color: #f1f7ff;
+    --border-color: #d7e8fb;
+    --muted-text-color: #43577f;
+    --brand-primary-color: #075cff;
+    --primary-button-background: #0866ff;
+    --primary-button-hover-background: #0054e8;
+    --primary-button-end-background: #0752dc;
+    --outline-button-background: #ffffff;
+    --outline-button-border-color: #91b9ff;
+    --outline-button-text-color: #075cff;
+    --outline-button-hover-background: #e8f2ff;
+    --sidebar-item-hover-background-color: #e2efff;
+    --table-header-background-color: #edf5ff;
+    --success-color: #13956d;
+    --warning-color: #ed7a00;
+    --error-color: #d72e2e;
+    --navbar-app-name-color: #0649d7;
+    --navbar-user-name-color: #102044;
+    --navbar-user-email-color: #53698f;
+    --welcome-title-color: #101a36;
+    --welcome-subtitle-color: #455b85;
+    --stat-value-color: #101a36;
+    --stat-label-color: #52688d;
+    --stat-icon-background-color: #e7f1ff;
+    --stat-icon-green-background-color: #ddf9ee;
+    --stat-icon-amber-background-color: #fff3df;
+    --stat-icon-red-background-color: #ffe5e5;
+    --stat-icon-purple-background-color: #eee8ff;
+    --assignment-title-color: #111c3b;
+    --assignment-description-color: #485f88;
+    --assignment-footer-border-color: #d7e8fb;
+    --assignment-meta-color: #455b85;
+    --submitted-chip-text-color: #087b57;
+    --filter-tab-text-color: #43577f;
+    --filter-count-background-color: #e8f2ff;
+    --progress-track-background-color: #dce8f6;
+    --submission-description-color: #43577f;
+    --empty-state-text-color: #53698f;
+    --student-row-name-color: #172344;
+    --student-row-muted-color: #53698f;
+    --student-submission-time-color: #53698f;
+    --student-row-progress-color: #13956d;
+    --modal-overlay-background: #122c5366;
+    --modal-title-color: #101a36;
+    --modal-body-color: #43577f;
+    --modal-strong-color: #111c3b;
+    --field-label-color: #243a63;
+    --field-placeholder-color: #6b7e9f;
+    --select-option-background-color: #ffffff;
+    --button-ghost-hover-background: #e8f2ff;
+    --progress-ring-center-background: #ffffff;
+    color: #172344;
+}
+
+body:not(.theme-light) .student-app {
+    --page-background-color: #101827;
+    --panel-background-color: #172235;
+    --secondary-panel-background-color: #202e43;
+    --border-color: #34445d;
+    --muted-text-color: #a7b5ca;
+    --brand-primary-color: #91baff;
+    --primary-button-background: #376fc7;
+    --primary-button-hover-background: #2c5eae;
+    --primary-button-end-background: #244e96;
+    --outline-button-background: #202e43;
+    --outline-button-border-color: #536a8a;
+    --outline-button-text-color: #b5d0ff;
+    --outline-button-hover-background: #293b55;
+    --sidebar-item-hover-background-color: #293b55;
+    --table-header-background-color: #202e43;
+    --success-color: #61d1ae;
+    --warning-color: #f1bd69;
+    --error-color: #f08d91;
+    --navbar-app-name-color: #a8caff;
+    --navbar-user-name-color: #f0f4fb;
+    --navbar-user-email-color: #a7b5ca;
+    --welcome-title-color: #f2f6fd;
+    --welcome-subtitle-color: #a7b5ca;
+    --stat-value-color: #f2f6fd;
+    --stat-label-color: #a7b5ca;
+    --stat-icon-background-color: #293950;
+    --stat-icon-green-background-color: #1d3b38;
+    --stat-icon-amber-background-color: #413723;
+    --stat-icon-red-background-color: #422b32;
+    --stat-icon-purple-background-color: #332f4b;
+    --assignment-title-color: #edf3fc;
+    --assignment-description-color: #b0bdd0;
+    --assignment-footer-border-color: #34445d;
+    --assignment-meta-color: #b0bdd0;
+    --submitted-chip-text-color: #72d8b8;
+    --filter-tab-text-color: #b0bdd0;
+    --filter-count-background-color: #293950;
+    --progress-track-background-color: #34445d;
+    --submission-description-color: #a7b5ca;
+    --empty-state-text-color: #a7b5ca;
+    --student-row-name-color: #edf3fc;
+    --student-row-muted-color: #a7b5ca;
+    --student-submission-time-color: #a7b5ca;
+    --student-row-progress-color: #72d8b8;
+    --modal-overlay-background: #050b16cc;
+    --modal-title-color: #edf3fc;
+    --modal-body-color: #b0bdd0;
+    --modal-strong-color: #edf3fc;
+    --field-label-color: #d2dced;
+    --field-placeholder-color: #8e9db4;
+    --select-option-background-color: #172235;
+    --button-ghost-hover-background: #293950;
+    --progress-ring-center-background: #172235;
+    color: #edf3fc;
+}
+
+.student-app .navbar {
+    background: #ffffff;
+    border-color: var(--border-color);
+    box-shadow: 0 1px 4px #1d4f9110;
+}
+
+body:not(.theme-light) .student-app .navbar {
+    background: #151f30;
+    box-shadow: 0 1px 4px #00000024;
+}
+
+.student-sidebar-footer {
+    margin-top: auto;
+    padding: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.student-sidebar-profile {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: #e8f2ff;
+    padding: 8px;
+}
+
+body:not(.theme-light) .student-sidebar-profile {
+    background: #1d2b40;
+}
+
+.student-app .student-sidebar-logout {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid var(--logout-button-border-color);
+    border-radius: 10px;
+    background: transparent;
+    padding: 9px 10px;
+    color: var(--error-color);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.student-app .student-sidebar-logout:hover {
+    background: color-mix(
+        in srgb,
+        var(--error-color) 8%,
+        var(--panel-background-color)
+    );
+    border-color: var(--error-color);
+    box-shadow: 0 3px 10px rgb(190 64 76 / 8%);
+    transform: translateY(-1px);
+}
+
+.student-app .student-sidebar-logout:focus-visible {
+    outline: 2px solid var(--error-color);
+    outline-offset: 2px;
+}
+
+.student-app .student-sidebar-logout svg {
+    transition: transform 180ms ease;
+}
+
+.student-app .student-sidebar-logout:hover svg {
+    transform: translateX(2px);
+}
+
+.assignment-material-open {
+    border: 1px solid var(--brand-primary-color);
+    border-radius: 9px;
+    background: var(--brand-primary-color);
+    padding: 8px 12px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    transition:
+        background-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.assignment-material-open:hover {
+    background: var(--primary-button-hover-background);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--brand-primary-color) 24%, transparent);
+    transform: translateY(-1px);
+}
+
+.student-app .user-avatar {
+    background: #263b70;
+    color: #ffffff;
+}
+
+body:not(.theme-light) .student-app .user-avatar {
+    background: #344c76;
+    color: #f2f6fd;
+}
+
+.student-app .badge-green {
+    background: #ddf8ec;
+    color: #087b57;
+}
+
+body:not(.theme-light) .student-app .badge-green {
+    background: #1d3b38;
+    color: #72d8b8;
+}
+
+.student-app .badge-red {
+    background: #ffe4e4;
+    color: #ba2020;
+}
+
+body:not(.theme-light) .student-app .badge-red {
+    background: #422b32;
+    color: #ff9da4;
+}
+
+.student-app .badge-amber {
+    background: #fff3df;
+    color: #d96500;
+}
+
+body:not(.theme-light) .student-app .badge-amber {
+    background: #413723;
+    color: #f5ca7e;
+}
+
+.student-app .badge-blue {
+    background: #edf2f8;
+    color: #40516f;
+}
+
+body:not(.theme-light) .student-app .badge-blue {
+    background: #293950;
+    color: #b0bdd0;
+}
+
 :root {
     font-family: "DM Sans", sans-serif;
     color: #ece8ef;
@@ -959,7 +1213,7 @@ select.field-input:focus:not(:focus-visible) {
 
 .sidebar-collapse-toggle {
     border-color: var(--border-color);
-    color: var(--error-color);
+    color: var(--brand-primary-color);
 }
 
 .theme-toggle.sidebar-collapse-toggle:hover {
@@ -1226,23 +1480,23 @@ select.field-input:focus:not(:focus-visible) {
     color: #806291;
 }
 
-    .login-form-panel .btn-primary {
-        border-radius: 9px;
-        font-size: 15px;
-        background: linear-gradient(
-            125deg,
-            var(--primary-button-background),
-            var(--primary-button-end-background)
-        );
-        box-shadow: none;
-    }
+.login-form-panel .btn-primary {
+    border-radius: 9px;
+    font-size: 15px;
+    background: linear-gradient(
+        125deg,
+        var(--primary-button-background),
+        var(--primary-button-end-background)
+    );
+    box-shadow: none;
+}
 
-    .login-form-panel .btn-primary:hover:not(:disabled) {
-        background: linear-gradient(
-            125deg,
-            var(--primary-button-hover-background),
-            var(--primary-button-background)
-        );
+.login-form-panel .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(
+        125deg,
+        var(--primary-button-hover-background),
+        var(--primary-button-background)
+    );
 }
 
 .login-form-panel .demo-credentials {
@@ -1586,4 +1840,221 @@ select.field-input:focus-visible {
     outline-offset: 0;
     border-color: var(--brand-primary-color);
     box-shadow: none;
+}
+
+/* Keep the login page on the same blue palette as the student workspace. */
+.login-root {
+    --page-background-color: #101827;
+    --panel-background-color: #172235;
+    --secondary-panel-background-color: #202e43;
+    --border-color: #34445d;
+    --muted-text-color: #a7b5ca;
+    --brand-primary-color: #91baff;
+    --primary-button-background: #376fc7;
+    --primary-button-hover-background: #2c5eae;
+    --primary-button-end-background: #244e96;
+    --outline-button-border-color: #536a8a;
+    --error-color: #f08d91;
+    --warning-color: #f1bd69;
+    --field-label-color: #d2dced;
+    --login-brand-panel-background: linear-gradient(
+        145deg,
+        #15253c,
+        #1b304c 68%,
+        #1d3552
+    );
+    --login-title-background-image: linear-gradient(100deg, #f2f6fd, #91baff);
+    --login-subtitle-color: #b0bdd0;
+    --login-demo-credentials-background: #202e43;
+    --login-demo-credentials-border-color: #34445d;
+    --login-demo-credentials-title-color: #edf3fc;
+    --login-field-placeholder-color: #8e9db4;
+    --body-background-image: #101827;
+    background: var(--page-background-color);
+    color: #edf3fc;
+    color-scheme: dark;
+}
+
+body.theme-light .login-root {
+    --page-background-color: #eef7ff;
+    --panel-background-color: #ffffff;
+    --secondary-panel-background-color: #f1f7ff;
+    --border-color: #d7e8fb;
+    --muted-text-color: #43577f;
+    --brand-primary-color: #075cff;
+    --primary-button-background: #0866ff;
+    --primary-button-hover-background: #0054e8;
+    --primary-button-end-background: #0752dc;
+    --outline-button-border-color: #91b9ff;
+    --error-color: #d72e2e;
+    --warning-color: #ed7a00;
+    --field-label-color: #243a63;
+    --login-brand-panel-background: linear-gradient(
+        145deg,
+        #eef7ff,
+        #e5f1ff 68%,
+        #f5faff
+    );
+    --login-title-background-image: linear-gradient(100deg, #101a36, #075cff);
+    --login-subtitle-color: #43577f;
+    --login-demo-credentials-background: #f1f7ff;
+    --login-demo-credentials-border-color: #d7e8fb;
+    --login-demo-credentials-title-color: #101a36;
+    --login-field-placeholder-color: #6b7e9f;
+    --body-background-image: #eef7ff;
+    color: #172344;
+    color-scheme: light;
+}
+
+.login-root .login-layout,
+.login-root .login-card {
+    border-color: var(--border-color);
+    background: var(--panel-background-color);
+    box-shadow: 0 22px 65px rgb(14 51 104 / 14%);
+}
+
+.login-root .login-brand-panel {
+    background: var(--login-brand-panel-background);
+}
+
+.login-root .login-brand-panel::before {
+    background: rgb(255 255 255 / 24%);
+}
+
+.login-root .login-brand-panel::after {
+    background: rgb(75 143 231 / 16%);
+}
+
+.login-root .login-product-name {
+    color: var(--brand-primary-color);
+}
+
+.login-root .login-brand-title {
+    background: linear-gradient(
+        105deg,
+        var(--primary-button-background),
+        var(--primary-button-end-background)
+    );
+}
+
+.login-root .login-brand-panel .login-subtitle,
+.login-root .login-feature small {
+    color: var(--muted-text-color);
+}
+
+.login-root .login-feature strong,
+.login-root .login-form-heading h2,
+.login-root .login-form-panel .demo-credentials-title,
+.login-root .demo-account-role {
+    color: var(--assignment-title-color, #edf3fc);
+}
+
+body.theme-light .login-root .login-feature strong,
+body.theme-light .login-root .login-form-heading h2,
+body.theme-light .login-root .login-form-panel .demo-credentials-title,
+body.theme-light .login-root .demo-account-role {
+    color: #101a36;
+}
+
+.login-root .login-feature-icon-blue,
+.login-root .login-feature-icon-purple {
+    background: color-mix(in srgb, var(--brand-primary-color) 14%, transparent);
+    color: var(--brand-primary-color);
+}
+
+.login-root .login-feature-icon-green {
+    background: color-mix(in srgb, var(--success-color) 16%, transparent);
+    color: var(--success-color);
+}
+
+.login-root .login-illustration-orbit {
+    border-color: color-mix(in srgb, var(--brand-primary-color) 18%, transparent);
+    box-shadow:
+        0 0 0 28px color-mix(in srgb, var(--brand-primary-color) 4%, transparent),
+        0 0 0 58px color-mix(in srgb, var(--brand-primary-color) 3%, transparent);
+}
+
+.login-root .login-illustration-card {
+    border-color: var(--border-color);
+    background: var(--panel-background-color);
+    box-shadow: 0 15px 40px rgb(14 51 104 / 12%);
+}
+
+.login-root .illustration-icon {
+    background: color-mix(in srgb, var(--brand-primary-color) 14%, transparent);
+    color: var(--brand-primary-color);
+}
+
+.login-root .illustration-lines i {
+    background: color-mix(in srgb, var(--brand-primary-color) 12%, transparent);
+}
+
+.login-root .illustration-lines i:first-child {
+    background: color-mix(in srgb, var(--brand-primary-color) 22%, transparent);
+}
+
+.login-root .illustration-bars i {
+    background: var(--brand-primary-color);
+}
+
+.login-root .login-illustration-ring {
+    border-color: color-mix(in srgb, var(--brand-primary-color) 24%, transparent);
+    background: color-mix(in srgb, var(--brand-primary-color) 12%, var(--panel-background-color));
+    color: var(--brand-primary-color);
+}
+
+.login-root .login-illustration-dot {
+    background: var(--brand-primary-color);
+}
+
+.login-root .login-form-panel {
+    background: var(--panel-background-color);
+}
+
+.login-root .login-form-heading p,
+.login-root .login-form-panel .field-label {
+    color: var(--muted-text-color);
+}
+
+.login-root .login-form-panel .field-input {
+    border-color: var(--border-color);
+    background: var(--secondary-panel-background-color);
+    color: var(--assignment-title-color, #edf3fc);
+}
+
+body.theme-light .login-root .login-form-panel .field-input {
+    color: #172344;
+}
+
+.login-root .login-form-panel .field-input:hover:not(:focus) {
+    border-color: var(--outline-button-border-color);
+    background: var(--panel-background-color);
+}
+
+.login-root .login-form-panel .field-input:focus {
+    border-color: var(--brand-primary-color);
+    background: var(--panel-background-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary-color) 18%, transparent);
+}
+
+.login-root .login-form-panel .login-input-icon,
+.login-root .login-form-panel .password-visibility {
+    color: var(--brand-primary-color);
+}
+
+.login-root .login-form-panel .demo-credentials {
+    border-color: var(--login-demo-credentials-border-color);
+    background: var(--login-demo-credentials-background);
+}
+
+.login-root .demo-account-card {
+    border-color: var(--border-color);
+    background: var(--panel-background-color);
+    color: var(--muted-text-color);
+}
+
+.login-root .demo-account-icon-student,
+.login-root .demo-account-icon-admin {
+    background: color-mix(in srgb, var(--brand-primary-color) 14%, transparent);
+    color: var(--brand-primary-color);
 }

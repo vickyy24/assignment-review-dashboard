@@ -74,7 +74,7 @@ export const USERS = [
 export const DEMO_DRIVE_LINK =
     "https://drive.google.com/file/d/1u0cZQV8qai9ABOPu47sk6NAk2veJzHSC/view?usp=sharing";
 
-export const INITIAL_ASSIGNMENTS = [
+const ASSIGNMENT_SEEDS = [
     {
         id: "asgn-1",
         title: "Data Structures: Binary Trees",
@@ -87,8 +87,8 @@ export const INITIAL_ASSIGNMENTS = [
         maxMarks: 100,
         materials: [
             {
-                type: "link",
-                title: "Drive link",
+                type: "pdf",
+                title: "Data Structures Binary Trees Assignment.pdf",
                 url: DEMO_DRIVE_LINK,
             },
         ],
@@ -115,9 +115,18 @@ export const INITIAL_ASSIGNMENTS = [
         createdAt: "2026-09-21",
         subject: "Operating Systems",
         maxMarks: 50,
-        materials: [],
+        materials: [
+            {
+                type: "link",
+                title: "Course reference Drive link",
+                url: DEMO_DRIVE_LINK,
+            },
+        ],
         submissions: {
-            "student-1": { submitted: false, submittedAt: null },
+            "student-1": {
+                submitted: false,
+                submittedAt: null,
+            },
             "student-2": { submitted: false, submittedAt: null },
             "student-3": { submitted: false, submittedAt: null },
             "student-4": { submitted: false, submittedAt: null },
@@ -136,15 +145,16 @@ export const INITIAL_ASSIGNMENTS = [
         maxMarks: 75,
         materials: [
             {
-                type: "link",
-                title: "Drive link",
-                url: DEMO_DRIVE_LINK,
+                type: "text",
+                title: "Written instructions",
+                content:
+                    "Design an ER diagram for a hospital management system and normalize the schema to 3NF. Submit the ER diagram as a PDF and include the SQL scripts.",
             },
         ],
         submissions: {
             "student-1": {
                 submitted: true,
-                submittedAt: "2026-09-22T12:00:00Z",
+                submittedAt: "2026-09-23T11:00:00Z",
                 submissionType: "link",
                 link: DEMO_DRIVE_LINK,
             },
@@ -164,7 +174,13 @@ export const INITIAL_ASSIGNMENTS = [
         createdAt: "2026-09-22",
         subject: "Computer Networks",
         maxMarks: 60,
-        materials: [],
+        materials: [
+            {
+                type: "link",
+                title: "Computer Networks Drive material",
+                url: DEMO_DRIVE_LINK,
+            },
+        ],
         submissions: {
             "student-1": { submitted: false, submittedAt: null },
             "student-2": { submitted: false, submittedAt: null },
@@ -199,4 +215,9 @@ export const INITIAL_ASSIGNMENTS = [
             "student-5": { submitted: false, submittedAt: null },
         },
     },
+];
+
+export const INITIAL_ASSIGNMENTS = [
+    ...ASSIGNMENT_SEEDS.filter((assignment) => assignment.id === "asgn-1"),
+    ...ASSIGNMENT_SEEDS.filter((assignment) => assignment.id !== "asgn-1"),
 ];

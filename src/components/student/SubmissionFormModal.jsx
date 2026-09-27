@@ -98,21 +98,13 @@ export default function SubmissionFormModal({ assignment, onClose }) {
         return "";
     };
 
-    const handleContinue = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const validationError = validateSubmission();
         if (validationError) {
             setError(validationError);
             return;
         }
-        setStep("confirm");
-    };
-
-    const handleGoBack = () => {
-        setStep("form");
-    };
-
-    const handleConfirmSubmission = async () => {
         setIsSaving(true);
         await new Promise((resolve) => {
             setTimeout(resolve, 500);
@@ -183,7 +175,7 @@ export default function SubmissionFormModal({ assignment, onClose }) {
                 </div>
 
                 {step === "form" && (
-                    <form className="space-y-4" onSubmit={handleContinue}>
+                    <form className="space-y-4" onSubmit={handleSubmit}>
                         <label className="block">
                             <span className="field-label mb-1.5 block">
                                 Submission Type
@@ -315,50 +307,12 @@ export default function SubmissionFormModal({ assignment, onClose }) {
                                 variant="primary"
                                 type="submit"
                                 className="inline-flex min-h-10 items-center justify-center"
+                                disabled={isSaving}
                             >
-                                Submit Assignment
+                                {isSaving ? "Submitting…" : "Submit"}
                             </Button>
                         </div>
                     </form>
-                )}
-
-                {step === "confirm" && (
-                    <div>
-                        <p className="modal-body">
-                            Confirm that you are ready to record this
-                            assignment as submitted.
-                        </p>
-                        <div className="mb-5 rounded-lg border border-[var(--border-color)] p-3">
-                            <p className="m-0 font-semibold">
-                                {form.type === "file"
-                                    ? form.file.name
-                                    : form.type === "text"
-                                      ? "Text entry"
-                                      : form.link}
-                            </p>
-                        </div>
-                        <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                            <Button
-                                variant="outline"
-                                className="inline-flex min-h-10 items-center justify-center"
-                                onClick={handleGoBack}
-                            >
-                                Go Back
-                            </Button>
-                            <Button
-                                variant="submit"
-                                className="inline-flex min-h-10 items-center justify-center gap-2"
-                                onClick={handleConfirmSubmission}
-                                disabled={isSaving}
-                            >
-                                {isSaving ? (
-                                    <span className="spinner animate-spin" />
-                                ) : (
-                                    "Confirm Submission"
-                                )}
-                            </Button>
-                        </div>
-                    </div>
                 )}
 
                 {step === "done" && (

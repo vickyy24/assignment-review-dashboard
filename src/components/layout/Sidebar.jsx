@@ -32,7 +32,7 @@ export default function Sidebar({
                 <div
                     className={`flex h-[70px] flex-none items-center ${sidebarOpen ? "justify-between px-5" : "justify-center px-3"}`}
                 >
-                    <a href="#dashboard" className="flex min-w-0 items-center gap-3" aria-label="EduBoard dashboard">
+                    <a href="#" className="flex min-w-0 items-center gap-3" aria-label="EduBoard home">
                         <img className="h-9 w-9 flex-none object-contain" src="/eduboard-mark.svg" alt="" />
                         <span className={`navbar-appname truncate ${sidebarOpen ? "lg:inline" : "lg:hidden"}`}>EduBoard</span>
                     </a>

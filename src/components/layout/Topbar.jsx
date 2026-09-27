@@ -20,7 +20,7 @@ export default function Topbar({
                 <button type="button" className="theme-toggle inline-flex h-9 w-9 flex-none items-center justify-center" onClick={onOpenMobile} aria-label="Open navigation menu" aria-expanded={mobileNavOpen} aria-controls="app-navigation-drawer">
                     <Menu size={19} aria-hidden="true" />
                 </button>
-                <a href="#dashboard" className="flex min-w-0 items-center gap-2" aria-label="EduBoard dashboard">
+                <a href="#" className="flex min-w-0 items-center gap-2" aria-label="EduBoard home">
                     <img className="h-7 w-7 flex-none object-contain" src="/eduboard-mark.svg" alt="" />
                     <span className="navbar-appname truncate">EduBoard</span>
                 </a>
